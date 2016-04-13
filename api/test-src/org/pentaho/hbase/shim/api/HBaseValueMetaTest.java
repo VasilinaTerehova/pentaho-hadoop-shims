@@ -34,6 +34,7 @@ import org.pentaho.di.core.row.value.ValueMetaInteger;
 import org.pentaho.di.core.row.value.ValueMetaNumber;
 import org.pentaho.di.core.row.value.ValueMetaSerializable;
 import org.pentaho.di.core.row.value.ValueMetaString;
+import org.pentaho.hbase.shim.spi.MockHBaseByteConverterUsingJavaByteBuffer;
 import org.pentaho.hbase.shim.spi.MockHBaseBytesUtilShim;
 
 import java.math.BigDecimal;
@@ -55,6 +56,8 @@ public class HBaseValueMetaTest extends HBaseValueMeta {
   private static final int DEF_LENGTH = 0;
   private static final int DEF_PRECISION = 0;
   public static final MockHBaseBytesUtilShim BYTES_UTIL = new MockHBaseBytesUtilShim();
+  public static final MockHBaseByteConverterUsingJavaByteBuffer
+    BYTE_BUFFER_UTIL = new MockHBaseByteConverterUsingJavaByteBuffer();
 
   public HBaseValueMetaTest() throws IllegalArgumentException {
     super( DEF_NAME, DEF_TYPE, DEF_LENGTH, DEF_PRECISION );
@@ -450,6 +453,19 @@ public class HBaseValueMetaTest extends HBaseValueMeta {
   public void testDecodeBoolFromNumber() throws Exception {
     assertEquals( null, HBaseValueMeta.decodeBoolFromNumber( null, BYTES_UTIL ) );
     assertEquals( null, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 1 }, BYTES_UTIL ) );
+    assertEquals( true, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 1, 0, 0, 0, 0, 0 }, BYTES_UTIL ) );
+  }
+
+  @Test
+  public void testDecodeBoolAgainstJavaByteBuffer() throws Exception {
+    assertEquals( null, HBaseValueMeta.decodeBoolFromNumber( null, BYTE_BUFFER_UTIL ) );
+    assertEquals( true, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 1 }, BYTE_BUFFER_UTIL ) );
+    assertEquals( true, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 1 }, BYTE_BUFFER_UTIL ) );
+    assertEquals( true, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 0, 0, 1 }, BYTE_BUFFER_UTIL ) );
+    assertEquals( true, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 0, 0, 0, 0, 0, 0, 1 }, BYTE_BUFFER_UTIL ) );
+    assertEquals( null, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 2 }, BYTE_BUFFER_UTIL ) );
+    assertEquals( null, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 0, 0, 2 }, BYTE_BUFFER_UTIL ) );
+    assertEquals( null, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 0, 2, 0, 0, 0, 0, 2 }, BYTE_BUFFER_UTIL ) );
   }
 
   @Test
