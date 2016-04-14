@@ -25,7 +25,7 @@ package org.pentaho.hbase.shim.spi;
 import java.nio.ByteBuffer;
 
 /**
- * User: Vasilina Terehova
+ * @author Vasilina Terehova
  */
 
 public class MockHBaseByteConverterUsingJavaByteBuffer implements HBaseBytesUtilShim {
@@ -55,7 +55,7 @@ public class MockHBaseByteConverterUsingJavaByteBuffer implements HBaseBytesUtil
   }
 
   @Override public byte[] toBytes( String aString ) {
-    return new byte[] { 1 };
+    return aString.getBytes();
   }
 
   @Override public byte[] toBytes( int anInt ) {

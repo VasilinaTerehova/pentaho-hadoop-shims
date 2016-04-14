@@ -38,6 +38,7 @@ import org.pentaho.hbase.shim.spi.MockHBaseByteConverterUsingJavaByteBuffer;
 import org.pentaho.hbase.shim.spi.MockHBaseBytesUtilShim;
 
 import java.math.BigDecimal;
+import java.nio.ByteBuffer;
 import java.util.Date;
 
 import static org.junit.Assert.*;
@@ -450,6 +451,24 @@ public class HBaseValueMetaTest extends HBaseValueMeta {
   }
 
   @Test
+  public void testDecodeBoolFromStringAgainstByteBuffer() throws Exception {
+    byte[] yBytes = "Y".getBytes();
+    assertEquals( true, HBaseValueMeta.decodeBoolFromString( yBytes, BYTE_BUFFER_UTIL ) );
+    byte[] yesBytes = "YES".getBytes();
+    assertEquals( true, HBaseValueMeta.decodeBoolFromString( yesBytes, BYTE_BUFFER_UTIL ) );
+    byte[] trueBytes = "TRUE".getBytes();
+    assertEquals( true, HBaseValueMeta.decodeBoolFromString( trueBytes, BYTE_BUFFER_UTIL ) );
+    byte[] nBytes = "N".getBytes();
+    assertEquals( false, HBaseValueMeta.decodeBoolFromString( nBytes, BYTE_BUFFER_UTIL ) );
+    byte[] noBytes = "NO".getBytes();
+    assertEquals( false, HBaseValueMeta.decodeBoolFromString( noBytes, BYTE_BUFFER_UTIL ) );
+    byte[] falseBytes = "FALSE".getBytes();
+    assertEquals( false, HBaseValueMeta.decodeBoolFromString( falseBytes, BYTE_BUFFER_UTIL ) );
+    byte[] anyStringBytes = "ANY STRING".getBytes();
+    assertEquals( null, HBaseValueMeta.decodeBoolFromString( anyStringBytes, BYTE_BUFFER_UTIL ) );
+  }
+
+  @Test
   public void testDecodeBoolFromNumber() throws Exception {
     assertEquals( null, HBaseValueMeta.decodeBoolFromNumber( null, BYTES_UTIL ) );
     assertEquals( null, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 1 }, BYTES_UTIL ) );
@@ -460,12 +479,31 @@ public class HBaseValueMetaTest extends HBaseValueMeta {
   public void testDecodeBoolAgainstJavaByteBuffer() throws Exception {
     assertEquals( null, HBaseValueMeta.decodeBoolFromNumber( null, BYTE_BUFFER_UTIL ) );
     assertEquals( true, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 1 }, BYTE_BUFFER_UTIL ) );
+    assertEquals( false, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0 }, BYTE_BUFFER_UTIL ) );
     assertEquals( true, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 1 }, BYTE_BUFFER_UTIL ) );
-    assertEquals( true, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 0, 0, 1 }, BYTE_BUFFER_UTIL ) );
-    assertEquals( true, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 0, 0, 0, 0, 0, 0, 1 }, BYTE_BUFFER_UTIL ) );
     assertEquals( null, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 2 }, BYTE_BUFFER_UTIL ) );
+    assertEquals( false, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 0 }, BYTE_BUFFER_UTIL ) );
+    assertEquals( true, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 0, 0, 1 }, BYTE_BUFFER_UTIL ) );
+    assertEquals( false, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 0, 0, 0 }, BYTE_BUFFER_UTIL ) );
     assertEquals( null, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 0, 0, 2 }, BYTE_BUFFER_UTIL ) );
+    assertEquals( true, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 0, 0, 0, 0, 0, 0, 1 }, BYTE_BUFFER_UTIL ) );
+    assertEquals( false, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 }, BYTE_BUFFER_UTIL ) );
     assertEquals( null, HBaseValueMeta.decodeBoolFromNumber( new byte[] { 0, 0, 2, 0, 0, 0, 0, 2 }, BYTE_BUFFER_UTIL ) );
+
+    byte[] double2 = ByteBuffer.allocate(BYTE_BUFFER_UTIL.getSizeOfDouble()).putDouble(2).array();
+    assertEquals( null, HBaseValueMeta.decodeBoolFromNumber( double2, BYTE_BUFFER_UTIL ) );
+    byte[] double0 = ByteBuffer.allocate(BYTE_BUFFER_UTIL.getSizeOfDouble()).putDouble(0).array();
+    assertEquals( false, HBaseValueMeta.decodeBoolFromNumber( double0, BYTE_BUFFER_UTIL ) );
+    byte[] double1 = ByteBuffer.allocate(BYTE_BUFFER_UTIL.getSizeOfDouble()).putDouble(1).array();
+    assertEquals( true, HBaseValueMeta.decodeBoolFromNumber( double1, BYTE_BUFFER_UTIL ) );
+
+    byte[] float2 = ByteBuffer.allocate(BYTE_BUFFER_UTIL.getSizeOfFloat()).putFloat(2).array();
+    assertEquals( null, HBaseValueMeta.decodeBoolFromNumber( float2, BYTE_BUFFER_UTIL ) );
+    byte[] float0 = ByteBuffer.allocate(BYTE_BUFFER_UTIL.getSizeOfFloat()).putFloat(0).array();
+    assertEquals( false, HBaseValueMeta.decodeBoolFromNumber( float0, BYTE_BUFFER_UTIL ) );
+    byte[] float1 = ByteBuffer.allocate(BYTE_BUFFER_UTIL.getSizeOfFloat()).putFloat(1).array();
+    assertEquals( true, HBaseValueMeta.decodeBoolFromNumber( float1, BYTE_BUFFER_UTIL ) );
+
   }
 
   @Test
