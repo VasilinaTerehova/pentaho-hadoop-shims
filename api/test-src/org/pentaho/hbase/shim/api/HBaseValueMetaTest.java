@@ -23,9 +23,12 @@
 package org.pentaho.hbase.shim.api;
 
 import org.junit.After;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.pentaho.di.core.KettleEnvironment;
 import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.row.ValueMetaInterface;
 import org.pentaho.di.core.row.value.ValueMetaBigNumber;
 import org.pentaho.di.core.row.value.ValueMetaBinary;
 import org.pentaho.di.core.row.value.ValueMetaBoolean;
@@ -37,6 +40,9 @@ import org.pentaho.di.core.row.value.ValueMetaString;
 import org.pentaho.hbase.shim.spi.MockHBaseByteConverterUsingJavaByteBuffer;
 import org.pentaho.hbase.shim.spi.MockHBaseBytesUtilShim;
 
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.util.Date;
@@ -53,12 +59,17 @@ public class HBaseValueMetaTest extends HBaseValueMeta {
 
 
   private static final String DEF_NAME = "col_family,col_name,alias";
+  private static final String DEF_NAME_NO_COL_NAME = "col_family";
+  private static final String DEF_NAME_EXTRA_PARAM = "col_family,col_name,alias,extra_argument";
   private static final int DEF_TYPE = 0;
   private static final int DEF_LENGTH = 0;
   private static final int DEF_PRECISION = 0;
   public static final MockHBaseBytesUtilShim BYTES_UTIL = new MockHBaseBytesUtilShim();
   public static final MockHBaseByteConverterUsingJavaByteBuffer
     BYTE_BUFFER_UTIL = new MockHBaseByteConverterUsingJavaByteBuffer();
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   public HBaseValueMetaTest() throws IllegalArgumentException {
     super( DEF_NAME, DEF_TYPE, DEF_LENGTH, DEF_PRECISION );
@@ -76,6 +87,31 @@ public class HBaseValueMetaTest extends HBaseValueMeta {
   }
 
   private void reset() {
+  }
+
+  @Test
+  public void testConstructWithNotEnoughParams() {
+    thrown.expect( IllegalArgumentException.class );
+    new HBaseValueMeta( DEF_NAME_NO_COL_NAME, DEF_TYPE, DEF_LENGTH, DEF_PRECISION );
+  }
+
+  @Test
+  public void testConstructWithExtraParams() {
+    thrown.expect( IllegalArgumentException.class );
+    new HBaseValueMeta( DEF_NAME_EXTRA_PARAM, DEF_TYPE, DEF_LENGTH, DEF_PRECISION );
+  }
+
+  @Test
+  public void testAliasParams() {
+    HBaseValueMeta hBaseValueMeta = getHBaseValueMeta();
+    assertEquals( hBaseValueMeta.getAlias(), "alias" );
+  }
+
+  @Test
+  public void testValueTypeNotFound() {
+    HBaseValueMeta hBaseValueMeta = getHBaseValueMeta();
+    thrown.expect( IllegalArgumentException.class );
+    hBaseValueMeta.setHBaseTypeFromString( "NO SUCH TYPE" );
   }
 
   @Test
@@ -240,6 +276,54 @@ public class HBaseValueMetaTest extends HBaseValueMeta {
   }
 
   @Test
+  public void testEncodeKeyValueThrowExceptionOnNegativeForUnsignedInteger() throws Exception {
+    Object keyValue = -1;
+    thrown.expect( KettleException.class );
+    HBaseValueMeta
+      .encodeKeyValue( keyValue, new ValueMetaInteger(), Mapping.KeyType.UNSIGNED_INTEGER, BYTE_BUFFER_UTIL );
+  }
+
+  @Test
+  public void testEncodeKeyValueThrowExceptionOnNegativeForUnsignedLong() throws Exception {
+    Object keyValue = -1;
+    thrown.expect( KettleException.class );
+    HBaseValueMeta
+      .encodeKeyValue( keyValue, new ValueMetaNumber(), Mapping.KeyType.UNSIGNED_LONG, BYTE_BUFFER_UTIL );
+  }
+
+  @Test
+  public void testEncodeKeyValueThrowExceptionOnNegativeForUnsignedDate() throws Exception {
+    Object keyValue = new Date( -1 );
+    thrown.expect( KettleException.class );
+    HBaseValueMeta
+      .encodeKeyValue( keyValue, new ValueMetaDate(), Mapping.KeyType.UNSIGNED_DATE, BYTE_BUFFER_UTIL );
+  }
+
+  @Test
+  public void testEncodeKey2ValueThrowExceptionOnNegativeForUnsignedInteger() throws Exception {
+    Object keyValue = -1;
+    thrown.expect( KettleException.class );
+    HBaseValueMeta
+      .encodeKeyValue( keyValue, Mapping.KeyType.UNSIGNED_INTEGER, BYTE_BUFFER_UTIL );
+  }
+
+  @Test
+  public void testEncodeKey2ValueThrowExceptionOnNegativeForUnsignedLong() throws Exception {
+    Object keyValue = -1;
+    thrown.expect( KettleException.class );
+    HBaseValueMeta
+      .encodeKeyValue( keyValue, Mapping.KeyType.UNSIGNED_LONG, BYTE_BUFFER_UTIL );
+  }
+
+  @Test
+  public void testEncodeKey2ValueThrowExceptionOnNegativeForUnsignedDate() throws Exception {
+    Object keyValue = new Date( -1 );
+    thrown.expect( KettleException.class );
+    HBaseValueMeta
+      .encodeKeyValue( keyValue, Mapping.KeyType.UNSIGNED_DATE, BYTE_BUFFER_UTIL );
+  }
+
+  @Test
   public void testEncodeKeyValue() throws Exception {
     HBaseValueMeta hbMeta = getHBaseValueMeta();
     Object keyValue = "1";
@@ -310,6 +394,7 @@ public class HBaseValueMetaTest extends HBaseValueMeta {
     HBaseValueMeta hbMeta = getHBaseValueMeta();
     Mapping mapping = new Mapping();
     mapping.setKeyType( Mapping.KeyType.STRING );
+    assertEquals( null, HBaseValueMeta.decodeKeyValue( null, mapping, BYTES_UTIL ) );
     Object decodedValue = "1";
     assertEquals( decodedValue, HBaseValueMeta.decodeKeyValue( new byte[] { 1 }, mapping, BYTES_UTIL ) );
     mapping.setKeyType( Mapping.KeyType.BINARY );
@@ -383,9 +468,22 @@ public class HBaseValueMetaTest extends HBaseValueMeta {
   }
 
   @Test
+  public void testDecodeColumnValueIndexedString() throws Exception {
+    //what is happening in section when storage type indexed set??
+    HBaseValueMeta hbMeta = getHBaseValueMeta();
+    hbMeta.setType( 2 );
+    String indexedStorageString = "   Indexed string";
+    hbMeta.setStorageType( ValueMetaInterface.STORAGE_TYPE_INDEXED );
+    hbMeta.setIndex( new Object[] { "Indexed string" } );
+    assertEquals( 0,
+      HBaseValueMeta.decodeColumnValue( indexedStorageString.getBytes(), hbMeta, BYTE_BUFFER_UTIL ) );
+  }
+
+  @Test
   public void testDecodeColumnValue() throws Exception {
     HBaseValueMeta hbMeta = getHBaseValueMeta();
     hbMeta.setType( 2 );
+    assertEquals( null, HBaseValueMeta.decodeColumnValue( null, hbMeta, BYTES_UTIL ) );
     Object keyValue = "1";
     assertEquals( keyValue, HBaseValueMeta.decodeColumnValue( new byte[] { 1 }, hbMeta, BYTES_UTIL ) );
     hbMeta.setType( 5 );
@@ -430,6 +528,16 @@ public class HBaseValueMetaTest extends HBaseValueMeta {
   public void testDecodeBigDecimal() throws Exception {
     assertEquals( new BigDecimal( 1 ), HBaseValueMeta.decodeBigDecimal( null, BYTES_UTIL ) );
     assertEquals( new BigDecimal( 1 ), HBaseValueMeta.decodeBigDecimal( new byte[] { 1 }, BYTES_UTIL ) );
+  }
+
+  @Test
+  public void testDecodeBigDecimalSerialized() throws Exception {
+    try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+      ObjectOutput out = new ObjectOutputStream( bos );
+      int value = 123;
+      out.writeObject( new BigDecimal( value ) );
+      assertEquals( new BigDecimal( value ), HBaseValueMeta.decodeBigDecimal( bos.toByteArray(), BYTE_BUFFER_UTIL ) );
+    }
   }
 
   @Test
