@@ -127,6 +127,11 @@ public class CommonHBaseConnection extends HBaseConnection {
             BaseMessages.getString( PKG, "CommonHBaseConnection.Error.MalformedConfigURL" ) );
       }
 
+      if (!m_config.get(ZOOKEEPER_QUORUM_KEY).toLowerCase().contains(zookeeperQuorum)) {
+        String message = "Configuration zookeeper url doesn't match named cluster one. Please verify shim configuration files.";
+        throw new UnsupportedOperationException( message );
+      }
+
       if ( !isEmpty( zookeeperQuorum ) ) {
         m_config.set( ZOOKEEPER_QUORUM_KEY, zookeeperQuorum );
       }
