@@ -13,4 +13,11 @@
 
   <import file="../common-shims-build.xml"/>
 
+  <target name="transfer" depends="subfloor.resolve-default">
+    <ivy:makepom ivyfile="${basedir}/ivy.xml" pomfile="${basedir}/pom3.xml">
+      <mapping conf="default" scope="compile"/>
+      <mapping conf="runtime" scope="runtime"/>
+      <mapping conf="client" scope="system"/>
+    </ivy:makepom>
+  </target>
 </project>
