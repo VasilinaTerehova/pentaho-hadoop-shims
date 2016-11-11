@@ -575,8 +575,9 @@
                             com.sun.jndi.ldap;
                             com.sun.jdmk.comm;resolution:=optional,!com.sun.javadoc,!org.apache.hadoop.conf,!org.apache.hadoop.fs.permission,!org.apache.hadoop.hbase.classification,!org.apache.hadoop.io,!org.apache.hadoop.io.compress,!org.apache.hadoop.net
                         </Import-Package>
-                        <Export-Package>org.pentaho.hadoop.shim.cdh57</Export-Package>
+                        <Export-Package>org.apache.hadoop.conf.*,org.pentaho.hadoop.shim.cdh57,org.apache.hadoop.fs.*,org.apache.hadoop.security.*</Export-Package>
                         <Embed-Dependency>artifactId=hadoop*|*sqoop*|*jersey*|*hive*|*vfs*|*htrace*|commons-cli</Embed-Dependency>
+                        <Embed-Transitive>true</Embed-Transitive>
                         <Bundle-ClassPath>.,{maven-dependencies},hadoop-common-2.6.0-cdh5.7.0.jar</Bundle-ClassPath>
                     </instructions>
                 </configuration>

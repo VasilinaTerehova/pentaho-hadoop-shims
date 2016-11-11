@@ -7,7 +7,7 @@
     </feature>
     <feature name="shim57" version="1.0">
         <feature>pentaho-libs</feature>
-        <feature>hadoop-libs</feature>
+        <!--<feature>hadoop-libs</feature>-->
         <!--<bundle>wrap:mvn:pentaho/pentaho-hdfs-vfs/7.1-SNAPSHOT</bundle>
         <bundle>wrap:mvn:pentaho/pentaho-hadoop-shims-api/7.1-SNAPSHOT</bundle>-->
         <bundle>mvn:pentaho/pentaho-hadoop-shims-cdh57/7.1-SNAPSHOT</bundle>
