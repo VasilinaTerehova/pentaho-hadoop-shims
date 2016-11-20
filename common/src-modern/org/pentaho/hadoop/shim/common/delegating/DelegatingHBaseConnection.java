@@ -26,7 +26,7 @@ import org.pentaho.di.core.variables.VariableSpace;
 import org.pentaho.hadoop.shim.api.Configuration;
 import org.pentaho.hbase.shim.api.ColumnFilter;
 import org.pentaho.hbase.shim.api.HBaseValueMeta;
-import org.pentaho.hbase.shim.common.wrapper.HBaseConnectionInterface;
+import org.pentaho.pass.hbase.shim.common.wrapper.HBaseConnectionInterface;
 import org.pentaho.hbase.shim.spi.HBaseBytesUtilShim;
 import org.pentaho.hbase.shim.spi.HBaseConnection;
 

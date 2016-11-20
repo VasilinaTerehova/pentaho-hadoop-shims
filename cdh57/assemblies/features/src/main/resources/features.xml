@@ -7,6 +7,14 @@
     </feature>
     <feature name="shim57" version="1.0">
         <feature>pentaho-libs</feature>
+        <!--<bundle>mvn:com.google.protobuf/protobuf-java/2.5.0</bundle>-->
+        <!--<bundle>wrap:mvn:org.apache.htrace/htrace-core/3.2.0-incubating</bundle>-->
+<!--
+        <bundle>wrap:mvn:org.apache.hadoop/hadoop-common/2.6.0-cdh5.7.0</bundle>
+        <bundle>wrap:mvn:org.apache.hadoop/hadoop-auth/2.6.0-cdh5.7.0</bundle>
+-->
+        <!--<bundle>wrap:mvn:io.netty/netty-all/4.0.23.Final</bundle>
+        <bundle>wrap:mvn:com.yammer.metrics/metrics-core/2.2.0</bundle>-->
         <!--<feature>hadoop-libs</feature>-->
         <!--<bundle>wrap:mvn:pentaho/pentaho-hdfs-vfs/7.1-SNAPSHOT</bundle>
         <bundle>wrap:mvn:pentaho/pentaho-hadoop-shims-api/7.1-SNAPSHOT</bundle>-->

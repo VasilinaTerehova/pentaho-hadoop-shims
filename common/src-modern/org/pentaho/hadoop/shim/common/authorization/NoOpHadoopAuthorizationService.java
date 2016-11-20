@@ -35,9 +35,9 @@ import org.pentaho.hadoop.shim.spi.PentahoHadoopShim;
 import org.pentaho.hadoop.shim.spi.PigShim;
 import org.pentaho.hadoop.shim.spi.SnappyShim;
 import org.pentaho.hadoop.shim.spi.SqoopShim;
-import org.pentaho.hbase.shim.common.CommonHBaseShim;
-import org.pentaho.hbase.shim.common.HBaseShimImpl;
-import org.pentaho.hbase.shim.common.wrapper.HBaseShimInterface;
+import org.pentaho.pass.hbase.shim.common.CommonHBaseShim;
+import org.pentaho.pass.hbase.shim.common.HBaseShimImpl;
+import org.pentaho.pass.hbase.shim.common.wrapper.HBaseShimInterface;
 import org.pentaho.oozie.shim.api.OozieClientFactory;
 
 import java.util.HashMap;

@@ -28,6 +28,7 @@ import org.pentaho.di.core.plugins.DatabasePluginType;
 import org.pentaho.di.core.plugins.Plugin;
 import org.pentaho.di.core.plugins.PluginInterface;
 import org.pentaho.di.core.plugins.PluginRegistry;
+import org.pentaho.hbase.shim.spi.HBaseShim;
 import org.pentaho.hadoop.shim.HadoopConfiguration;
 import org.pentaho.hadoop.shim.HadoopConfigurationFileSystemManager;
 import org.pentaho.hadoop.shim.common.HadoopShimImpl;
@@ -39,6 +40,8 @@ import java.util.Map;
 import java.util.Properties;
 
 public class HadoopShim extends HadoopShimImpl {
+
+  HBaseShim hBaseShim;
 
   @Override
   public void onLoad( HadoopConfiguration config, HadoopConfigurationFileSystemManager fsm ) throws Exception {

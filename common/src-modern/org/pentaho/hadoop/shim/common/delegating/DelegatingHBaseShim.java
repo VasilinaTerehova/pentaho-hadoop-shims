@@ -27,7 +27,7 @@ import org.pentaho.hadoop.shim.ShimVersion;
 import org.pentaho.hadoop.shim.api.process.Processable;
 import org.pentaho.hadoop.shim.common.authorization.HadoopAuthorizationService;
 import org.pentaho.hadoop.shim.common.authorization.HasHadoopAuthorizationService;
-import org.pentaho.hbase.shim.common.wrapper.HBaseShimInterface;
+import org.pentaho.pass.hbase.shim.common.wrapper.HBaseShimInterface;
 import org.pentaho.hbase.shim.spi.HBaseConnection;
 import org.pentaho.hbase.shim.spi.HBaseShim;
 

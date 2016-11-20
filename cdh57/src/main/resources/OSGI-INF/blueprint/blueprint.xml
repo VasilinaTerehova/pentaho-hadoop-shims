@@ -5,4 +5,55 @@
             http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
   <bean id="cdh57Hadoop" class="org.pentaho.hadoop.shim.cdh57.HadoopShim" scope="singleton"/>
   <service ref="cdh57Hadoop" interface="org.pentaho.hadoop.shim.spi.HadoopShim"/>
+
+  <bean id="hbaseShim" class="org.pentaho.pass.hbase.shim.common.CommonHBaseShim"/>
+  <service ref="hbaseShim" interface="org.pentaho.hadoop.shim.spi.PentahoHadoopShim"/>
+
+  <bean id="pigShim" class="org.pentaho.hadoop.shim.common.PigShimImpl"/>
+  <service ref="pigShim" interface="org.pentaho.hadoop.shim.spi.PigShim"/>
+
+  <bean id="sqoopShim" class="org.pentaho.hadoop.shim.common.CommonSqoopShim"/>
+  <service ref="sqoopShim" interface="org.pentaho.hadoop.shim.spi.SqoopShim"/>
+
+  <bean id="snappyShim" class="org.pentaho.hadoop.shim.common.SnappyShimImpl"/>
+  <service ref="snappyShim" interface="org.pentaho.hadoop.shim.spi.SnappyShim"/>
+
+  <bean id="oozieClientFactory" class="org.pentaho.hadoop.shim.common.delegating.DelegatingOozieClientFactory"/>
+  <service ref="oozieClientFactory" interface="org.pentaho.oozie.shim.api.OozieClientFactory"/>
+
+  <reference-list id="hadoopShims" interface="org.pentaho.hadoop.shim.spi.PentahoHadoopShim"
+                  availability="optional"/>
+
+  <bean id="cdh57HadoopConfiguration" class="org.pentaho.hadoop.shim.HadoopConfiguration">
+    <argument value="cdh57" />
+    <argument value="Cloudera CDH 5.7" />
+    <argument ref="cdh57Hadoop"/>
+    <!--<argument ref="hadoopConfigurationLocator"/>-->
+    <argument>
+      <list>
+        <ref component-id="hbaseShim"/>
+        <ref component-id="pigShim"/>
+        <ref component-id="sqoopShim"/>
+        <ref component-id="snappyShim"/>
+        <ref component-id="oozieClientFactory"/>
+      </list>
+    </argument>
+  </bean>
+
+  <service ref="cdh57HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HadoopConfigurationInterface"/>
+
+  <bean id="hadoopConfigurationLocator" class="org.pentaho.hadoop.shim.HadoopConfigurationLocatorBundle">
+    <argument>
+      <list>
+        <ref component-id="cdh57HadoopConfiguration"/>
+      </list>
+    </argument>
+  </bean>
+  <service ref="hadoopConfigurationLocator" interface="org.pentaho.hadoop.shim.spi.HadoopConfigurationProvider"/>
+
+  <bean id="hasCdh57Configuration" class="org.pentaho.hadoop.shim.HasConfigurationImpl">
+    <argument ref="cdh57HadoopConfiguration"/>
+  </bean>
+
+  <service ref="hasCdh57Configuration" interface="org.pentaho.hadoop.shim.api.HasConfiguration"/>
 </blueprint>

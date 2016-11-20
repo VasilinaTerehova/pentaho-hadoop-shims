@@ -26,7 +26,7 @@ import java.io.IOException;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.Table;
-import org.pentaho.hbase.mapred.PentahoTableInputFormat;
+import org.pentaho.pass.hbase.mapred.PentahoTableInputFormat;
 
 public class Table10InputFormatDiscloser extends TableInputFormatBase {
 
