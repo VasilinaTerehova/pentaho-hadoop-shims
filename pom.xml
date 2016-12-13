@@ -15,5 +15,15 @@
 
   <modules>
     <module>api</module>
+    <module>hdp23</module>
+    <module>hdp24</module>
+    <module>hdp25</module>
+    <module>cdh58</module>
+    <module>cdh59</module>
+    <module>mapr410</module>
+    <module>mapr510</module>
+    <module>emr310</module>
+    <module>emr41</module>
+    <module>emr46</module>
   </modules>
 </project>

@@ -265,7 +265,10 @@ local antNumbs="";
 local includeSection="";
 local includeSection0="";
 local includeSection1="";
+includeSectionFalse="";
 local includeSectionAnt="";
+
+local transitiveTrue=();
 
 local dependencyTag="";
 
@@ -322,6 +325,42 @@ fi
 done  # ---- 4 end loop
 echo "FINISH GET PARENT DEPENDENCY"
 
+
+#determine transitive false sections
+
+for (( i = 0; i < ${#parentArr[@]}; i++ ))
+do
+
+if [ "$i" -lt $((${#parentArr[@]}-1)) ]; then
+
+if [[ "${parentArr[$i]}" = "${parentArr[$(($i+1))]}" && "${parentArr[$i]}" = "1" ]]; then
+transitiveTrue["${#transitiveTrue[@]}"]="false"
+else
+transitiveTrue["${#transitiveTrue[@]}"]="true"
+fi
+
+else
+
+if [[ "${parentArr[$i]}" = "1" ]]; then
+transitiveTrue["${#transitiveTrue[@]}"]="false"
+else
+transitiveTrue["${#transitiveTrue[@]}"]="true"
+fi
+
+fi
+
+done
+
+
+echo "################TRANSITIVE#####################"
+for (( i = 0; i < ${#parentArr[@]}; i++ ))
+do
+echo "parent[$i]=""${parentArr[$i]}" "---""transitive[$i]=""${transitiveTrue[$i]}"
+done
+echo 
+
+
+
 echo "_______________________________"
 echo "AVARR = ""${AVArr[4]}"
 
@@ -366,13 +405,22 @@ fi  # 9 ------ end if
 if [ "$numb" != "" ]; then
 IFS=':' read -ra tmpArr <<< "$numb"
 
-for i in "${tmpArr[@]}"
+for (( i = 0; i < ${#tmpArr[@]}; i++ ))
+#for i in "${tmpArr[@]}"
 do
-IFS=':' read -ra GAV <<< "${tree[$i]}"
-if [ "${parentArr[$i]}" = "0" ]; then
+IFS=':' read -ra GAV <<< "${tree[${tmpArr[$i]}]}"
+if [ "${parentArr[${tmpArr[$i]}]}" = "0" ]; then
 includeSection0="$includeSection0""<include>""${GAV[0]}"":""${GAV[1]}""</include>"${NewLine}
 else
+echo "8888"
+echo "${parentArr[${tmpArr[$i]}]}"
+echo "${transitiveTrue[${tmpArr[$i]}]}"
+if [ "${transitiveTrue[${tmpArr[$i]}]}" = "true" ]; then
 includeSection1="$includeSection1""<include>""${GAV[0]}"":""${GAV[1]}""</include>"${NewLine}
+else
+includeSectionFalse="$includeSectionFalse""<include>""${GAV[0]}"":""${GAV[1]}""</include>"${NewLine}
+fi
+
 fi
 
 includeSection11="$includeSection1""${GAV[0]}"":""${GAV[1]}"":""${GAV[3]}"${NewLine}
@@ -385,7 +433,7 @@ done
 
 
 echo "############# MVN ###############"
-echo "$includeSection11"
+echo "$includeSectionFalse"
 
 
 fi
@@ -433,13 +481,33 @@ tmpArr=();
 #--------------------------------------------------------
 
 fi # 4` ------ end loop
+result="";
 
-includeSection="<!-- Parent MVN Dependencies -->"${NewLine}"$includeSection1"${NewLine}"<!-- Transitive MVN Dependencies -->"${NewLine}"$includeSection0"${NewLine}"<!-- Transitive ANT Dependencies -->"${NewLine}"$includeSectionAnt"
+if [  "$includeSectionFalse" != "" ]; then
+
+echo "includeSectionFalse"
+echo "$includeSectionFalse"
+
+
+result="<dependencySet>"${NewLine}"<outputDirectory>"${outputDirectory}"</outputDirectory>"${NewLine}"<useTransitiveDependencies>false</useTransitiveDependencies>"${NewLine}"<useTransitiveFiltering>false</useTransitiveFiltering>"${NewLine}"<includes>"${NewLine}${includeSectionFalse}"</includes>"${NewLine}"<excludes>"${NewLine}"<exclude>*:tests:*</exclude>"${NewLine}"</excludes>"${NewLine}"</dependencySet>"${NewLine}
+fi
+
+includeSection="$includeSection1""$includeSection0""$includeSectionAnt"
 
 if [ "$includeSection" != "" ]; then
-result="<dependencySet>"${NewLine}"<outputDirectory>"${outputDirectory}"</outputDirectory>"${NewLine}"<includes>"${NewLine}${includeSection}"</includes>"${NewLine}"<excludes>"${NewLine}"<exclude>*:tests:*</exclude>"${NewLine}"</excludes>"${NewLine}"</dependencySet>"
+includeSection="<!-- Parent MVN Dependencies -->"${NewLine}"$includeSection1"${NewLine}"<!-- Transitive MVN Dependencies -->"${NewLine}"$includeSection0"${NewLine}"<!-- Transitive ANT Dependencies -->"${NewLine}"$includeSectionAnt"
+result="$result""<dependencySet>"${NewLine}"<outputDirectory>"${outputDirectory}"</outputDirectory>"${NewLine}"<includes>"${NewLine}${includeSection}"</includes>"${NewLine}"<excludes>"${NewLine}"<exclude>*:tests:*</exclude>"${NewLine}"</excludes>"${NewLine}"</dependencySet>"
 
 echo "$result" >> $2/$3
+
+else
+if [ "$result" != "" ]; then
+#result="$result""<dependencySet>"${NewLine}"<outputDirectory>"${outputDirectory}"</outputDirectory>"${NewLine}"<includes>"${NewLine}${includeSection}"</includes>"${NewLine}"<excludes>"${NewLine}"<exclude>*:tests:*</exclude>"${NewLine}"</excludes>"${NewLine}"</dependencySet>"
+
+result="${result::-1}"
+echo "$result" >> $2/$3
+fi
+
 fi
 #----------------------------------
 
