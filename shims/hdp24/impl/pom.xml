@@ -723,7 +723,6 @@
                 <artifactItem>
                   <groupId>org.pentaho</groupId>
                   <artifactId>pentaho-hadoop-shims-common-pig-shim-1.1</artifactId>
-                  <version>${org.pentaho.version}</version>
                   <classifier>sources</classifier>
                   <overWrite>false</overWrite>
                   <outputDirectory>${project.build.directory}/src</outputDirectory>
