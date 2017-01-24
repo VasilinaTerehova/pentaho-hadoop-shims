@@ -15,7 +15,6 @@
     <dependency.kettle.revision>7.1-SNAPSHOT</dependency.kettle.revision>
     <dependency.hadoop-shims-api.revision>7.1-SNAPSHOT</dependency.hadoop-shims-api.revision>
     <dependency.oss-licenses.revision>7.1-SNAPSHOT</dependency.oss-licenses.revision>
-    <org.pentaho.version>7.1-SNAPSHOT</org.pentaho.version>
     <org.hamcrest.version>1.3</org.hamcrest.version>
     <org.mockito.version>1.10.19</org.mockito.version>
     <junit.version>4.11</junit.version>

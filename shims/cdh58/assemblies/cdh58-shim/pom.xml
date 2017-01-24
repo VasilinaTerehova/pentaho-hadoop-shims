@@ -12,7 +12,7 @@
     <dependency>
       <groupId>org.pentaho</groupId>
       <artifactId>pentaho-hadoop-shims-cdh58</artifactId>
-      <version>${org.pentaho.version}</version>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
   <build>
