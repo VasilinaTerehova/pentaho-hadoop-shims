@@ -27,43 +27,6 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.pentaho</groupId>
-        <artifactId>pentaho-hadoop-shims-api</artifactId>
-        <version>${dependency.hadoop-shims-api.revision}</version>
-        <scope>provided</scope>
-        <exclusions>
-          <exclusion>
-            <groupId>*</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.pentaho</groupId>
-        <artifactId>pentaho-hadoop-shims-api</artifactId>
-        <version>${dependency.hadoop-shims-api.revision}</version>
-        <classifier>tests</classifier>
-        <scope>test</scope>
-        <exclusions>
-          <exclusion>
-            <groupId>*</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>pentaho</groupId>
-        <artifactId>pentaho-hdfs-vfs</artifactId>
-        <version>${dependency.pentaho-hdfs-vfs.revision}</version>
-        <scope>compile</scope>
-        <exclusions>
-          <exclusion>
-            <groupId>*</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
         <groupId>org.safehaus.jug</groupId>
         <artifactId>jug-lgpl</artifactId>
         <version>${org.safehaus.jug.version}</version>
