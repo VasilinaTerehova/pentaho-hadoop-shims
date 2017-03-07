@@ -16,7 +16,7 @@
     </dependency>
     <dependency>
       <groupId>org.pentaho</groupId>
-      <artifactId>pentaho-hadoop-shims-hbase-comparators</artifactId>
+      <artifactId>pentaho-hadoop-shims-hdi35-hbase-comparators</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

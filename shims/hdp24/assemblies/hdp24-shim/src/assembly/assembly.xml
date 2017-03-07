@@ -21,14 +21,7 @@
       <useTransitiveFiltering>false</useTransitiveFiltering>
       <includes>
         <include>org.pentaho:pentaho-hadoop-shims-hdp24</include>
-      </includes>
-    </dependencySet>
-    <dependencySet>
-      <outputDirectory>/</outputDirectory>
-      <useTransitiveDependencies>false</useTransitiveDependencies>
-      <useTransitiveFiltering>false</useTransitiveFiltering>
-      <includes>
-        <include>org.pentaho:pentaho-hadoop-shims-hbase-comparators</include>
+        <include>org.pentaho:pentaho-hadoop-shims-hdp24-hbase-comparators</include>
       </includes>
     </dependencySet>
     <dependencySet>
