@@ -63,6 +63,10 @@ public class DistributedCacheTestUtil {
 
     lib.createFolder();
     lib.resolveFile( "required.jar" ).createFile();
+    location.resolveFile( "core-site.xml" ).createFile();
+    location.resolveFile( "hdfs-site.xml" ).createFile();
+    location.resolveFile( "hbase-site.xml" ).createFile();
+    location.resolveFile( "hive-site.xml" ).createFile();
 
     libPmr.createFolder();
     pmrLibJar.createFile();

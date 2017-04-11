@@ -115,6 +115,10 @@ public class DistributedCacheUtilImpl implements org.pentaho.hadoop.shim.api.Dis
    * Prefix for properties we want to omit when copying to the cluster
    */
   private static final String AUTH_PREFIX = "pentaho.authentication";
+  public static final String CORE_SITE_XML = "core-site.xml";
+  public static final String HDFS_SITE_XML = "hdfs-site.xml";
+  public static final String HBASE_SITE_XML = "hbase-site.xml";
+  public static final String HADOOP_CONFIGURATIONS_FOLDER_NAME = "hadoop-configurations";
 
   /**
    * The Hadoop Configuration this Distributed Cache Utility is part of
@@ -149,7 +153,7 @@ public class DistributedCacheUtilImpl implements org.pentaho.hadoop.shim.api.Dis
    */
   public boolean isKettleEnvironmentInstalledAt( FileSystem fs, Path root ) throws IOException {
     // These directories must exist
-    Path[] directories = new Path[] { new Path( root, PATH_LIB ), new Path( root, PATH_PLUGINS ), new Path( new Path( root, PATH_PLUGINS ), PENTAHO_BIG_DATA_PLUGIN_FOLDER_NAME ) };
+    Path[] directories = new Path[] { new Path( root, PATH_LIB ), new Path( root, PATH_PLUGINS ), getBigDataPluginPath( root ) };
     // This file must not exist
     Path lock = getLockFileAt( root );
     // These directories must exist
@@ -160,6 +164,10 @@ public class DistributedCacheUtilImpl implements org.pentaho.hadoop.shim.api.Dis
     }
     // There's no lock file
     return !fs.exists( lock );
+  }
+
+  private Path getBigDataPluginPath( Path root ) {
+    return new Path( new Path( root, PATH_PLUGINS ), PENTAHO_BIG_DATA_PLUGIN_FOLDER_NAME );
   }
 
   public void installKettleEnvironment( FileObject pmrArchive, FileSystem fs, Path destination,
@@ -213,7 +221,7 @@ public class DistributedCacheUtilImpl implements org.pentaho.hadoop.shim.api.Dis
 
     // Stage everything except the hadoop-configurations and pmr libraries
     for ( FileObject f : pluginFolder.findFiles( new FileDepthSelector( 1, 1 ) ) ) {
-      if ( !"hadoop-configurations".equals( f.getName().getBaseName() )
+      if ( !HADOOP_CONFIGURATIONS_FOLDER_NAME.equals( f.getName().getBaseName() )
         && !"pentaho-mapreduce-libraries.zip".equals( f.getName().getBaseName() ) ) {
         stageForCache( f, fs, new Path( bigDataPluginDir, f.getName().getBaseName() ), true );
       }
@@ -222,7 +230,7 @@ public class DistributedCacheUtilImpl implements org.pentaho.hadoop.shim.api.Dis
     // Stage the current Hadoop configuration without its client-only or pmr libraries (these will be copied into the
     // lib dir)
     Path hadoopConfigDir =
-      new Path( new Path( bigDataPluginDir, "hadoop-configurations" ), configuration.getIdentifier() );
+      new Path( new Path( bigDataPluginDir, HADOOP_CONFIGURATIONS_FOLDER_NAME ), configuration.getIdentifier() );
     for ( FileObject f : configuration.getLocation().findFiles( new FileSelector() {
       @Override
       public boolean includeFile( FileSelectInfo info ) throws Exception {
@@ -300,6 +308,27 @@ public class DistributedCacheUtilImpl implements org.pentaho.hadoop.shim.api.Dis
 
     List<Path> nonLibFiles = findFiles( fs, kettleInstallDir, NOT_LIB_FILES );
     addCachedFiles( nonLibFiles, conf );
+
+    addConfigsToClassPath( conf, kettleInstallDir );
+  }
+
+
+  /**
+   * required for flow when classes are created by hadoop without using HadoopConfigurationClassloader
+   * hbase-site.xml, hdfs-site.xml should be on classpath for PentahoTableInputFormat for HbaseRowDecoder step
+   */
+  private void addConfigsToClassPath( Configuration conf, Path kettleInstallDir ) throws IOException {
+    Path bigDataPluginPath = getBigDataPluginPath( kettleInstallDir );
+    Path hadoopConfigurationDir = new Path( bigDataPluginPath, HADOOP_CONFIGURATIONS_FOLDER_NAME );
+    Path shimFolder = new Path( hadoopConfigurationDir, configuration.getIdentifier() );
+    Path coreSiteXml = new Path( shimFolder, CORE_SITE_XML );
+    Path hdfsSiteXml = new Path( shimFolder, HDFS_SITE_XML );
+    Path hbaseSiteXml = new Path( shimFolder, HBASE_SITE_XML );
+    ArrayList<Path> paths = new ArrayList<>();
+    paths.add( coreSiteXml );
+    paths.add( hdfsSiteXml );
+    paths.add( hbaseSiteXml );
+    addCachedFilesToClasspath( paths, conf );
   }
 
   /**

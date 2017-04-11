@@ -311,4 +311,35 @@ public class DistributedCacheUtilImplOSDependentTest {
     }
   }
 
+  @Test
+  public void findFiles_config_xml_put() throws Exception {
+    DistributedCacheUtilImpl ch = new DistributedCacheUtilImpl( TEST_CONFIG );
+
+    Configuration conf = new Configuration();
+    FileSystem fs = DistributedCacheTestUtil.getLocalFileSystem( conf );
+
+    // This "empty pmr" contains a lib/ folder and some empty kettle-*.jar files but no actual content
+    FileObject pmrArchive = KettleVFS.getFileObject( getClass().getResource( "/empty-pmr.zip" ).toURI().getPath() );
+
+    FileObject bigDataPluginDir = DistributedCacheTestUtil.createTestFolderWithContent( DistributedCacheUtilImpl.PENTAHO_BIG_DATA_PLUGIN_FOLDER_NAME );
+
+    Path root = new Path( "bin/test/installKettleEnvironment" );
+    try {
+      ch.installKettleEnvironment( pmrArchive, fs, root, bigDataPluginDir, null );
+      assertTrue( ch.isKettleEnvironmentInstalledAt( fs, root ) );
+
+      ch.configureWithKettleEnvironment( conf, fs, root );
+
+      // Make sure our libraries are on the classpathi
+      assertTrue( conf.get( "mapred.cache.files" ).contains( DistributedCacheUtilImpl.HBASE_SITE_XML ) );
+      assertTrue( conf.get( "mapred.cache.files" ).contains( DistributedCacheUtilImpl.CORE_SITE_XML ) );
+      assertTrue( conf.get( "mapred.cache.files" ).contains( DistributedCacheUtilImpl.HDFS_SITE_XML ) );
+      assertFalse( conf.get( "mapred.cache.files" ).contains( "hive-site.xml" ) );
+    } finally {
+      bigDataPluginDir.delete( new AllFileSelector() );
+      fs.delete( root, true );
+    }
+  }
+
+
 }
