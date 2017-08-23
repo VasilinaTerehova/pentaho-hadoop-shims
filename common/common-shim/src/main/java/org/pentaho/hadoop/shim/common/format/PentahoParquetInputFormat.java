@@ -92,10 +92,14 @@ public class PentahoParquetInputFormat implements PentahoInputFormat {
   @Override
   public void setInputFile( String file ) {
     Path filePath = new Path( file );
+    ClassLoader cl = Thread.currentThread().getContextClassLoader();
     try {
+      Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
       ParquetInputFormat.setInputPaths( job, filePath.getParent() );
     } catch ( IOException ex ) {
       throw new RuntimeException( ex );
+    } finally {
+      Thread.currentThread().setContextClassLoader( cl );
     }
     ParquetInputFormat.setInputDirRecursive( job, false );
     ParquetInputFormat.setInputPathFilter( job, ReadFileFilter.class );
