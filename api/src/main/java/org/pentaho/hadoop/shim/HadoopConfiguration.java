@@ -30,8 +30,15 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
+import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.plugins.LifecyclePluginType;
+import org.pentaho.di.core.plugins.PluginInterface;
+import org.pentaho.di.core.plugins.PluginRegistry;
+import org.pentaho.di.core.vfs.KettleVFS;
 import org.pentaho.di.i18n.BaseMessages;
 import org.pentaho.hadoop.shim.api.Configuration;
+import org.pentaho.hadoop.shim.api.HadoopConfigurationInterface;
 import org.pentaho.hadoop.shim.api.process.Processable;
 import org.pentaho.hadoop.shim.spi.FormatShim;
 import org.pentaho.hadoop.shim.spi.HadoopShim;
@@ -44,7 +51,7 @@ import org.pentaho.hbase.shim.spi.HBaseShim;
 /**
  * A collection of Hadoop shim implementations for interactive with a Hadoop cluster.
  */
-public class HadoopConfiguration {
+public class HadoopConfiguration implements HadoopConfigurationInterface {
   private static final Class<?> PKG = HadoopConfiguration.class;
 
   private String identifier;
@@ -61,6 +68,24 @@ public class HadoopConfiguration {
   private List<PentahoHadoopShim> availableShims;
 
   private Properties configProperties;
+
+  private PluginInterface plugin;
+   public static final String PLUGIN_ID = "HadoopConfigurationBootstrap";
+
+     public HadoopConfiguration(String identifier, String name, HadoopShim hadoopShim, List<PentahoHadoopShim> shims) throws KettleException,
+       FileSystemException {
+          this( KettleVFS.getFileObject( "file:///c:/Pentaho-8.0-QAT-310/data-integration/plugins/pentaho-big-data-plugin/hadoop-configurations/" ).resolveFile(identifier),
+                    identifier, name, hadoopShim, shims.toArray(new PentahoHadoopShim[0]));
+      }
+
+     protected static PluginInterface getPluginInterface() throws KettleException {
+          PluginInterface pi =
+                    PluginRegistry.getInstance().findPluginWithId( LifecyclePluginType.class, PLUGIN_ID );
+          if ( pi == null ) {
+              throw new KettleException( BaseMessages.getString( PKG, "HadoopConfigurationBootstrap.CannotLocatePlugin" ) );
+            }
+        return pi;
+      }
 
   /**
    * Create a new Hadoop configuration with the provided shims. Only

@@ -204,7 +204,7 @@
                     <classifier>sources</classifier>
                     <overWrite>false</overWrite>
                     <outputDirectory>${project.build.directory}/src</outputDirectory>
-                    <excludes>**/IDeserializedBooleanComparator.java,**/IDeserializedNumericComparator.java</excludes>
+                    <excludes>**/*DeserializedBooleanComparator*,**/*DeserializedNumericComparator*</excludes>
                   </artifactItem>
                   <artifactItem>
                     <groupId>org.pentaho</groupId>
@@ -212,7 +212,7 @@
                     <classifier>sources</classifier>
                     <overWrite>false</overWrite>
                     <outputDirectory>${project.build.directory}/src</outputDirectory>
-                    <excludes>**/DeserializedBooleanComparator.java,**/DeserializedNumericComparator.java</excludes>
+                    <excludes>**/*DeserializedBooleanComparator*,**/*DeserializedNumericComparator*</excludes>
                   </artifactItem>
                   <artifactItem>
                     <groupId>org.pentaho</groupId>
