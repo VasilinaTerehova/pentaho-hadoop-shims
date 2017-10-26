@@ -22,6 +22,9 @@
 
 package org.pentaho.hadoop.shim;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -74,7 +77,7 @@ public class HadoopConfiguration implements HadoopConfigurationInterface {
 
      public HadoopConfiguration(String identifier, String name, HadoopShim hadoopShim, List<PentahoHadoopShim> shims) throws KettleException,
        FileSystemException {
-          this( KettleVFS.getFileObject( "file:///c:/Pentaho-8.0-QAT-310/data-integration/plugins/pentaho-big-data-plugin/hadoop-configurations/" ).resolveFile(identifier),
+          this( KettleVFS.getFileObject( "file:///d:/pdi_client_80_313_karaf/data-integration/plugins/pentaho-big-data-plugin/" ).resolveFile(identifier),
                     identifier, name, hadoopShim, shims.toArray(new PentahoHadoopShim[0]));
       }
 
@@ -100,7 +103,21 @@ public class HadoopConfiguration implements HadoopConfigurationInterface {
    */
   public HadoopConfiguration( FileObject location, String identifier, String name, HadoopShim hadoopShim,
                               PentahoHadoopShim... shims ) {
-    this( new Properties(), location, identifier, name, hadoopShim, shims );
+
+
+    this( getConfigProperties( "D:\\pdi_client_80_313_karaf\\data-integration\\plugins\\pentaho-big-data-plugin\\" + File.separator + "config.properties" ),
+      location, identifier, name, hadoopShim, shims );
+  }
+
+  private static Properties getConfigProperties( String pathToConfigProperties ) {
+    Properties properties = new Properties(  );
+    try {
+      properties.load( new FileInputStream( pathToConfigProperties ) );
+    } catch ( IOException e ) {
+      e.printStackTrace();
+    }
+
+    return properties;
   }
 
   public HadoopConfiguration( Properties configProperties, FileObject location, String identifier, String name,

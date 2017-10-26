@@ -99,6 +99,32 @@
       <version>${project.version}</version>
       <classifier>sources</classifier>
     </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <version>4.3.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+      <version>2.6.0-cdh5.11.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.htrace</groupId>
+      <artifactId>htrace-core</artifactId>
+      <version>3.2.0-incubating</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hive</groupId>
+      <artifactId>hive-jdbc</artifactId>
+      <version>${org.apache.hive.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.thrift</groupId>
+      <artifactId>libthrift</artifactId>
+      <version>0.9.0-cdh5-2</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -174,6 +200,144 @@
               <value>${shim.name}</value>
             </property>
           </globalVars>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-dependencies</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <markersDirectory>${project.build.directory}/dependencies/dependency-maven-plugin-markers
+              </markersDirectory>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.apache.hbase</groupId>
+                  <artifactId>hbase-common</artifactId>
+                  <version>${org.apache.hbase.version}</version>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/dependencies/hbase-common</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.apache.hadoop</groupId>
+                  <artifactId>hadoop-mapreduce-client-jobclient</artifactId>
+                  <version>${org.apache.hadoop.version}</version>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/dependencies/hadoop-common</outputDirectory>
+                  <includes>META-INF/services/**</includes>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>${dependency.maven-bundle-plugin.version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+            <DynamicImport-Package>*</DynamicImport-Package>
+            <Import-Package>
+              org.apache.hadoop.ipc.*,
+              org.pentaho.hadoop.shim.*,
+              org.pentaho.hbase.shim.spi.*
+            </Import-Package>
+            <!--<test>
+              io.netty.channel.*,
+              org.apache.hadoop.security.*,
+              com.yammer.metrics.core.*,
+              org.pentaho.hadoop.shim.spi.*,
+              org.pentaho.di.core.*,
+              org.pentaho.di.core.plugins.*,
+              org.osgi.service.blueprint;resolution:=optional,
+              COM.jrockit.*;
+              COM.newmonics.*;
+              com.bea.xml.stream;
+              com.informix.jdbc;
+              com.kenai.jnr.x86asm;
+              groovy.lang;
+              com.clearspring.analytics.util;
+              com.codahale.metrics;
+              com.codahale.metrics.json;
+              com.codahale.metrics.jvm;
+              com.ctc.wstx.exc;
+              com.ctc.wstx.stax;
+              com.enterprisedt.net.ftp;
+              com.facebook.fb303;
+              com.fasterxml.jackson.core;
+              com.fasterxml.jackson.databind;
+              com.google.gson.stream;
+              com.googlecode.jsendnsca;
+              com.googlecode.jsendnsca.builders;
+              com.googlecode.jsendnsca.encryption;
+              com.healthmarketscience.jackcess;
+              com.ibm.wsdl.extensions.soap12;
+              com.infobright.etl.model;
+              com.infobright.io;
+              com.infobright.logging;
+              com.jcraft.jsch;
+              com.jolbox.bonecp;
+              com.linuxense.javadbf;
+              com.lmax.disruptor;
+              com.lmax.disruptor.dsl;
+              com.sun.jersey.*;
+              com.sun.jndi.ldap;
+              com.sun.jdmk.comm;resolution:=optional,
+            </test>-->
+            <Export-Package>
+              org.apache.htrace,
+              org.apache.htrace.*,
+              org.apache.commons.logging.*,
+              com.google.common.annotations.*,
+              org.apache.hadoop.hbase.*,
+              org.apache.hadoop.hive.*,
+              org.apache.hadoop.security.*,
+              org.apache.hadoop.conf.*,
+              org.apache.hadoop.fs.*,
+              org.apache.hadoop.hdfs.*,
+              com.google.protobuf.*,
+              org.apache.hadoop.classification.*,
+              org.apache.commons.cli.*,
+              <!--needed-->
+              org.apache.hadoop.io.*,
+              org.apache.hadoop.ipc.*,
+              org.apache.hadoop.*,
+              org.apache.hadoop.gateway.*,
+              <!--needed hdfs-->
+              org.apache.hadoop.util.*,
+              org.apache.hadoop.metrics2.*,
+              org.apache.hadoop.mapred.*,
+              org.apache.hadoop.mapreduce.*,
+              org.apache.zookeeper.*,
+              org.pentaho.hadoop.shim.cdh57,
+              org.apache.avro.*,
+              org.apache.jute.*,
+              org.apache.hive.*,
+              org.pentaho.hbase.shim.common.*,
+              org.pentaho.hadoop.shim.common.*,
+              org.pentaho.hadoop.hbase.factory,
+              org.pentaho.hbase.factory.*,
+              org.pentaho.hadoop.shim.common.delegating.*,
+              <!--htrace inside package Tracer not packed-->
+              <!--hbase-default.xml needed - not included-->
+              io.netty.*,
+              com.yammer.metrics.*
+            </Export-Package>
+            <Include-Resource>target/dependencies/hadoop-common,target/dependencies/hbase-common/hbase-default.xml,{maven-resources}</Include-Resource>
+            <Embed-Dependency>libthrift;hive-jdbc;hadoop-common;*;scope=compile|runtime;artifactId=!pentaho*|xerces*|xml-api*|guava
+            </Embed-Dependency>
+            <!--<Embed-Transitive>true</Embed-Transitive>-->
+            <Bundle-ClassPath>.,{maven-dependencies},hadoop-common-2.6.0-cdh5.11.0.jar</Bundle-ClassPath>
+          </instructions>
         </configuration>
       </plugin>
     </plugins>
