@@ -254,8 +254,9 @@ public class CommonHadoopShim implements HadoopShim {
   @Override
   public DistributedCacheUtil getDistributedCacheUtil() throws ConfigurationException {
     if ( dcUtil == null ) {
-      throw new ConfigurationException( BaseMessages.getString( CommonHadoopShim.class,
-        "CommonHadoopShim.DistributedCacheUtilMissing" ) );
+//      throw new ConfigurationException( BaseMessages.getString( CommonHadoopShim.class,
+//        "CommonHadoopShim.DistributedCacheUtilMissing" ) );
+      dcUtil = new DistributedCacheUtilImpl( null );
     }
     return dcUtil;
   }

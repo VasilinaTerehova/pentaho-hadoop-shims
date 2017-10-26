@@ -249,7 +249,8 @@
             <Import-Package>
               org.apache.hadoop.ipc.*,
               org.pentaho.hadoop.shim.*,
-              org.pentaho.hbase.shim.spi.*
+              org.pentaho.hbase.shim.spi.*,
+              org.apache.hadoop.ipc.*;resolution:=optional
             </Import-Package>
             <!--<test>
               io.netty.channel.*,
@@ -303,6 +304,7 @@
               org.apache.hadoop.security.*,
               org.apache.hadoop.conf.*,
               org.apache.hadoop.fs.*,
+              org.apache.hive.*,
               org.apache.hadoop.hdfs.*,
               com.google.protobuf.*,
               org.apache.hadoop.classification.*,
@@ -310,6 +312,7 @@
               <!--needed-->
               org.apache.hadoop.io.*,
               org.apache.hadoop.ipc.*,
+              org.apache.hadoop.ipc.metrics,org.apache.hadoop.ipc.proto,org.apache.hadoop.ipc.protobuf,org.apache.hadoop.ipc.protocolPB,
               org.apache.hadoop.*,
               org.apache.hadoop.gateway.*,
               <!--needed hdfs-->
