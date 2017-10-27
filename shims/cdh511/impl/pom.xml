@@ -125,6 +125,22 @@
       <artifactId>libthrift</artifactId>
       <version>0.9.0-cdh5-2</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.knox</groupId>
+      <artifactId>gateway-shell</artifactId>
+      <version>0.12.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.oozie</groupId>
+      <artifactId>oozie-client</artifactId>
+      <version>4.1.0-cdh5.11.0</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>*</artifactId>
+          <groupId>*</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -330,13 +346,15 @@
               org.pentaho.hadoop.hbase.factory,
               org.pentaho.hbase.factory.*,
               org.pentaho.hadoop.shim.common.delegating.*,
+              org.apache.hadoop.gateway.shell.*,
+              org.apache.oozie.client.*,
               <!--htrace inside package Tracer not packed-->
               <!--hbase-default.xml needed - not included-->
               io.netty.*,
               com.yammer.metrics.*
             </Export-Package>
             <Include-Resource>target/dependencies/hadoop-common,target/dependencies/hbase-common/hbase-default.xml,{maven-resources}</Include-Resource>
-            <Embed-Dependency>libthrift;hive-jdbc;hadoop-common;*;scope=compile|runtime;artifactId=!pentaho*|xerces*|xml-api*|guava
+            <Embed-Dependency>gateway-shell;libthrift;hive-jdbc;hadoop-common;*;scope=compile|runtime;artifactId=!pentaho*|xerces*|xml-api*|guava
             </Embed-Dependency>
             <!--<Embed-Transitive>true</Embed-Transitive>-->
             <Bundle-ClassPath>.,{maven-dependencies},hadoop-common-2.6.0-cdh5.11.0.jar</Bundle-ClassPath>
