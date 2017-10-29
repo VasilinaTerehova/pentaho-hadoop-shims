@@ -18,6 +18,7 @@
 package org.pentaho.hadoop.shim.common;
 
 import org.apache.hive.jdbc.HiveDriver;
+import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.net.NetUtils;
 import org.apache.hadoop.util.VersionInfo;
