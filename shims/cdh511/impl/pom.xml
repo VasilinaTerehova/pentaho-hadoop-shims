@@ -331,6 +331,7 @@
               org.apache.hive.*,
               org.apache.hadoop.hdfs.*,
               com.google.protobuf.*,
+              org.apache.commons.codec.*,
               org.apache.hadoop.classification.*,
               org.apache.commons.cli.*,
               <!--needed-->
