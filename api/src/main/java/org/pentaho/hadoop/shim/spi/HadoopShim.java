@@ -102,6 +102,8 @@ public interface HadoopShim extends PentahoHadoopShim {
    */
   Configuration createConfiguration();
 
+  Configuration createConfiguration( String namedCluster );
+
   /**
    * Look up a file system abstraction using the configuration provided
    *

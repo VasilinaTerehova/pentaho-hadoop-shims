@@ -207,6 +207,19 @@ public class CommonHadoopShim implements HadoopShim {
   }
 
   @Override
+  public Configuration createConfiguration( String namedCluster ) {
+    // Set the context class loader when instantiating the configuration
+    // since org.apache.hadoop.conf.Configuration uses it to load resources
+    ClassLoader cl = Thread.currentThread().getContextClassLoader();
+    Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+    try {
+      return new org.pentaho.hadoop.shim.common.ConfigurationProxy();
+    } finally {
+      Thread.currentThread().setContextClassLoader( cl );
+    }
+  }
+
+  @Override
   public FileSystem getFileSystem( Configuration conf ) throws IOException {
     // Set the context class loader when instantiating the configuration
     // since org.apache.hadoop.conf.Configuration uses it to load resources

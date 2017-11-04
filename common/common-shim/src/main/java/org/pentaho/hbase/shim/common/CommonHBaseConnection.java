@@ -18,6 +18,7 @@
 package org.pentaho.hbase.shim.common;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.client.Delete;
@@ -54,9 +55,11 @@ import org.pentaho.hbase.shim.api.Mapping;
 import org.pentaho.hbase.shim.spi.HBaseBytesUtilShim;
 import org.pentaho.hbase.shim.spi.HBaseConnection;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -120,7 +123,8 @@ public class CommonHBaseConnection extends HBaseConnection {
         if ( !isEmpty( siteConfig ) ) {
           m_config.addResource( stringToURL( siteConfig ) );
         } else {
-          m_config.addResource( "hbase-site.xml" );
+          m_config.addResource( new Path( Paths.get( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
+            + "metastore" + File.separator + "cdh511" + File.separator + "hbase-site.xml" ).toAbsolutePath().toString() ) );
         }
       } catch ( MalformedURLException e ) {
         throw new IllegalArgumentException(

@@ -35,7 +35,10 @@ import org.pentaho.hadoop.mapreduce.YarnQueueAclsVerifier;
 import org.pentaho.hadoop.shim.api.Configuration;
 import org.pentaho.hadoop.shim.api.mapred.RunningJob;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * User: Dzmitry Stsiapanau Date: 7/22/14 Time: 11:59 AM
@@ -49,11 +52,48 @@ public class ConfigurationProxyV2 implements Configuration {
     addConfigsForJobConf();
   }
 
+  public ConfigurationProxyV2( String shimIdentifier ) throws IOException {
+    job = Job.getInstance();
+    addConfigsForJobConf( shimIdentifier );
+  }
+
   @VisibleForTesting
   void addConfigsForJobConf() {
-    job.getConfiguration().addResource( "hdfs-site.xml" );
-    job.getConfiguration().addResource( "hive-site.xml" );
-    job.getConfiguration().addResource( "hbase-site.xml" );
+    try {
+      job.getConfiguration().addResource( new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
+        + "metastore" + File.separator + "cdh511" + File.separator + "hdfs-site.xml" ).toURI().toURL() );
+      job.getConfiguration().addResource( new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
+        + "metastore" + File.separator + "cdh511" + File.separator + "hive-site.xml" ).toURI().toURL() );
+      job.getConfiguration().addResource( new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
+        + "metastore" + File.separator + "cdh511" + File.separator + "hbase-site.xml" ).toURI().toURL() );
+      job.getConfiguration().addResource( new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
+        + "metastore" + File.separator + "cdh511" + File.separator + "core-site.xml" ).toURI().toURL() );
+      job.getConfiguration().addResource( new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
+        + "metastore" + File.separator + "cdh511" + File.separator + "mapred-site.xml" ).toURI().toURL() );
+      job.getConfiguration().addResource( new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
+        + "metastore" + File.separator + "cdh511" + File.separator + "yarn-site.xml" ).toURI().toURL() );
+    } catch ( MalformedURLException e ) {
+      e.printStackTrace();
+    }
+  }
+
+  @VisibleForTesting
+  void addConfigsForJobConf( String additionalPath ) {
+    try {
+      job.getConfiguration().addResource( createSiteUrlFromUserFolder( "hdfs-site.xml", additionalPath ) );
+      job.getConfiguration().addResource( createSiteUrlFromUserFolder( "core-site.xml", additionalPath ) );
+      job.getConfiguration().addResource( createSiteUrlFromUserFolder( "mapred-site.xml", additionalPath ) );
+      job.getConfiguration().addResource( createSiteUrlFromUserFolder( "hbase-site.xml", additionalPath ) );
+      job.getConfiguration().addResource( createSiteUrlFromUserFolder( "hive-site.xml", additionalPath ) );
+      job.getConfiguration().addResource( createSiteUrlFromUserFolder( "yarn-site.xml", additionalPath ) );
+    } catch ( MalformedURLException e ) {
+      e.printStackTrace();
+    }
+  }
+
+  private URL createSiteUrlFromUserFolder( String siteFileName, String additionalPath ) throws MalformedURLException {
+    return new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
+      + "metastore" + File.separator + additionalPath + File.separator + siteFileName ).toURI().toURL();
   }
 
   public JobConf getJobConf() {

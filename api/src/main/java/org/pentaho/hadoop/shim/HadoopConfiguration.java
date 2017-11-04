@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -77,7 +78,8 @@ public class HadoopConfiguration implements HadoopConfigurationInterface {
 
      public HadoopConfiguration(String identifier, String name, HadoopShim hadoopShim, List<PentahoHadoopShim> shims) throws KettleException,
        FileSystemException {
-          this( KettleVFS.getFileObject( "file:///d:/pdi_client_80_313_karaf/data-integration/plugins/pentaho-big-data-plugin/" ).resolveFile(identifier),
+          this( KettleVFS.getFileObject( Paths.get( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
+              + "metastore" + File.separator + identifier ).toAbsolutePath().toString() ).resolveFile(identifier),
                     identifier, name, hadoopShim, shims.toArray(new PentahoHadoopShim[0]));
       }
 
@@ -105,7 +107,8 @@ public class HadoopConfiguration implements HadoopConfigurationInterface {
                               PentahoHadoopShim... shims ) {
 
 
-    this( getConfigProperties( "D:\\pdi_client_80_313_karaf\\data-integration\\plugins\\pentaho-big-data-plugin\\" + File.separator + "config.properties" ),
+    this( getConfigProperties( Paths.get( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
+        + "metastore" + File.separator + identifier + File.separator + "config.properties" ).toAbsolutePath().toString() ),
       location, identifier, name, hadoopShim, shims );
   }
 
