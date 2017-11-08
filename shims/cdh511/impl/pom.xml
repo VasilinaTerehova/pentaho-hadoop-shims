@@ -111,6 +111,18 @@
       <artifactId>hadoop-common</artifactId>
       <version>2.6.0-cdh5.11.0</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-mapreduce-client-core</artifactId>
+      <version>2.6.0-cdh5.11.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-hdfs</artifactId>
+      <version>2.6.0-cdh5.11.0</version>
+    </dependency>
+
     <dependency>
       <groupId>org.apache.htrace</groupId>
       <artifactId>htrace-core</artifactId>
@@ -142,6 +154,19 @@
         </exclusion>
       </exclusions>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.sqoop</groupId>
+      <artifactId>sqoop</artifactId>
+      <version>1.4.6-cdh5.11.0</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>*</artifactId>
+          <groupId>*</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
   </dependencies>
   <build>
     <plugins>
@@ -350,16 +375,18 @@
               org.pentaho.hadoop.shim.common.delegating.*,
               org.apache.hadoop.gateway.shell.*,
               org.apache.oozie.client.*,
+              com.cloudera.sqoop.*,
+              org.apache.sqoop.*,
               <!--htrace inside package Tracer not packed-->
               <!--hbase-default.xml needed - not included-->
               io.netty.*,
               com.yammer.metrics.*
             </Export-Package>
             <Include-Resource>target/dependencies/hadoop-common,target/dependencies/hbase-common/hbase-default.xml,{maven-resources}</Include-Resource>
-            <Embed-Dependency>gateway-shell;libthrift;hive-jdbc;hadoop-common;*;scope=compile|runtime;artifactId=!pentaho*|xerces*|xml-api*|guava
+            <Embed-Dependency>sqoop;gateway-shell;libthrift;hive-jdbc;hadoop-common;*;scope=compile|runtime;artifactId=!pentaho*|xerces*|xml-api*|guava
             </Embed-Dependency>
             <!--<Embed-Transitive>true</Embed-Transitive>-->
-            <Bundle-ClassPath>.,{maven-dependencies},hadoop-common-2.6.0-cdh5.11.0.jar</Bundle-ClassPath>
+            <Bundle-ClassPath>.,{maven-dependencies},hadoop-common-2.6.0-cdh5.11.0.jar,hadoop-hdfs-2.6.0-cdh5.11.0.jar</Bundle-ClassPath>
           </instructions>
         </configuration>
       </plugin>
