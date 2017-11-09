@@ -273,6 +273,7 @@
       </activation>
       <modules>
         <module>common</module>
+        <module>common-services</module>
         <module>shims</module>
       </modules>
     </profile>

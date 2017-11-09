@@ -115,7 +115,7 @@
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-common</artifactId>
-      <version>${org.apache.hadoop.version}</version>
+      <version>2.6.0-cdh5.11.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.htrace</groupId>
@@ -130,123 +130,21 @@
     <dependency>
       <groupId>org.apache.thrift</groupId>
       <artifactId>libthrift</artifactId>
-      <version>${org.apache.thrift.version}</version>
+      <version>0.9.0-cdh5-2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.knox</groupId>
       <artifactId>gateway-shell</artifactId>
-      <version>${org.apache.knox.version}</version>
+      <version>0.12.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.oozie</groupId>
       <artifactId>oozie-client</artifactId>
-      <version>${org.apache.oozie.version}</version>
+      <version>4.1.0-cdh5.11.0</version>
       <exclusions>
         <exclusion>
           <artifactId>*</artifactId>
           <groupId>*</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-mapreduce-client-core</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-hdfs</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.sqoop</groupId>
-      <artifactId>sqoop</artifactId>
-      <version>${sqoop.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.pig</groupId>
-      <artifactId>pig</artifactId>
-      <version>${pig.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <!--jline only for runtime, only packages are needed-->
-    <dependency>
-      <groupId>jline</groupId>
-      <artifactId>jline</artifactId>
-      <version>${jline.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>org.antlr</groupId>
-      <artifactId>antlr-runtime</artifactId>
-      <version>${org.antlr.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>dk.brics.automaton</groupId>
-      <artifactId>automaton</artifactId>
-      <version>${automaton.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>${org.codehaus.jackson.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-core-asl</artifactId>
-      <version>${org.codehaus.jackson.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-      <version>${joda-time.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -380,8 +278,17 @@
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <DynamicImport-Package>*</DynamicImport-Package>
             <Import-Package>
+              !org.pentaho.hadoop.shim.common.invocationhandler.*,
+              !org.pentaho.hadoop.shim.common.utils.*,
               org.pentaho.hadoop.shim.*;version=8.0.0,
               org.pentaho.hbase.shim.spi.*;version=8.0.0,
+              org.apache.hadoop.ipc.*;version=8.0.0.cdh511,
+              org.apache.hadoop.security.*;version=8.0.0.cdh511,
+              org.apache.hadoop.conf.*;version=8.0.0.cdh511,
+              org.apache.hadoop.fs.*;version=8.0.0.cdh511,
+              org.apache.hadoop.hdfs.*;version=8.0.0.cdh511,
+              !org.apache.hadoop.hive.jdbc.*,
+              org.apache.xerces.*
               org.apache.hadoop.ipc.*;resolution:=optional,
               org.osgi.framework;version="[1.6,2)",
               org.osgi.service.blueprint;version="[1.0.0,2.0.0)",
@@ -433,8 +340,11 @@
               com.yammer.metrics.*
             </Export-Package>
             <Include-Resource>target/dependencies/hadoop-common,target/dependencies/hbase-common/hbase-default.xml,{maven-resources}</Include-Resource>
-            <Embed-Dependency>commons-lang3,sqoop,hadoop-mapreduce-client-core,hadoop-hdfs,gateway-shell;libthrift;hive-jdbc;hadoop-common;*;scope=compile|runtime;artifactId=!pentaho*|xerces*|xml-api*|guava
-            </Embed-Dependency>
+            <Embed-Dependency>commons-lang3,sqoop,hadoop-mapreduce-client-core,hadoop-hdfs,gateway-shell;libthrift;hive-jdbc;artifactId=pentaho-hdfs-vfs;*;scope=compile|runtime;artifactId=!pentaho*|xerces*|xml-api*|guava|hadoop-common|kettle-core|kettle-engine;inline=false</Embed-Dependency>
+            <!--<_include>D:\projects\pentaho\pentaho-hadoop-shims\shims\cdh511\pentaho-hdfs-vfs-8.0-20171031.025920-265.jar</_include>-->
+            <_classpath>pentaho-hdfs-vfs-8.0-20171031.025920-265.jar</_classpath>
+            <!--<_exportcontents></_exportcontents>-->
+            <Embed-Transitive>true</Embed-Transitive>
             <!--<Embed-Transitive>true</Embed-Transitive>-->
             <Bundle-ClassPath>.,{maven-dependencies},hadoop-common-2.6.0-cdh5.11.0.jar,hadoop-hdfs-2.6.0-cdh5.11.0.jar</Bundle-ClassPath>
           </instructions>

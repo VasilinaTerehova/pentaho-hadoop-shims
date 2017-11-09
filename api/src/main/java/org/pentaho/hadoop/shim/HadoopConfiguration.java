@@ -243,6 +243,12 @@ public class HadoopConfiguration implements HadoopConfigurationInterface {
    */
   public <T extends PentahoHadoopShim> T getShim( Class<T> shimType ) throws ConfigurationException {
     for ( PentahoHadoopShim shim : availableShims ) {
+      //todo: should be changed
+      if ( shimType.getName().toLowerCase().contains( "hbase" ) && shim.toString().toLowerCase().contains( "hbase" )) {
+        @SuppressWarnings( "unchecked" )
+        T t = (T) shim;
+        return t;
+      }
       if ( shimType.isAssignableFrom( shim.getClass() ) ) {
         @SuppressWarnings( "unchecked" )
         T t = (T) shim;

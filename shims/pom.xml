@@ -17,6 +17,7 @@
     <org.safehaus.jug.version>2.0.0</org.safehaus.jug.version>
     <commons-lang.version>2.6</commons-lang.version>
     <com.igormaznitsa.jcp.version>6.1.2</com.igormaznitsa.jcp.version>
+    <dependency.maven-bundle-plugin.version>3.2.0</dependency.maven-bundle-plugin.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -198,22 +199,22 @@
                     <overWrite>false</overWrite>
                     <outputDirectory>${project.build.directory}/src</outputDirectory>
                   </artifactItem>
-                  <artifactItem>
+                  <!--<artifactItem>
                     <groupId>org.pentaho</groupId>
                     <artifactId>pentaho-hadoop-shims-common-hbase-comparators-api</artifactId>
                     <classifier>sources</classifier>
                     <overWrite>false</overWrite>
                     <outputDirectory>${project.build.directory}/src</outputDirectory>
                     <excludes>**/*DeserializedBooleanComparator*,**/*DeserializedNumericComparator*</excludes>
-                  </artifactItem>
-                  <artifactItem>
+                  </artifactItem>-->
+                  <!--<artifactItem>
                     <groupId>org.pentaho</groupId>
                     <artifactId>pentaho-hadoop-shims-hbase-comparators</artifactId>
                     <classifier>sources</classifier>
                     <overWrite>false</overWrite>
                     <outputDirectory>${project.build.directory}/src</outputDirectory>
                     <excludes>**/*DeserializedBooleanComparator*,**/*DeserializedNumericComparator*</excludes>
-                  </artifactItem>
+                  </artifactItem>-->
                   <artifactItem>
                     <groupId>org.pentaho</groupId>
                     <artifactId>pentaho-hadoop-shims-common-mapred</artifactId>
@@ -228,13 +229,13 @@
                     <overWrite>false</overWrite>
                     <outputDirectory>${project.build.directory}/src</outputDirectory>
                   </artifactItem>
-                  <artifactItem>
+                 <!-- <artifactItem>
                     <groupId>org.pentaho</groupId>
                     <artifactId>pentaho-hadoop-shims-common-hbase</artifactId>
                     <classifier>sources</classifier>
                     <overWrite>false</overWrite>
                     <outputDirectory>${project.build.directory}/src</outputDirectory>
-                  </artifactItem>
+                  </artifactItem>-->
                   <artifactItem>
                     <groupId>org.pentaho</groupId>
                     <artifactId>pentaho-hadoop-shims-common-shim</artifactId>
