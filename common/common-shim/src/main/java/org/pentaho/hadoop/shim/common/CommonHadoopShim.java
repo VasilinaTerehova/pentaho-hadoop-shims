@@ -17,6 +17,7 @@
 
 package org.pentaho.hadoop.shim.common;
 
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.hadoop.hive.jdbc.HiveDriver;
 import org.apache.hadoop.io.Writable;
@@ -55,6 +56,15 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 public class CommonHadoopShim implements HadoopShim {
+
+  public CommonHadoopShim() {
+    try {
+      new DefaultFileSystemManager().addProvider( "hdfs", new HDFSFileProvider() );
+    } catch ( FileSystemException e ) {
+      e.printStackTrace();
+    }
+  }
+
   private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger( getClass() );
 
   public static class NotSupportedDriver implements Driver {

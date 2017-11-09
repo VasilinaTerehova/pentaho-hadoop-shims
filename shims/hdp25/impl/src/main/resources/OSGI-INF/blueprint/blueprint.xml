@@ -13,7 +13,7 @@
   <bean id="pigShim" class="org.pentaho.hadoop.shim.common.PigShimImpl"/>
   <service ref="pigShim" interface="org.pentaho.hadoop.shim.spi.PigShim"/>
 
-  <bean id="sqoopShim" class="org.pentaho.hadoop.shim.common.CommonSqoopShim"/>
+  <bean id="sqoopShim" class="org.pentaho.hadoop.shim.common.sqoop.CommonSqoopShim"/>
   <service ref="sqoopShim" interface="org.pentaho.hadoop.shim.spi.SqoopShim"/>
 
   <bean id="snappyShim" class="org.pentaho.hadoop.shim.common.SnappyShimImpl"/>
@@ -26,8 +26,8 @@
                   availability="optional"/>
 
   <bean id="hdp25HadoopConfiguration" class="org.pentaho.hadoop.shim.HadoopConfiguration">
-    <argument value="hdp25" />
-    <argument value="Hortonworks HDP 2.5" />
+    <argument value="hdp25"/>
+    <argument value="Hortonworks HDP 2.5"/>
     <argument ref="hdp25Hadoop"/>
     <!--<argument ref="hadoopConfigurationLocator"/>-->
     <argument>
@@ -41,7 +41,13 @@
     </argument>
   </bean>
 
-  <service ref="hdp25HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HadoopConfigurationInterface"/>
+  <service ref="hdp25HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HadoopConfigurationInterface">
+    <service-properties>
+      <entry key="shim">
+        <value type="java.lang.String">hdp25</value>
+      </entry>
+    </service-properties>
+  </service>
 
   <!--<bean id="hadoopConfigurationLocator" class="org.pentaho.hadoop.shim.HadoopConfigurationLocatorBundle">
     <argument>
@@ -56,5 +62,11 @@
     <argument ref="hdp25HadoopConfiguration"/>
   </bean>
 
-  <service ref="hasHdp25Configuration" interface="org.pentaho.hadoop.shim.api.HasConfiguration"/>
+  <service ref="hasHdp25Configuration" interface="org.pentaho.hadoop.shim.api.HasConfiguration">
+    <service-properties>
+      <entry key="shim">
+        <value type="java.lang.String">hdp25</value>
+      </entry>
+    </service-properties>
+  </service>
 </blueprint>

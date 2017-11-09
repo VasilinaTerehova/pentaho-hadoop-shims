@@ -77,7 +77,7 @@ public class HadoopConfiguration implements HadoopConfigurationInterface {
 
      public HadoopConfiguration(String identifier, String name, HadoopShim hadoopShim, List<PentahoHadoopShim> shims) throws KettleException,
        FileSystemException {
-          this( KettleVFS.getFileObject( "file:///d:/pdi_client_80_313_karaf/data-integration/plugins/pentaho-big-data-plugin/" ).resolveFile(identifier),
+          this( KettleVFS.getFileObject( "file:///c:/Pentaho-8.0-QAT-310/data-integration/plugins/pentaho-big-data-plugin/hadoop-configurations/" ).resolveFile(identifier),
                     identifier, name, hadoopShim, shims.toArray(new PentahoHadoopShim[0]));
       }
 
@@ -105,7 +105,7 @@ public class HadoopConfiguration implements HadoopConfigurationInterface {
                               PentahoHadoopShim... shims ) {
 
 
-    this( getConfigProperties( "D:\\pdi_client_80_313_karaf\\data-integration\\plugins\\pentaho-big-data-plugin\\" + File.separator + "config.properties" ),
+    this( getConfigProperties( "file:///c:/Pentaho-8.0-QAT-310/data-integration/plugins/pentaho-big-data-plugin/hadoop-configurations/" + File.separator + "config.properties" ),
       location, identifier, name, hadoopShim, shims );
   }
 
@@ -240,6 +240,12 @@ public class HadoopConfiguration implements HadoopConfigurationInterface {
    */
   public <T extends PentahoHadoopShim> T getShim( Class<T> shimType ) throws ConfigurationException {
     for ( PentahoHadoopShim shim : availableShims ) {
+      //todo: should be changed
+      if ( shimType.getName().toLowerCase().contains( "hbase" ) && shim.toString().toLowerCase().contains( "hbase" )) {
+        @SuppressWarnings( "unchecked" )
+        T t = (T) shim;
+        return t;
+      }
       if ( shimType.isAssignableFrom( shim.getClass() ) ) {
         @SuppressWarnings( "unchecked" )
         T t = (T) shim;

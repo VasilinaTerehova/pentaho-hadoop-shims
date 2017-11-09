@@ -11,6 +11,11 @@
   <version>8.0-SNAPSHOT</version>
   <dependencies>
     <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>pentah-hadoop-shims-common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.thoughtworks.xstream</groupId>
       <artifactId>xstream</artifactId>
     </dependency>

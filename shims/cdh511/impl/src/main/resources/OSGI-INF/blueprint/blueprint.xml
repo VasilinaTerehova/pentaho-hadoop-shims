@@ -4,16 +4,12 @@
            xsi:schemaLocation="
             http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
 
-  <bean id="cdh511Hadoop" class="org.pentaho.hadoop.shim.cdh511.HadoopShim" scope="singleton"/>
-  <service ref="cdh511Hadoop" interface="org.pentaho.hadoop.shim.spi.HadoopShim"/>
-
-  <bean id="hbaseShim" class="org.pentaho.hbase.shim.common.CommonHBaseShim"/>
-  <service ref="hbaseShim" interface="org.pentaho.hadoop.shim.spi.PentahoHadoopShim"/>
+  <reference id="hadoopShim" interface="org.pentaho.hadoop.shim.spi.HadoopShim" filter="(shim=cdh511)"/>
 
   <bean id="pigShim" class="org.pentaho.hadoop.shim.common.PigShimImpl"/>
   <service ref="pigShim" interface="org.pentaho.hadoop.shim.spi.PigShim"/>
 
-  <bean id="sqoopShim" class="org.pentaho.hadoop.shim.common.CommonSqoopShim"/>
+  <bean id="sqoopShim" class="org.pentaho.hadoop.shim.common.sqoop.CommonSqoopShim"/>
   <service ref="sqoopShim" interface="org.pentaho.hadoop.shim.spi.SqoopShim"/>
 
   <bean id="snappyShim" class="org.pentaho.hadoop.shim.common.SnappyShimImpl"/>
@@ -24,6 +20,8 @@
 
   <reference-list id="hadoopShims" interface="org.pentaho.hadoop.shim.spi.PentahoHadoopShim"
                   availability="optional"/>
+
+  <reference id="hbaseShim" interface="org.pentaho.hbase.shim.spi.HBaseShim" filter="(shim=cdh511)(service=hbase)"/>
 
   <bean id="cdh511HadoopConfiguration" class="org.pentaho.hadoop.shim.HadoopConfiguration">
     <argument value="cdh511" />
@@ -41,7 +39,13 @@
     </argument>
   </bean>
 
-  <service ref="cdh511HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HadoopConfigurationInterface"/>
+  <service ref="cdh511HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HadoopConfigurationInterface">
+    <service-properties>
+      <entry key="shim">
+        <value type="java.lang.String">cdh511</value>
+      </entry>
+    </service-properties>
+  </service>
 
   <!--<bean id="hadoopConfigurationLocator" class="org.pentaho.hadoop.shim.HadoopConfigurationLocatorBundle">
     <argument>
@@ -56,5 +60,11 @@
     <argument ref="cdh511HadoopConfiguration"/>
   </bean>
 
-  <service ref="hasCdh511Configuration" interface="org.pentaho.hadoop.shim.api.HasConfiguration"/>
+  <service ref="hasCdh511Configuration" interface="org.pentaho.hadoop.shim.api.HasConfiguration">
+    <service-properties>
+      <entry key="shim">
+        <value type="java.lang.String">cdh511</value>
+      </entry>
+    </service-properties>
+  </service>
 </blueprint>

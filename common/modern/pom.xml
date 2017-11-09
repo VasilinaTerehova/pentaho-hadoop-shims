@@ -17,12 +17,22 @@
     </dependency>
     <dependency>
       <groupId>org.pentaho</groupId>
-      <artifactId>pentaho-hadoop-shims-common-pig-shim-1.0</artifactId>
+      <artifactId>common-pig-shim</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>common-sqoop-shim</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.pentaho</groupId>
       <artifactId>pentaho-hadoop-shims-hbase-comparators</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>pentaho-hadoop-shims-common-hbase</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
