@@ -13,7 +13,9 @@
   <bean id="pigShim" class="org.pentaho.hadoop.shim.common.PigShimImpl"/>
   <service ref="pigShim" interface="org.pentaho.hadoop.shim.spi.PigShim"/>
 
-  <bean id="sqoopShim" class="org.pentaho.hadoop.shim.common.CommonSqoopShim"/>
+  <bean id="sqoopShim" class="org.pentaho.hadoop.shim.common.CommonSqoopShim">
+    <property name="bundleContext" ref="blueprintBundleContext" />
+  </bean>
   <service ref="sqoopShim" interface="org.pentaho.hadoop.shim.spi.SqoopShim"/>
 
   <bean id="snappyShim" class="org.pentaho.hadoop.shim.common.SnappyShimImpl"/>

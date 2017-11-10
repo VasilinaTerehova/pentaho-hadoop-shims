@@ -15,6 +15,8 @@
     <xstream.version>1.4.9</xstream.version>
     <commons-collections.version>3.2.2</commons-collections.version>
     <shim.type>CDH</shim.type>
+    <org.apache.thrift.version>0.9.0-cdh5-2</org.apache.thrift.version>
+    <org.apache.knox.version>0.12.0</org.apache.knox.version>
   </properties>
   <dependencies>
     <dependency>
@@ -108,7 +110,7 @@
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-common</artifactId>
-      <version>2.6.0-cdh5.11.0</version>
+      <version>${org.apache.hadoop.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.htrace</groupId>
@@ -123,21 +125,42 @@
     <dependency>
       <groupId>org.apache.thrift</groupId>
       <artifactId>libthrift</artifactId>
-      <version>0.9.0-cdh5-2</version>
+      <version>${org.apache.thrift.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.knox</groupId>
       <artifactId>gateway-shell</artifactId>
-      <version>0.12.0</version>
+      <version>${org.apache.knox.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.oozie</groupId>
       <artifactId>oozie-client</artifactId>
-      <version>4.1.0-cdh5.11.0</version>
+      <version>${org.apache.oozie.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>*</artifactId>
           <groupId>*</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-mapreduce-client-core</artifactId>
+      <version>${org.apache.hadoop.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-hdfs</artifactId>
+      <version>${org.apache.hadoop.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.sqoop</groupId>
+      <artifactId>sqoop</artifactId>
+      <version>${sqoop.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -273,50 +296,11 @@
             <Import-Package>
               org.pentaho.hadoop.shim.*;version=8.0.0,
               org.pentaho.hbase.shim.spi.*;version=8.0.0,
-              org.apache.hadoop.ipc.*;resolution:=optional
+              org.apache.hadoop.ipc.*;resolution:=optional,
+              org.osgi.framework;version="[1.6,2)",
+              org.osgi.service.blueprint;version="[1.0.0,2.0.0)",
+              org.osgi.service.cm;version="[1.4,2)"
             </Import-Package>
-            <!--<test>
-              io.netty.channel.*,
-              org.apache.hadoop.security.*,
-              com.yammer.metrics.core.*,
-              org.pentaho.hadoop.shim.spi.*,
-              org.pentaho.di.core.*,
-              org.pentaho.di.core.plugins.*,
-              org.osgi.service.blueprint;resolution:=optional,
-              COM.jrockit.*;
-              COM.newmonics.*;
-              com.bea.xml.stream;
-              com.informix.jdbc;
-              com.kenai.jnr.x86asm;
-              groovy.lang;
-              com.clearspring.analytics.util;
-              com.codahale.metrics;
-              com.codahale.metrics.json;
-              com.codahale.metrics.jvm;
-              com.ctc.wstx.exc;
-              com.ctc.wstx.stax;
-              com.enterprisedt.net.ftp;
-              com.facebook.fb303;
-              com.fasterxml.jackson.core;
-              com.fasterxml.jackson.databind;
-              com.google.gson.stream;
-              com.googlecode.jsendnsca;
-              com.googlecode.jsendnsca.builders;
-              com.googlecode.jsendnsca.encryption;
-              com.healthmarketscience.jackcess;
-              com.ibm.wsdl.extensions.soap12;
-              com.infobright.etl.model;
-              com.infobright.io;
-              com.infobright.logging;
-              com.jcraft.jsch;
-              com.jolbox.bonecp;
-              com.linuxense.javadbf;
-              com.lmax.disruptor;
-              com.lmax.disruptor.dsl;
-              com.sun.jersey.*;
-              com.sun.jndi.ldap;
-              com.sun.jdmk.comm;resolution:=optional,
-            </test>-->
             <Export-Package>
               org.apache.htrace,
               org.apache.htrace.*,
@@ -343,7 +327,6 @@
               <!--needed hdfs-->
               org.apache.hadoop.util.*,
               org.apache.hadoop.metrics2.*,
-              org.apache.hadoop.mapred.*,
               org.apache.hadoop.mapreduce.*,
               org.apache.zookeeper.*,
               org.pentaho.hadoop.shim.cdh57,
@@ -364,10 +347,10 @@
               com.yammer.metrics.*
             </Export-Package>
             <Include-Resource>target/dependencies/hadoop-common,target/dependencies/hbase-common/hbase-default.xml,{maven-resources}</Include-Resource>
-            <Embed-Dependency>gateway-shell;libthrift;hive-jdbc;hadoop-common;*;scope=compile|runtime;artifactId=!pentaho*|xerces*|xml-api*|guava
+            <Embed-Dependency>commons-lang3,sqoop,hadoop-mapreduce-client-core,hadoop-hdfs,gateway-shell;libthrift;hive-jdbc;hadoop-common;*;scope=compile|runtime;artifactId=!pentaho*|xerces*|xml-api*|guava
             </Embed-Dependency>
             <!--<Embed-Transitive>true</Embed-Transitive>-->
-            <Bundle-ClassPath>.,{maven-dependencies},hadoop-common-2.6.0-cdh5.11.0.jar</Bundle-ClassPath>
+            <Bundle-ClassPath>.,{maven-dependencies},hadoop-common-2.6.0-cdh5.11.0.jar,hadoop-hdfs-2.6.0-cdh5.11.0.jar</Bundle-ClassPath>
           </instructions>
         </configuration>
       </plugin>

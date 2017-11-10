@@ -117,7 +117,8 @@ public class CommonHBaseConnection extends HBaseConnection {
         if ( !isEmpty( defaultConfig ) ) {
           m_config.addResource( stringToURL( defaultConfig ) );
         } else {
-          m_config.addResource( "hbase-default.xml" );
+          m_config.addResource( new Path( Paths.get( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
+            + "metastore" + File.separator + "cdh511" + File.separator + "hbase-default.xml" ).toAbsolutePath().toString() ) );
         }
 
         if ( !isEmpty( siteConfig ) ) {
