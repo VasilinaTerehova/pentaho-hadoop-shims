@@ -22,6 +22,7 @@
 package org.pentaho.hadoop.shim.common;
 
 import org.apache.pig.PigServer;
+import org.apache.pig.impl.PigContext;
 import org.apache.pig.tools.grunt.GruntParser;
 
 import java.io.IOException;
@@ -39,7 +40,10 @@ public class PigShimImpl extends CommonPigShim {
     ClassLoader cl = Thread.currentThread().getContextClassLoader();
     Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
     try {
-      PigServer pigServer = new PigServer( getExecType( mode ), properties );
+      //PigServer pigServer = new PigServer( getExecType( mode ), properties );
+      PigContext pigContext = new PigContext( getExecType( mode ), properties );
+      addExternalJarsToPigContext( pigContext );
+      PigServer pigServer = new PigServer( pigContext );
       GruntParser grunt = new GruntParser( new StringReader( pigScript ) );
       grunt.setInteractive( false );
       grunt.setParams( pigServer );
@@ -48,5 +52,4 @@ public class PigShimImpl extends CommonPigShim {
       Thread.currentThread().setContextClassLoader( cl );
     }
   }
-
 }
