@@ -103,6 +103,34 @@
       <artifactId>hadoop-yarn-server-web-proxy</artifactId>
       <version>${org.apache.hadoop.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>pentaho-hadoop-shims-common-hadoop-shim</artifactId>
+      <version>8.0-SNAPSHOT</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>pentaho-hadoop-shims-common-shim</artifactId>
+      <version>8.0-SNAPSHOT</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>pentaho</groupId>
+      <artifactId>pentaho-hdfs-vfs</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>pentaho-big-data-impl-shim-hdfs</artifactId>
+      <version>8.0-SNAPSHOT</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <version>4.3.1</version>
+      <scope>provided</scope>
+    </dependency>
     <!--<dependency>
       <groupId>org.xerial.snappy</groupId>
       <artifactId>snappy-java</artifactId>
@@ -234,9 +262,17 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.pentaho</groupId>
-                  <artifactId>pentaho-hadoop-shims-cdh511</artifactId>
-                  <version>8.0-SNAPSHOT</version>
-                  <includes>**/HadoopShim*</includes>
+                  <artifactId>pentaho-hadoop-shims-common-hadoop-shim</artifactId>
+                  <classifier>sources</classifier>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}/src</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.pentaho</groupId>
+                  <artifactId>pentaho-big-data-impl-shim-hdfs</artifactId>
+                  <classifier>sources</classifier>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}/src</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
@@ -251,14 +287,14 @@
               <markersDirectory>${project.build.directory}/dependencies/dependency-maven-plugin-markers
               </markersDirectory>
               <artifactItems>
-                <artifactItem>
+                <!--<artifactItem>
                   <groupId>org.apache.hadoop</groupId>
                   <artifactId>hadoop-mapreduce-client-jobclient</artifactId>
                   <version>${org.apache.hadoop.version}</version>
                   <type>jar</type>
                   <outputDirectory>${project.build.directory}/dependencies/hadoop-common</outputDirectory>
                   <includes>META-INF/services/**</includes>
-                </artifactItem>
+                </artifactItem>-->
                 <artifactItem>
                   <groupId>pentaho</groupId>
                   <artifactId>pentaho-hdfs-vfs</artifactId>
@@ -269,6 +305,33 @@
                 </artifactItem>
               </artifactItems>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.pentaho</groupId>
+        <artifactId>maven-dependency-resolver-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+          <resolverFilters>
+            <resolverFilter>
+              <include>*:*mapreduce*,*:hadoop-hdfs*,*hadoop-annotation*,*:hadoop-yarn*,*:hadoop-client</include>
+              <exclude>*:*tests*,*:*xerces*,*:*xml*</exclude>
+              <transitive>true</transitive>
+            </resolverFilter>
+            <resolverFilter>
+              <include>*:*java-protobuf,*:*metrics*,*:*pentaho-hdfs-vfs</include>
+              <exclude>*:*tests*</exclude>
+              <transitive>false</transitive>
+            </resolverFilter>
+          </resolverFilters>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>resolve</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
@@ -313,41 +376,45 @@
               org.pentaho.hadoop.shim.spi.*;version=8.0.0
             </Import-Package>
             <Export-Package>
-              org.apache.htrace.*;version=8.0.0.cdh511,
-              org.apache.commons.logging.*;version=8.0.0.cdh511,
-              com.google.common.annotations.*;version=8.0.0.cdh511,
-              org.codehaus.jackson.*;version=8.0.0.cdh511,
-              org.apache.hadoop.security.*;version=8.0.0.cdh511,
-              org.apache.hadoop.conf.*;version=8.0.0.cdh511,
-              org.apache.hadoop.fs.*;version=8.0.0.cdh511,
-              org.apache.hadoop.hdfs.*;version=8.0.0.cdh511,
-              com.google.protobuf.*;version=8.0.0.cdh511,
-              org.apache.commons.codec.*;version=8.0.0.cdh511,
-              org.apache.hadoop.classification.*;version=8.0.0.cdh511,
-              org.apache.commons.cli.*;version=8.0.0.cdh511,
+              org.apache.htrace;version=8.0.0.cdh511,
+              org.apache.commons.logging;version=8.0.0.cdh511,
+              com.google.common.annotations;version=8.0.0.cdh511,
+              org.codehaus.jackson;version=8.0.0.cdh511,
+              org.apache.hadoop.security;version=8.0.0.cdh511,
+              org.apache.hadoop.security.token;version=8.0.0.cdh511,
+              org.apache.hadoop.conf;version=8.0.0.cdh511,
+              org.apache.hadoop.fs;version=8.0.0.cdh511,
+              org.apache.hadoop.hdfs;version=8.0.0.cdh511,
+              com.google.protobuf;version=8.0.0.cdh511,
+              org.apache.commons.codec;version=8.0.0.cdh511,
+              org.apache.commons.codec.binary;version=8.0.0.cdh511,
+              org.apache.hadoop.classification;version=8.0.0.cdh511,
+              org.apache.commons.cli;version=8.0.0.cdh511,
               <!--needed-->
-              org.apache.hadoop.io.*;version=8.0.0.cdh511,
-              org.apache.hadoop.ipc.*;version=8.0.0.cdh511,
+              org.apache.hadoop.io;version=8.0.0.cdh511,
+              org.apache.hadoop.io.compress;version=8.0.0.cdh511,
+              org.apache.hadoop.net;version=8.0.0.cdh511,
+              org.apache.hadoop.ipc;version=8.0.0.cdh511,
               org.apache.hadoop.ipc.metrics;version=8.0.0.cdh511,
-              org.apache.hadoop.*;version=8.0.0.cdh511,
-              org.apache.hadoop.gateway.*;version=8.0.0.cdh511,
+              org.apache.hadoop;version=8.0.0.cdh511,
+              org.apache.hadoop.gateway;version=8.0.0.cdh511,
               <!--needed hdfs-->
-              org.apache.hadoop.util.*;version=8.0.0.cdh511,
-              org.apache.hadoop.metrics2.*;version=8.0.0.cdh511,
-              org.apache.hadoop.mapred.*;version=8.0.0.cdh511,
-              org.apache.hadoop.mapreduce.*;version=8.0.0.cdh511,
-              org.apache.zookeeper.*;version=8.0.0.cdh511,
-              org.apache.avro.*;version=8.0.0.cdh511,
-              org.apache.jute.*;version=8.0.0.cdh511,
-              org.apache.hadoop.gateway.shell.*;version=8.0.0.cdh511,
-              io.netty.*;version=8.0.0.cdh511,
-              com.yammer.metrics.*;version=8.0.0.cdh511,
-              org.pentaho.hdfs.vfs.*;version=8.0.0,
+              org.apache.hadoop.util;version=8.0.0.cdh511,
+              org.apache.hadoop.metrics2;version=8.0.0.cdh511,
+              org.apache.hadoop.mapred;version=8.0.0.cdh511,
+              org.apache.hadoop.mapreduce;version=8.0.0.cdh511,
+              org.apache.zookeeper;version=8.0.0.cdh511,
+              org.apache.jute;version=8.0.0.cdh511,
+              org.apache.hadoop.gateway.shell;version=8.0.0.cdh511,
+              io.netty;version=8.0.0.cdh511,
+              com.yammer.metrics;version=8.0.0.cdh511,
+              org.pentaho.hdfs.vfs;version=8.0.0
             </Export-Package>
-            <Include-Resource>target/dependencies/hadoop-common,{maven-resources}</Include-Resource>
-            <Embed-Dependency>artifactId=!pentaho*|xerces*|xml-api*|guava;inline=false</Embed-Dependency>
-            <Embed-Transitive>true</Embed-Transitive>
-            <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+            <!--org.apache.avro;version=8.0.0.cdh511,-->
+            <!--<Include-Resource>target/dependencies/hadoop-common,{maven-resources}</Include-Resource>-->
+            <Embed-Dependency>*</Embed-Dependency>
+            <!--<Embed-Transitive>true</Embed-Transitive>-->
+            <!--<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>-->
           </instructions>
         </configuration>
       </plugin>

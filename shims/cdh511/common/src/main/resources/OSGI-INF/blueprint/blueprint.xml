@@ -13,4 +13,12 @@
     </service-properties>
   </service>
 
+  <bean id="hadoopFileSystem" class="com.pentaho.big.data.bundles.impl.shim.hdfs.HadoopFileSystemFactoryImpl">
+    <argument ref="cdh511Hadoop"/>
+  </bean>
+
+  <service ref="hadoopFileSystem" interface="org.pentaho.bigdata.api.hdfs.HadoopFileSystemFactory"/>
+
+  <!--<reference id="cdh511HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HadoopConfigurationInterface"/>-->
+
 </blueprint>

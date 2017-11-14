@@ -39,23 +39,23 @@ public class HadoopFileSystemFactoryImpl implements HadoopFileSystemFactory {
   public static final String HDFS = "hdfs";
   private static final Logger LOGGER = LoggerFactory.getLogger( HadoopFileSystemFactoryImpl.class );
   private final boolean isActiveConfiguration;
-  private final HadoopConfigurationInterface hadoopConfiguration;
+  private final HadoopShim hadoopShim;
 
-  public HadoopFileSystemFactoryImpl( HadoopConfigurationInterface hadoopConfiguration ) {
-    this( true, hadoopConfiguration, "hdfs" );
+  public HadoopFileSystemFactoryImpl( HadoopShim hadoopShim ) {
+    this( true, hadoopShim, "hdfs" );
   }
 
-  public HadoopFileSystemFactoryImpl( boolean isActiveConfiguration, HadoopConfigurationInterface hadoopConfiguration,
+  public HadoopFileSystemFactoryImpl( boolean isActiveConfiguration, HadoopShim hadoopShim,
                                       String scheme ) {
     this.isActiveConfiguration = isActiveConfiguration;
-    this.hadoopConfiguration = hadoopConfiguration;
+    this.hadoopShim = hadoopShim;
   }
 
   @Override public boolean canHandle( NamedCluster namedCluster ) {
     String shimIdentifier = namedCluster.getShimIdentifier();
     //handle only if we do not use gateway
     return ( shimIdentifier == null && isActiveConfiguration && !namedCluster.isUseGateway() )
-      || ( hadoopConfiguration.getIdentifier().equals( shimIdentifier ) && !namedCluster.isUseGateway() );
+      || ( hadoopShim.getHadoopVersion().equals( shimIdentifier ) && !namedCluster.isUseGateway() );
   }
 
   @Override
@@ -65,7 +65,6 @@ public class HadoopFileSystemFactoryImpl implements HadoopFileSystemFactory {
 
   @Override
   public HadoopFileSystem create( NamedCluster namedCluster, URI uri ) throws IOException {
-    final HadoopShim hadoopShim = hadoopConfiguration.getHadoopShim();
     final Configuration configuration = hadoopShim.createConfiguration( namedCluster.getName() );
     FileSystem fileSystem = (FileSystem) hadoopShim.getFileSystem( configuration ).getDelegate();
     if ( fileSystem instanceof LocalFileSystem ) {
