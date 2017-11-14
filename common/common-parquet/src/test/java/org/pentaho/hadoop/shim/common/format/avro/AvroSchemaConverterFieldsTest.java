@@ -22,6 +22,7 @@
 package org.pentaho.hadoop.shim.common.format.avro;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -66,7 +67,7 @@ public class AvroSchemaConverterFieldsTest {
     AvroSchemaConverter converter = new AvroSchemaConverter( description, "ns", "recordname", "docValue" );
     SchemaDescription.Field f = createField( description, type );
     ObjectNode jsonNodes = converter.convertField( f );
-    assertEquals( result, jsonNodes.findValuesAsText( "type" ).get( 0 ) );
+    Assert.assertEquals( result, jsonNodes.findValuesAsText( "type" ).get( 0 ) );
   }
 
   private SchemaDescription.Field createField( SchemaDescription description, int type ) {

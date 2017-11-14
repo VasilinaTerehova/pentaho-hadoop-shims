@@ -33,7 +33,7 @@ import java.util.List;
 public class HadoopShimImpl extends CommonHadoopShim {
 
   static {
-    JDBC_DRIVER_MAP.put( "hive2", org.apache.hive.jdbc.HiveDriver.class );
+    //JDBC_DRIVER_MAP.put( "hive2", org.apache.hive.jdbc.HiveDriver.class );
   }
 
   @Override

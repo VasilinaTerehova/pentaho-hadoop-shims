@@ -46,6 +46,7 @@ import java.util.Date;
 import org.apache.avro.Schema;
 import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.generic.GenericRecord;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -189,7 +190,7 @@ public class PentahoAvroRecordWriterTest {
 
     ArgumentCaptor<GenericRecord> argument = ArgumentCaptor.forClass( GenericRecord.class );
     verify( nativeAvroRecordWriter ).append( argument.capture() );
-    assertEquals( ByteBuffer.wrap( new byte[0] ), argument.getValue().get( "binField" ) );
+    Assert.assertEquals( ByteBuffer.wrap( new byte[0] ), argument.getValue().get( "binField" ) );
   }
 
   private void testWriteCommon( int type, String fieldName, Object writableObject ) throws KettleValueException, IOException {
@@ -201,7 +202,7 @@ public class PentahoAvroRecordWriterTest {
 
     ArgumentCaptor<GenericRecord> argument = ArgumentCaptor.forClass( GenericRecord.class );
     verify( nativeAvroRecordWriter ).append( argument.capture() );
-    assertEquals( writableObject, argument.getValue().get( fieldName ) );
+    Assert.assertEquals( writableObject, argument.getValue().get( fieldName ) );
   }
 
   @Test
@@ -271,8 +272,8 @@ public class PentahoAvroRecordWriterTest {
 
     ArgumentCaptor<GenericRecord> argument = ArgumentCaptor.forClass( GenericRecord.class );
     verify( nativeAvroRecordWriter ).append( argument.capture() );
-    assertNotEquals( writableObject, argument.getValue().get( fieldName ) );
-    assertEquals( defaultObject, argument.getValue().get( fieldName ) );
+    Assert.assertNotEquals( writableObject, argument.getValue().get( fieldName ) );
+    Assert.assertEquals( defaultObject, argument.getValue().get( fieldName ) );
   }
 
 }

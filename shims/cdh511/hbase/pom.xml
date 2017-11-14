@@ -12,129 +12,54 @@
   <packaging>bundle</packaging>
   <properties>
     <shim.type>CDH</shim.type>
+    <org.osgi.core>4.3.1</org.osgi.core>
   </properties>
   <dependencies>
     <dependency>
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-client</artifactId>
       <version>${org.apache.hbase.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.htrace</groupId>
-      <artifactId>htrace-core</artifactId>
-      <version>3.2.0-incubating</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.protobuf</groupId>
-      <artifactId>protobuf-java</artifactId>
-      <version>2.5.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-hadoop-compat</artifactId>
       <version>${org.apache.hbase.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-common</artifactId>
       <version>${org.apache.hbase.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-protocol</artifactId>
       <version>${org.apache.hbase.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hbase</groupId>
-      <artifactId>hbase-server</artifactId>
-      <version>${org.apache.hbase.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-thrift</artifactId>
       <version>${org.apache.hbase.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.yammer.metrics</groupId>
-      <artifactId>metrics-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.thoughtworks.xstream</groupId>
-      <artifactId>xstream</artifactId>
-      <version>1.4.9</version>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <version>${org.osgi.core}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.pentaho</groupId>
-      <artifactId>pentaho-hadoop-shims-api</artifactId>
-      <version>${project.version}</version>
+      <artifactId>pentaho-big-data-impl-shim-hbase</artifactId>
+      <version>8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.pentaho</groupId>
       <artifactId>pentaho-hadoop-shims-cdh511-common</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.pentaho</groupId>
-      <artifactId>pentaho-hadoop-shims-cdh511-scope-default</artifactId>
-      <version>${project.version}</version>
-      <type>pom</type>
-    </dependency>
-    <dependency>
-      <groupId>pentaho</groupId>
-      <artifactId>pentaho-big-data-impl-shim-hbase</artifactId>
       <version>8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>pentaho</groupId>
       <artifactId>pentaho-big-data-legacy</artifactId>
       <version>8.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.zookeeper</groupId>
-      <artifactId>zookeeper</artifactId>
-      <version>${zookeeper.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
   <build>
@@ -172,16 +97,8 @@
                   <overWrite>false</overWrite>
                   <outputDirectory>${project.build.directory}/src</outputDirectory>
                 </artifactItem>
-                <!--todo: should be deleted, we don't need bootstrap-->
-                <!--<artifactItem>
-                  <groupId>pentaho</groupId>
-                  <artifactId>pentaho-big-data-legacy</artifactId>
-                  <classifier>sources</classifier>
-                  <overWrite>false</overWrite>
-                  <outputDirectory>${project.build.directory}/src</outputDirectory>
-                </artifactItem>-->
                 <artifactItem>
-                  <groupId>pentaho</groupId>
+                  <groupId>org.pentaho</groupId>
                   <artifactId>pentaho-big-data-impl-shim-hbase</artifactId>
                   <classifier>sources</classifier>
                   <overWrite>false</overWrite>
@@ -190,43 +107,20 @@
               </artifactItems>
             </configuration>
           </execution>
-          <execution>
-            <id>unpack-dependencies</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <markersDirectory>${project.build.directory}/dependencies/dependency-maven-plugin-markers
-              </markersDirectory>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.apache.hbase</groupId>
-                  <artifactId>hbase-common</artifactId>
-                  <version>${org.apache.hbase.version}</version>
-                  <type>jar</type>
-                  <outputDirectory>${project.build.directory}/dependencies/hbase-common</outputDirectory>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
-      <!--<plugin>
+      <plugin>
         <groupId>com.pentaho</groupId>
         <artifactId>maven-dependency-resolver-plugin</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
         <configuration>
-          <resolverFilter>
-            <include>org.xerial.snappy:snappy-java,pentaho:pentaho-hdfs-vfs,org.apache.hive:hive-jdbc,org.apache.oozie:oozie-core,org.apache.oozie:oozie-client,org.apache.sqoop:sqoop,org.apache.pig:pig,com.twitter:parquet-hadoop-bundle</include>
-            <exclude>log4j:log4j,org.mockito:mockito-all,junit:*,com.google.guava:*,xml-apis:xml-apis,commons-collections:commons-collections,org.apache.zookeeper:zookeeper,org.apache.hadoop:hadoop-annotations,org.apache.hadoop:hadoop-yarn-api,org.apache.hadoop:hadoop-yarn-commo,org.apache.hadoop:hadoop-yarn-server-applicationhistoryservice,org.apache.hadoop:hadoop-yarn-server-common,org.apache.hadoop:hadoop-yarn-server-resourcemanager,org.apache.hadoop:hadoop-yarn-server-web-proxy,*:tests,*:hive-exec,org.apache.curator:apache-curator,*:logredactor,*:datanucleus-core,*:hbase-common,*:ST4</exclude>
-            <transitive>false</transitive>
-          </resolverFilter>
-          <resolverFilter>
-            <include>org.apache.hive:hive-serde,org.apache.hive:hive-common,org.apache.hive:hive-exec,org.apache.hive:hive-service,org.apache.hive:hive-metastore,dk.brics.automaton:automaton</include>
-            <exclude>com.fasterxml.jackson.core:jackson-databind,log4j:log4j,org.mockito:mockito-all,junit:*,com.google.guava:*,xml-apis:xml-apis,commons-collections:commons-collections,org.apache.zookeeper:zookeeper,org.apache.hadoop:hadoop-annotations,org.apache.hadoop:hadoop-yarn-api,org.apache.hadoop:hadoop-yarn-commo,org.apache.hadoop:hadoop-yarn-server-applicationhistoryservice,org.apache.hadoop:hadoop-yarn-server-common,org.apache.hadoop:hadoop-yarn-server-resourcemanager,org.apache.hadoop:hadoop-yarn-server-web-proxy,*:tests,*:hive-exec,org.apache.curator:apache-curator,*:logredactor,*:datanucleus-core,*:hbase-common,*:ST4</exclude>
-            <transitive>true</transitive>
-          </resolverFilter>
+          <resolverFilters>
+            <resolverFilter>
+              <include>*:hbase*,*:*htrace-core,*:*protobuf-java,*:*metrics*</include>
+              <exclude>*:*tests*,*:hbase-server</exclude>
+              <transitive>false</transitive>
+            </resolverFilter>
+          </resolverFilters>
         </configuration>
         <executions>
           <execution>
@@ -236,7 +130,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>-->
+      </plugin>
       <plugin>
         <groupId>com.igormaznitsa</groupId>
         <artifactId>jcp</artifactId>
@@ -275,20 +169,11 @@
             <Import-Package>
               org.pentaho.hadoop.shim.api.*;version=8.0.0,
               org.pentaho.hadoop.shim.spi.*;version=8.0.0,
-              org.apache.hadoop.ipc.*;version=8.0.0.cdh511,
-              org.apache.hadoop.security.*;version=8.0.0.cdh511,
-              org.apache.hadoop.conf.*;version=8.0.0.cdh511,
-              org.apache.hadoop.fs.*;version=8.0.0.cdh511,
-              org.apache.hadoop.hdfs.*;version=8.0.0.cdh511,
-              com.google.protobuf.*;version=8.0.0.cdh511
+              org.apache.hadoop.conf.*;version=8.0.0.cdh511
             </Import-Package>
-            <Export-Package>
-              org.apache.hadoop.hbase.*;version=8.0.0.cdh511
-            </Export-Package>
-            <Include-Resource>target/dependencies/hbase-common/hbase-default.xml,{maven-resources}</Include-Resource>
-            <Embed-Dependency>artifactId=!pentaho*|xerces*|xml-api*|guava;inline=false</Embed-Dependency>
-            <Embed-Transitive>true</Embed-Transitive>
-            <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+            <Export-Package>org.pentaho.hbase.shim.common</Export-Package>
+            <Embed-Dependency>*</Embed-Dependency>
+            <!--<Embed-Transitive>true</Embed-Transitive>-->
           </instructions>
         </configuration>
       </plugin>

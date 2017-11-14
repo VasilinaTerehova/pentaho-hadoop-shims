@@ -17,6 +17,7 @@
     <module>hbase-comparators</module>
     <module>hadoop-shim</module>
     <module>common-pig</module>
+    <module>common-parquet</module>
     <!--<module>pig-shim-1.0</module>
     <module>pig-shim-1.1</module>-->
     <module>common-sqoop</module>
