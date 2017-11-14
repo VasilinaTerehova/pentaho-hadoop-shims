@@ -30,14 +30,18 @@ import org.pentaho.di.core.plugins.PluginInterface;
 import org.pentaho.di.core.plugins.PluginRegistry;
 import org.pentaho.hadoop.shim.HadoopConfiguration;
 import org.pentaho.hadoop.shim.HadoopConfigurationFileSystemManager;
+import org.pentaho.hadoop.shim.common.ConfigurationProxyV2;
 import org.pentaho.hadoop.shim.common.HadoopShimImpl;
+import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+@Component( "cdh511Hadoop" )
 public class HadoopShim extends HadoopShimImpl {
 
   @Override
@@ -68,5 +72,18 @@ public class HadoopShim extends HadoopShimImpl {
       (URLClassLoader) Thread.currentThread().getContextClassLoader().getParent(), dbPlugin );
     PluginRegistry.getInstance().registerPlugin( DatabasePluginType.class, dbPlugin );
   }
+
+//  @Override
+//  public org.pentaho.hadoop.shim.api.Configuration createConfiguration( String namedCluster ) {
+//    ClassLoader cl = Thread.currentThread().getContextClassLoader();
+//    Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+//    try {
+//      return new ConfigurationProxyV2( namedCluster );
+//    } catch ( IOException e ) {
+//      throw new RuntimeException( "Unable to create configuration for new mapreduce api: ", e );
+//    } finally {
+//      Thread.currentThread().setContextClassLoader( cl );
+//    }
+//  }
 
 }
