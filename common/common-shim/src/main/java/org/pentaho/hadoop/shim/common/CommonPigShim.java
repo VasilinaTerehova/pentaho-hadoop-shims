@@ -130,6 +130,7 @@ public abstract class CommonPigShim implements PigShim {
     PropertiesUtil.loadDefaultProperties( properties );
     if ( configuration != null ) {
       properties.putAll( ConfigurationUtil.toProperties( ShimUtils.asConfiguration( configuration ) ) );
+      properties.setProperty( "pig.use.overriden.hadoop.configs", "true" );
     }
   }
 
