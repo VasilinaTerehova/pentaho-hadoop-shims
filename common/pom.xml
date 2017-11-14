@@ -18,8 +18,6 @@
     <module>hadoop-shim</module>
     <module>common-pig</module>
     <module>common-parquet</module>
-    <!--<module>pig-shim-1.0</module>
-    <module>pig-shim-1.1</module>-->
     <module>common-sqoop</module>
     <module>modern</module>
     <module>mapred</module>
