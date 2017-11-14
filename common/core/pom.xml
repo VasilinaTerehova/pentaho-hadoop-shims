@@ -10,7 +10,7 @@
         <version>8.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>pentah-hadoop-shims-common</artifactId>
+    <artifactId>pentah-hadoop-shims-core</artifactId>
     <version>8.1-SNAPSHOT</version>
 
     

@@ -11,7 +11,7 @@
   <version>8.1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-    <module>common</module>
+    <module>core</module>
     <module>common-shim</module>
     <module>common-hbase-comparators-api</module>
     <module>hbase-comparators</module>

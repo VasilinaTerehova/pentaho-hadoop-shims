@@ -131,113 +131,6 @@
       <version>4.3.1</version>
       <scope>provided</scope>
     </dependency>
-    <!--<dependency>
-      <groupId>org.xerial.snappy</groupId>
-      <artifactId>snappy-java</artifactId>
-      <version>${org.xerial.snappy.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-client</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>jline</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-mapreduce-client-core</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-mapreduce-client-app</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-mapreduce-client-common</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-mapreduce-client-jobclient</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-mapreduce-client-shuffle</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-annotations</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-yarn-api</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-yarn-common</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-      <exclusions>
-        &lt;!&ndash; exclude not to conflict with default folder &ndash;&gt;
-        <exclusion>
-          <groupId>javax.xml.stream</groupId>
-          <artifactId>stax-api</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-yarn-server-applicationhistoryservice</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-yarn-server-common</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-yarn-server-resourcemanager</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-yarn-server-web-proxy</artifactId>
-      <version>${org.apache.hadoop.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.pentaho</groupId>
-      <artifactId>pentaho-hadoop-shims-cdh511-scope-client</artifactId>
-      <version>${project.version}</version>
-      <type>pom</type>
-    </dependency>
-    <dependency>
-      <groupId>org.pentaho</groupId>
-      <artifactId>pentaho-hadoop-shims-cdh511-scope-default</artifactId>
-      <version>${project.version}</version>
-      <type>pom</type>
-    </dependency>
-    <dependency>
-      <groupId>com.thoughtworks.xstream</groupId>
-      <artifactId>xstream</artifactId>
-      <version>1.4.9</version>
-      <scope>provided</scope>
-    </dependency>-->
   </dependencies>
   <build>
     <plugins>
@@ -287,14 +180,6 @@
               <markersDirectory>${project.build.directory}/dependencies/dependency-maven-plugin-markers
               </markersDirectory>
               <artifactItems>
-                <!--<artifactItem>
-                  <groupId>org.apache.hadoop</groupId>
-                  <artifactId>hadoop-mapreduce-client-jobclient</artifactId>
-                  <version>${org.apache.hadoop.version}</version>
-                  <type>jar</type>
-                  <outputDirectory>${project.build.directory}/dependencies/hadoop-common</outputDirectory>
-                  <includes>META-INF/services/**</includes>
-                </artifactItem>-->
                 <artifactItem>
                   <groupId>pentaho</groupId>
                   <artifactId>pentaho-hdfs-vfs</artifactId>
@@ -411,10 +296,7 @@
               org.pentaho.hdfs.vfs;version=8.0.0
             </Export-Package>
             <!--org.apache.avro;version=8.0.0.cdh511,-->
-            <!--<Include-Resource>target/dependencies/hadoop-common,{maven-resources}</Include-Resource>-->
             <Embed-Dependency>*</Embed-Dependency>
-            <!--<Embed-Transitive>true</Embed-Transitive>-->
-            <!--<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>-->
           </instructions>
         </configuration>
       </plugin>
