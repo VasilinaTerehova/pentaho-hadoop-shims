@@ -48,27 +48,27 @@ public class SqoopServiceFactoryLoaderTest {
   private BundleContext bundleContext;
   private ShimBridgingServiceTracker shimBridgingServiceTracker;
   private HadoopConfigurationBootstrap hadoopConfigurationBootstrap;
-  //private SqoopServiceFactoryLoader sqoopServiceFactoryLoader;
+  private SqoopServiceFactoryLoader sqoopServiceFactoryLoader;
 
   @Before
   public void setup() throws ConfigurationException {
     bundleContext = mock( BundleContext.class );
     shimBridgingServiceTracker = mock( ShimBridgingServiceTracker.class );
     hadoopConfigurationBootstrap = mock( HadoopConfigurationBootstrap.class );
-//    sqoopServiceFactoryLoader =
-//      new SqoopServiceFactoryLoader( bundleContext, shimBridgingServiceTracker, hadoopConfigurationBootstrap );
-//    verify( hadoopConfigurationBootstrap ).registerHadoopConfigurationListener( sqoopServiceFactoryLoader );
+    sqoopServiceFactoryLoader =
+      new SqoopServiceFactoryLoader( bundleContext, shimBridgingServiceTracker, hadoopConfigurationBootstrap );
+    verify( hadoopConfigurationBootstrap ).registerHadoopConfigurationListener( sqoopServiceFactoryLoader );
   }
 
   @Test
   public void testTwoArgConstructor() throws ConfigurationException {
-    //assertNotNull( new SqoopServiceFactoryLoader( bundleContext, shimBridgingServiceTracker ) );
+    assertNotNull( new SqoopServiceFactoryLoader( bundleContext, shimBridgingServiceTracker ) );
   }
 
   @Test
   public void testOnConfigurationOpenNull() {
-//    sqoopServiceFactoryLoader.onConfigurationOpen( null, false );
-//    verifyNoMoreInteractions( shimBridgingServiceTracker );
+    sqoopServiceFactoryLoader.onConfigurationOpen( null, false );
+    verifyNoMoreInteractions( shimBridgingServiceTracker );
   }
 
   @Test
@@ -81,7 +81,7 @@ public class SqoopServiceFactoryLoaderTest {
     ArgumentCaptor<Class[]> clazzArgumentCaptor = ArgumentCaptor.forClass( Class[].class );
     ArgumentCaptor<Object[]> argsArgumentCaptor = ArgumentCaptor.forClass( Object[].class );
 
-   // sqoopServiceFactoryLoader.onConfigurationOpen( hadoopConfiguration, true );
+    sqoopServiceFactoryLoader.onConfigurationOpen( hadoopConfiguration, true );
     verify( shimBridgingServiceTracker ).registerWithClassloader( eq( hadoopConfiguration ), eq(
       NamedClusterServiceFactory.class ), eq( SqoopServiceFactoryImpl.class.getCanonicalName() ), eq( bundleContext ),
       eq( classLoader ), clazzArgumentCaptor.capture(), argsArgumentCaptor.capture() );
@@ -99,20 +99,20 @@ public class SqoopServiceFactoryLoaderTest {
 
   @Test
   public void testOnConfigurationFailure() {
-//    sqoopServiceFactoryLoader.onConfigurationOpen( mock( HadoopConfiguration.class ), false );
-//    verifyNoMoreInteractions( shimBridgingServiceTracker );
+    sqoopServiceFactoryLoader.onConfigurationOpen( mock( HadoopConfiguration.class ), false );
+    verifyNoMoreInteractions( shimBridgingServiceTracker );
   }
 
   @Test
   public void testOnConfigurationClose() {
     HadoopConfiguration hadoopConfiguration = mock( HadoopConfiguration.class );
-//    sqoopServiceFactoryLoader.onConfigurationClose( hadoopConfiguration );
-//    verify( shimBridgingServiceTracker ).unregister( hadoopConfiguration );
+    sqoopServiceFactoryLoader.onConfigurationClose( hadoopConfiguration );
+    verify( shimBridgingServiceTracker ).unregister( hadoopConfiguration );
   }
 
   @Test
   public void testOnClassLoaderAvailable() {
-//    sqoopServiceFactoryLoader.onClassLoaderAvailable( getClass().getClassLoader() );
-//    verifyNoMoreInteractions( shimBridgingServiceTracker, hadoopConfigurationBootstrap );
+    sqoopServiceFactoryLoader.onClassLoaderAvailable( getClass().getClassLoader() );
+    verifyNoMoreInteractions( shimBridgingServiceTracker, hadoopConfigurationBootstrap );
   }
 }

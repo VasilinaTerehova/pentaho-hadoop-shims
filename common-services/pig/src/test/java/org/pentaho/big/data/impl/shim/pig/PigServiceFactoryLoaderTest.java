@@ -48,7 +48,7 @@ public class PigServiceFactoryLoaderTest {
   private BundleContext bundleContext;
   private ShimBridgingServiceTracker shimBridgingServiceTracker;
   private HadoopConfigurationBootstrap hadoopConfigurationBootstrap;
-  //private PigServiceFactoryLoader pigServiceFactoryLoader;
+  private PigServiceFactoryLoader pigServiceFactoryLoader;
   private HadoopConfiguration hadoopConfiguration;
 
   @Before
@@ -57,24 +57,24 @@ public class PigServiceFactoryLoaderTest {
     shimBridgingServiceTracker = mock( ShimBridgingServiceTracker.class );
     hadoopConfigurationBootstrap = mock( HadoopConfigurationBootstrap.class );
     hadoopConfiguration = mock( HadoopConfiguration.class );
-//    pigServiceFactoryLoader =
-//      new PigServiceFactoryLoader( bundleContext, shimBridgingServiceTracker, hadoopConfigurationBootstrap );
+    pigServiceFactoryLoader =
+      new PigServiceFactoryLoader( bundleContext, shimBridgingServiceTracker, hadoopConfigurationBootstrap );
   }
 
   @Test
   public void testTwoArgConstructor() throws ConfigurationException {
-    //assertNotNull( new PigServiceFactoryLoader( bundleContext, shimBridgingServiceTracker ) );
+    assertNotNull( new PigServiceFactoryLoader( bundleContext, shimBridgingServiceTracker ) );
   }
 
   @Test
   public void testConstructorRegistersItself() throws ConfigurationException {
-    //verify( hadoopConfigurationBootstrap ).registerHadoopConfigurationListener( pigServiceFactoryLoader );
+    verify( hadoopConfigurationBootstrap ).registerHadoopConfigurationListener( pigServiceFactoryLoader );
   }
 
   @Test
   public void testOnConfigurationOpenNull() {
-//    pigServiceFactoryLoader.onConfigurationOpen( null, false );
-//    verifyNoMoreInteractions( shimBridgingServiceTracker );
+    pigServiceFactoryLoader.onConfigurationOpen( null, false );
+    verifyNoMoreInteractions( shimBridgingServiceTracker );
   }
 
   @Test
@@ -83,32 +83,32 @@ public class PigServiceFactoryLoaderTest {
     IllegalAccessException {
     HadoopShim hadoopShim = mock( HadoopShim.class );
     when( hadoopConfiguration.getHadoopShim() ).thenReturn( hadoopShim );
-//    pigServiceFactoryLoader.onConfigurationOpen( hadoopConfiguration, true );
-//    verify( shimBridgingServiceTracker )
-//      .registerWithClassloader( eq( hadoopConfiguration ), eq( NamedClusterServiceFactory.class ),
-//        eq( PigServiceFactoryImpl.class.getCanonicalName() ), eq( bundleContext ),
-//        eq( hadoopShim.getClass().getClassLoader() ),
-//        eq( new Class<?>[] { boolean.class, HadoopConfiguration.class } ),
-//        eq( new Object[] { true, hadoopConfiguration } ) );
+    pigServiceFactoryLoader.onConfigurationOpen( hadoopConfiguration, true );
+    verify( shimBridgingServiceTracker )
+      .registerWithClassloader( eq( hadoopConfiguration ), eq( NamedClusterServiceFactory.class ),
+        eq( PigServiceFactoryImpl.class.getCanonicalName() ), eq( bundleContext ),
+        eq( hadoopShim.getClass().getClassLoader() ),
+        eq( new Class<?>[] { boolean.class, HadoopConfiguration.class } ),
+        eq( new Object[] { true, hadoopConfiguration } ) );
   }
 
   @Test
   public void testOnConfigurationOpenException()
     throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException,
     IllegalAccessException {
-//    pigServiceFactoryLoader.onConfigurationOpen( hadoopConfiguration, true );
-//    verifyNoMoreInteractions( shimBridgingServiceTracker );
+    pigServiceFactoryLoader.onConfigurationOpen( hadoopConfiguration, true );
+    verifyNoMoreInteractions( shimBridgingServiceTracker );
   }
 
   @Test
   public void testOnConfigurationClose() {
-//    pigServiceFactoryLoader.onConfigurationClose( hadoopConfiguration );
-//    verify( shimBridgingServiceTracker ).unregister( hadoopConfiguration );
+    pigServiceFactoryLoader.onConfigurationClose( hadoopConfiguration );
+    verify( shimBridgingServiceTracker ).unregister( hadoopConfiguration );
   }
 
   @Test
   public void testOnClassLoaderAvailable() {
-//    pigServiceFactoryLoader.onClassLoaderAvailable( getClass().getClassLoader() );
-//    verifyNoMoreInteractions( bundleContext, shimBridgingServiceTracker );
+    pigServiceFactoryLoader.onClassLoaderAvailable( getClass().getClassLoader() );
+    verifyNoMoreInteractions( bundleContext, shimBridgingServiceTracker );
   }
 }

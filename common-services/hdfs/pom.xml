@@ -59,19 +59,25 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
+      <version>${dependency.slf4j.revision}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>${dependency.junit.revision}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
+      <version>${dependency.mockito.revision}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
     <plugins>
-      <!--<plugin>
+      <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <version>${dependency.maven-bundle-plugin.version}</version>
@@ -82,7 +88,7 @@
             <Import-Package>org.apache.hadoop.security,org.pentaho.hadoop.*,org.apache.hadoop.fs.*,org.apache.hadoop.conf.*,!org.apache.hadoop.*,!org.pentaho.di.core.hadoop.*,!org.pentaho.yarn.*,*</Import-Package>
           </instructions>
         </configuration>
-      </plugin>-->
+      </plugin>
     </plugins>
   </build>
 </project>

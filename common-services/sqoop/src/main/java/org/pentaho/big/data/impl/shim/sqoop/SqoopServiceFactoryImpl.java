@@ -27,6 +27,7 @@ import org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFacto
 import org.pentaho.bigdata.api.sqoop.SqoopService;
 import org.pentaho.hadoop.shim.ConfigurationException;
 import org.pentaho.hadoop.shim.HadoopConfiguration;
+import org.pentaho.hadoop.shim.api.HasConfiguration;
 import org.pentaho.hadoop.shim.spi.HadoopShim;
 import org.pentaho.hadoop.shim.spi.SqoopShim;
 import org.slf4j.Logger;
@@ -36,6 +37,11 @@ public class SqoopServiceFactoryImpl implements NamedClusterServiceFactory<Sqoop
   private static final Logger LOGGER = LoggerFactory.getLogger( SqoopServiceFactoryImpl.class );
   private final boolean isActiveConfiguration;
   private final HadoopConfiguration hadoopConfiguration;
+
+  public SqoopServiceFactoryImpl(HasConfiguration hasConfiguration) {
+    this.isActiveConfiguration = true;
+    this.hadoopConfiguration = hasConfiguration.getHadoopConfiguration();
+  }
 
   public SqoopServiceFactoryImpl( boolean isActiveConfiguration,
                                   HadoopConfiguration hadoopConfiguration ) {

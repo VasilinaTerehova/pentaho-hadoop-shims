@@ -70,10 +70,14 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>${dependency.junit.revision}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
+      <version>${dependency.mockito.revision}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>pentaho-kettle</groupId>
@@ -110,7 +114,7 @@
   </dependencies>
   <build>
     <plugins>
-      <!--<plugin>
+      <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <version>${dependency.maven-bundle-plugin.version}</version>
@@ -118,10 +122,10 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Import-Package>!org.apache.hadoop.*,!org.pentaho.di.core.hadoop.*,!org.pentaho.hadoop.*,!org.pentaho.yarn.*,!org.apache.log4j,*</Import-Package>
+            <Import-Package>org.pentaho.hadoop.shim.api.*,org.apache.hadoop.*,org.pentaho.hadoop.*,!org.pentaho.di.core.hadoop.*,!org.pentaho.yarn.*,!org.apache.log4j,!org.pentaho.hadoop.hbase.factory,!org.pentaho.hbase.*,*</Import-Package>
           </instructions>
         </configuration>
-      </plugin>-->
+      </plugin>
     </plugins>
   </build>
 </project>

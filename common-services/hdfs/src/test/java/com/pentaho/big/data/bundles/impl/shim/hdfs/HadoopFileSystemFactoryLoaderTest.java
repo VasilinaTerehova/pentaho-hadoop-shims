@@ -49,7 +49,7 @@ public class HadoopFileSystemFactoryLoaderTest {
   private BundleContext bundleContext;
   private ShimBridgingServiceTracker shimBridgingServiceTracker;
   private HadoopConfigurationBootstrap hadoopConfigurationBootstrap;
-  //private HadoopFileSystemFactoryLoader hadoopFileSystemFactoryLoader;
+  private HadoopFileSystemFactoryLoader hadoopFileSystemFactoryLoader;
   private HadoopConfiguration hadoopConfiguration;
   private HadoopShim hadoopShim;
 
@@ -61,22 +61,22 @@ public class HadoopFileSystemFactoryLoaderTest {
     hadoopConfiguration = mock( HadoopConfiguration.class );
     hadoopShim = mock( HadoopShim.class );
     when( hadoopConfiguration.getHadoopShim() ).thenReturn( hadoopShim );
-//    hadoopFileSystemFactoryLoader =
-//      new HadoopFileSystemFactoryLoader( bundleContext, shimBridgingServiceTracker, hadoopConfigurationBootstrap );
-//    verify( hadoopConfigurationBootstrap ).registerHadoopConfigurationListener( hadoopFileSystemFactoryLoader );
+    hadoopFileSystemFactoryLoader =
+      new HadoopFileSystemFactoryLoader( bundleContext, shimBridgingServiceTracker, hadoopConfigurationBootstrap );
+    verify( hadoopConfigurationBootstrap ).registerHadoopConfigurationListener( hadoopFileSystemFactoryLoader );
   }
 
   @Test
   public void testOnConfigurationOpenDefault()
     throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException,
     IllegalAccessException {
-    //hadoopFileSystemFactoryLoader.onConfigurationOpen( hadoopConfiguration, true );
+    hadoopFileSystemFactoryLoader.onConfigurationOpen( hadoopConfiguration, true );
     ArgumentCaptor<Class[]> classCaptor = ArgumentCaptor.forClass( Class[].class );
     ArgumentCaptor<Object[]> objectCaptor = ArgumentCaptor.forClass( Object[].class );
-//    verify( shimBridgingServiceTracker )
-//      .registerWithClassloader( eq( hadoopConfiguration ), eq( HadoopFileSystemFactory.class ),
-//        eq( HadoopFileSystemFactoryLoader.HADOOP_FILESYSTEM_FACTORY_IMPL_CANONICAL_NAME ), eq( bundleContext ),
-//        eq( hadoopShim.getClass().getClassLoader() ), classCaptor.capture(), objectCaptor.capture() );
+    verify( shimBridgingServiceTracker )
+      .registerWithClassloader( eq( hadoopConfiguration ), eq( HadoopFileSystemFactory.class ),
+        eq( HadoopFileSystemFactoryLoader.HADOOP_FILESYSTEM_FACTORY_IMPL_CANONICAL_NAME ), eq( bundleContext ),
+        eq( hadoopShim.getClass().getClassLoader() ), classCaptor.capture(), objectCaptor.capture() );
 
     Class[] classCaptorValue = classCaptor.getValue();
     assertEquals( 3, classCaptorValue.length );
@@ -96,7 +96,7 @@ public class HadoopFileSystemFactoryLoaderTest {
 
   @Test
   public void testOnConfigurationClose() {
-//    hadoopFileSystemFactoryLoader.onConfigurationClose( hadoopConfiguration );
-//    verify( shimBridgingServiceTracker ).unregister( hadoopConfiguration );
+    hadoopFileSystemFactoryLoader.onConfigurationClose( hadoopConfiguration );
+    verify( shimBridgingServiceTracker ).unregister( hadoopConfiguration );
   }
 }
