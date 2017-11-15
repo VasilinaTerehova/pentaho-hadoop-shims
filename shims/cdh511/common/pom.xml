@@ -131,6 +131,30 @@
       <version>4.3.1</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>pentaho-hadoop-shims-common-mapred</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.apache.hbase</groupId>-->
+      <!--<artifactId>hbase-common</artifactId>-->
+      <!--<version>${org.apache.hbase.version}</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.hbase</groupId>-->
+      <!--<artifactId>hbase-client</artifactId>-->
+      <!--<version>${org.apache.hbase.version}</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.apache.hbase</groupId>-->
+      <!--<artifactId>hbase-server</artifactId>-->
+      <!--<version>${org.apache.hbase.version}</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
   </dependencies>
   <build>
     <plugins>
@@ -156,6 +180,13 @@
                 <artifactItem>
                   <groupId>org.pentaho</groupId>
                   <artifactId>pentaho-hadoop-shims-common-hadoop-shim</artifactId>
+                  <classifier>sources</classifier>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}/src</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.pentaho</groupId>
+                  <artifactId>pentaho-hadoop-shims-common-mapred</artifactId>
                   <classifier>sources</classifier>
                   <overWrite>false</overWrite>
                   <outputDirectory>${project.build.directory}/src</outputDirectory>

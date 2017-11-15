@@ -58,8 +58,7 @@ public class PigServiceFactoryImpl implements NamedClusterServiceFactory<PigServ
 
   @Override public boolean canHandle( NamedCluster namedCluster ) {
     String shimIdentifier = null; // TODO: Specify shim
-    return ( shimIdentifier == null && isActiveConfiguration ) || hadoopConfiguration.getIdentifier()
-      .equals( shimIdentifier );
+    return true;
   }
 
   @Override public PigService create( NamedCluster namedCluster ) {

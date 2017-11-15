@@ -54,8 +54,7 @@ public class HadoopFileSystemFactoryImpl implements HadoopFileSystemFactory {
   @Override public boolean canHandle( NamedCluster namedCluster ) {
     String shimIdentifier = namedCluster.getShimIdentifier();
     //handle only if we do not use gateway
-    return ( shimIdentifier == null && isActiveConfiguration && !namedCluster.isUseGateway() )
-      || ( hadoopShim.getHadoopVersion().equals( shimIdentifier ) && !namedCluster.isUseGateway() );
+    return true;
   }
 
   @Override
@@ -72,11 +71,13 @@ public class HadoopFileSystemFactoryImpl implements HadoopFileSystemFactory {
       throw new IOException( "Got a local filesystem, was expecting an hdfs connection" );
     }
 
+    final URI finalUri = fileSystem.getUri() != null ? fileSystem.getUri() : uri;
+
     return new HadoopFileSystemImpl( new HadoopFileSystemCallable() {
       @Override
       public FileSystem getFileSystem() {
         try {
-          return uri != null ? (FileSystem) hadoopShim.getFileSystem( uri, configuration, null ).getDelegate()
+          return finalUri != null ? (FileSystem) hadoopShim.getFileSystem( finalUri, configuration, null ).getDelegate()
                   : (FileSystem) hadoopShim.getFileSystem( configuration ).getDelegate();
         } catch ( IOException e ) {
           LOGGER.debug( "Error looking up/creating the file system ", e );
