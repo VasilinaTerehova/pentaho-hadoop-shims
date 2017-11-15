@@ -47,8 +47,8 @@ public class PigShimImpl extends CommonPigShim {
         grunt.setInteractive( false );
         grunt.setParams( pigServer );
       //#else
-        //GruntParser grunt = new GruntParser( new StringReader( pigScript ), pigServer );
-        //grunt.setInteractive( false );
+        //$GruntParser grunt = new GruntParser( new StringReader( pigScript ), pigServer );
+        //$grunt.setInteractive( false );
       //#endif
       return grunt.parseStopOnError( false );
     } finally {
