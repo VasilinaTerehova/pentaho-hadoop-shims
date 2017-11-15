@@ -82,6 +82,7 @@ public class HBaseServiceImpl implements HBaseService {
     if ( !Const.isEmpty( defaultConfig ) ) {
       connProps.setProperty( org.pentaho.hbase.shim.spi.HBaseConnection.DEFAULTS_KEY, defaultConfig );
     }
+    connProps.setProperty( "named.cluster", namedCluster.getName() );
     return new HBaseConnectionImpl( this, hBaseShim, bytesUtil, connProps, logChannelInterface );
   }
 

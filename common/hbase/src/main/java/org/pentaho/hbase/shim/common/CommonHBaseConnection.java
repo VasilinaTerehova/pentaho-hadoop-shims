@@ -111,6 +111,7 @@ public class CommonHBaseConnection extends HBaseConnection {
       String siteConfig = connProps.getProperty( SITE_KEY );
       String zookeeperQuorum = connProps.getProperty( ZOOKEEPER_QUORUM_KEY );
       String zookeeperPort = connProps.getProperty( ZOOKEEPER_PORT_KEY );
+      String namedCluster = connProps.getProperty( "named.cluster" );
 
       m_config = new Configuration();
       try {
@@ -118,14 +119,14 @@ public class CommonHBaseConnection extends HBaseConnection {
           m_config.addResource( stringToURL( defaultConfig ) );
         } else {
           m_config.addResource( new Path( Paths.get( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-            + "metastore" + File.separator + "cdh511" + File.separator + "hbase-default.xml" ).toAbsolutePath().toString() ) );
+            + "metastore" + File.separator + namedCluster + File.separator + "hbase-default.xml" ).toAbsolutePath().toString() ) );
         }
 
         if ( !isEmpty( siteConfig ) ) {
           m_config.addResource( stringToURL( siteConfig ) );
         } else {
           m_config.addResource( new Path( Paths.get( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-            + "metastore" + File.separator + "cdh511" + File.separator + "hbase-site.xml" ).toAbsolutePath().toString() ) );
+            + "metastore" + File.separator + namedCluster + File.separator + "hbase-site.xml" ).toAbsolutePath().toString() ) );
         }
       } catch ( MalformedURLException e ) {
         throw new IllegalArgumentException(
