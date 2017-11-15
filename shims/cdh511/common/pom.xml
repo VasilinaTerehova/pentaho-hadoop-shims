@@ -12,6 +12,7 @@
   <packaging>bundle</packaging>
   <properties>
     <shim.type>CDH</shim.type>
+    <bundle.export.version>8.0.0.cdh511</bundle.export.version>
   </properties>
   <dependencies>
     <dependency>
@@ -113,7 +114,6 @@
       <groupId>org.pentaho</groupId>
       <artifactId>pentaho-hadoop-shims-common-shim</artifactId>
       <version>8.1-SNAPSHOT</version>
-      <classifier>sources</classifier>
     </dependency>
     <dependency>
       <groupId>pentaho</groupId>
@@ -292,39 +292,7 @@
               org.pentaho.hadoop.shim.spi.*;version=8.0.0
             </Import-Package>
             <Export-Package>
-              org.apache.htrace;version=8.0.0.cdh511,
-              org.apache.commons.logging;version=8.0.0.cdh511,
-              com.google.common.annotations;version=8.0.0.cdh511,
-              org.codehaus.jackson;version=8.0.0.cdh511,
-              org.apache.hadoop.security;version=8.0.0.cdh511,
-              org.apache.hadoop.security.token;version=8.0.0.cdh511,
-              org.apache.hadoop.conf;version=8.0.0.cdh511,
-              org.apache.hadoop.fs;version=8.0.0.cdh511,
-              org.apache.hadoop.hdfs;version=8.0.0.cdh511,
-              com.google.protobuf;version=8.0.0.cdh511,
-              org.apache.commons.codec;version=8.0.0.cdh511,
-              org.apache.commons.codec.binary;version=8.0.0.cdh511,
-              org.apache.hadoop.classification;version=8.0.0.cdh511,
-              org.apache.commons.cli;version=8.0.0.cdh511,
-              <!--needed-->
-              org.apache.hadoop.io;version=8.0.0.cdh511,
-              org.apache.hadoop.io.compress;version=8.0.0.cdh511,
-              org.apache.hadoop.net;version=8.0.0.cdh511,
-              org.apache.hadoop.ipc;version=8.0.0.cdh511,
-              org.apache.hadoop.ipc.metrics;version=8.0.0.cdh511,
-              org.apache.hadoop;version=8.0.0.cdh511,
-              org.apache.hadoop.gateway;version=8.0.0.cdh511,
-              <!--needed hdfs-->
-              org.apache.hadoop.util;version=8.0.0.cdh511,
-              org.apache.hadoop.metrics2;version=8.0.0.cdh511,
-              org.apache.hadoop.mapred;version=8.0.0.cdh511,
-              org.apache.hadoop.mapreduce;version=8.0.0.cdh511,
-              org.apache.zookeeper;version=8.0.0.cdh511,
-              org.apache.jute;version=8.0.0.cdh511,
-              org.apache.hadoop.gateway.shell;version=8.0.0.cdh511,
-              io.netty;version=8.0.0.cdh511,
-              com.yammer.metrics;version=8.0.0.cdh511,
-              org.pentaho.hdfs.vfs;version=8.0.0
+              ${bundle.karaf.export.packages}
             </Export-Package>
             <!--org.apache.avro;version=8.0.0.cdh511,-->
             <Embed-Dependency>*</Embed-Dependency>
