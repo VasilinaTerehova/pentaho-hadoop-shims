@@ -21,7 +21,6 @@
     <bundle.export.version>8.0.0</bundle.export.version>
     <org.osgi.core.version>4.3.1</org.osgi.core.version>
     <bundle.karaf.export.packages>org.apache.htrace;version=${bundle.export.version},
-      org.apache.commons.logging;version=${bundle.export.version},
       com.google.common.annotations;version=${bundle.export.version},
       org.codehaus.jackson;version=${bundle.export.version},
       org.apache.hadoop.security;version=${bundle.export.version},

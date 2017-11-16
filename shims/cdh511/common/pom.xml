@@ -250,7 +250,7 @@
           <resolverFilters>
             <resolverFilter>
               <include>*:*mapreduce*,*:hadoop-hdfs*,*hadoop-annotation*,*:hadoop-yarn*,*:hadoop-client,commons-lang3</include>
-              <exclude>*:*tests*,*:*xerces*,*:*xml*</exclude>
+              <exclude>*:*tests*,*:*xerces*,*:*xml*,*:*commons-logging*</exclude>
               <transitive>true</transitive>
             </resolverFilter>
             <resolverFilter>
