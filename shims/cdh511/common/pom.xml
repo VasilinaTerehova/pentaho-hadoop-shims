@@ -257,7 +257,7 @@
       <plugin>
         <groupId>com.pentaho</groupId>
         <artifactId>maven-dependency-resolver-plugin</artifactId>
-        <version>1.0</version>
+        <version>${maven-dependency-resolver-plugin.version}</version>
         <configuration>
           <resolverFilters>
             <resolverFilter>
