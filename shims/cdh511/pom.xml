@@ -30,8 +30,9 @@
     <module>default</module>
     <module>hbase</module>
     <module>hive</module>
-    <module>impl</module>
+    <!--<module>impl</module>-->
     <module>hbase-comparators</module>
+    <module>oozie</module>
     <!--<module>assemblies</module>-->
   </modules>
 </project>

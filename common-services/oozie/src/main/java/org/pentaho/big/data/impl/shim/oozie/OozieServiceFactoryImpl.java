@@ -25,30 +25,12 @@ package org.pentaho.big.data.impl.shim.oozie;
 import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFactory;
 import org.pentaho.bigdata.api.oozie.OozieService;
-import org.pentaho.di.job.entries.oozie.OozieClientImpl;
-import org.pentaho.hadoop.shim.ConfigurationException;
-import org.pentaho.hadoop.shim.HadoopConfiguration;
-import org.pentaho.hadoop.shim.api.HasConfiguration;
 import org.pentaho.oozie.shim.api.OozieClient;
-import org.pentaho.oozie.shim.api.OozieClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class OozieServiceFactoryImpl implements NamedClusterServiceFactory<OozieService> {
   private static final Logger LOGGER = LoggerFactory.getLogger( OozieServiceFactoryImpl.class );
-  private final boolean isActiveConfiguration;
-  private final HadoopConfiguration hadoopConfiguration;
-
-  public OozieServiceFactoryImpl(HasConfiguration hasConfiguration ) {
-    this.isActiveConfiguration = true;
-    this.hadoopConfiguration = hasConfiguration.getHadoopConfiguration();
-  }
-
-  public OozieServiceFactoryImpl( boolean isActiveConfiguration,
-                                  HadoopConfiguration hadoopConfiguration ) {
-    this.isActiveConfiguration = isActiveConfiguration;
-    this.hadoopConfiguration = hadoopConfiguration;
-  }
 
   @Override public Class<OozieService> getServiceClass() {
     return OozieService.class;
@@ -60,19 +42,9 @@ public class OozieServiceFactoryImpl implements NamedClusterServiceFactory<Oozie
   }
 
   @Override public OozieService create( NamedCluster namedCluster ) {
-    OozieClient client;
     String oozieUrl = namedCluster.getOozieUrl();
-    try {
-      OozieClientFactory oozieClientFactory =
-        hadoopConfiguration.getShim( OozieClientFactory.class );
-      client = new FallbackOozieClientImpl(
-              new org.apache.oozie.client.OozieClient( oozieUrl ) );
-    } catch ( ConfigurationException e ) {
-      client = new FallbackOozieClientImpl(
-        new org.apache.oozie.client.OozieClient( oozieUrl ) );
-      LOGGER.warn( "Could not load OozieClient from the shim.  Falling back to a default implementation. "
-        + namedCluster, e );
-    }
+    OozieClient client = new FallbackOozieClientImpl(
+      new org.apache.oozie.client.OozieClient( oozieUrl ) );
     return new OozieServiceImpl( client );
   }
 
