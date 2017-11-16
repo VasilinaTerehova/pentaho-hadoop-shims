@@ -35,18 +35,12 @@ import org.slf4j.LoggerFactory;
 
 public class SqoopServiceFactoryImpl implements NamedClusterServiceFactory<SqoopService> {
   private static final Logger LOGGER = LoggerFactory.getLogger( SqoopServiceFactoryImpl.class );
-  private final boolean isActiveConfiguration;
-  private final HadoopConfiguration hadoopConfiguration;
+  private final HadoopShim hadoopShim;
+  private final SqoopShim sqoopShim;
 
-  public SqoopServiceFactoryImpl(HasConfiguration hasConfiguration) {
-    this.isActiveConfiguration = true;
-    this.hadoopConfiguration = hasConfiguration.getHadoopConfiguration();
-  }
-
-  public SqoopServiceFactoryImpl( boolean isActiveConfiguration,
-                                  HadoopConfiguration hadoopConfiguration ) {
-    this.isActiveConfiguration = isActiveConfiguration;
-    this.hadoopConfiguration = hadoopConfiguration;
+  public SqoopServiceFactoryImpl(HadoopShim hadoopShim, SqoopShim sqoopShim) {
+    this.hadoopShim = hadoopShim;
+    this.sqoopShim = sqoopShim;
   }
 
   @Override
@@ -62,14 +56,7 @@ public class SqoopServiceFactoryImpl implements NamedClusterServiceFactory<Sqoop
 
   @Override
   public SqoopService create( NamedCluster namedCluster ) {
-    try {
-      HadoopShim hadoopShim = hadoopConfiguration.getHadoopShim();
-      SqoopShim sqoopShim = hadoopConfiguration.getSqoopShim();
-      return new SqoopServiceImpl( hadoopShim, sqoopShim, namedCluster );
-    } catch ( ConfigurationException e ) {
-      LOGGER.error( "Unable to load SqoopService for " + namedCluster );
-      return null;
-    }
+    return new SqoopServiceImpl( hadoopShim, sqoopShim, namedCluster );
   }
 
 }

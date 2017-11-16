@@ -31,7 +31,6 @@ import org.pentaho.di.core.plugins.PluginRegistry;
 import org.pentaho.hadoop.shim.HadoopConfiguration;
 import org.pentaho.hadoop.shim.HadoopConfigurationFileSystemManager;
 import org.pentaho.hadoop.shim.common.HadoopShimImpl;
-import org.springframework.stereotype.Component;
 
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -39,7 +38,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-@Component("cdh511Hadoop")
 public class HadoopShim extends HadoopShimImpl {
 
   public HadoopShim() {

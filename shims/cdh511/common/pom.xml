@@ -137,10 +137,26 @@
     </dependency>
 
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-      <version>${org.springframework.version}</version>
-      <scope>provided</scope>
+      <groupId>org.pentaho</groupId>
+      <artifactId>common-sqoop-shim</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>pentaho-big-data-impl-shim-sqoop</artifactId>
+      <version>8.1-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.sqoop</groupId>
+      <artifactId>sqoop</artifactId>
+      <version>${sqoop.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion></exclusions>
     </dependency>
 
   </dependencies>
@@ -186,6 +202,20 @@
                   <overWrite>false</overWrite>
                   <outputDirectory>${project.build.directory}/src</outputDirectory>
                 </artifactItem>
+                <artifactItem>
+                  <groupId>org.pentaho</groupId>
+                  <artifactId>common-sqoop-shim</artifactId>
+                  <classifier>sources</classifier>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}/src</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.pentaho</groupId>
+                  <artifactId>pentaho-big-data-impl-shim-sqoop</artifactId>
+                  <classifier>sources</classifier>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}/src</outputDirectory>
+                </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
@@ -219,12 +249,12 @@
         <configuration>
           <resolverFilters>
             <resolverFilter>
-              <include>*:*mapreduce*,*:hadoop-hdfs*,*hadoop-annotation*,*:hadoop-yarn*,*:hadoop-client</include>
+              <include>*:*mapreduce*,*:hadoop-hdfs*,*hadoop-annotation*,*:hadoop-yarn*,*:hadoop-client,commons-lang3</include>
               <exclude>*:*tests*,*:*xerces*,*:*xml*</exclude>
               <transitive>true</transitive>
             </resolverFilter>
             <resolverFilter>
-              <include>*:*java-protobuf,*:*metrics*,*:*pentaho-hdfs-vfs</include>
+              <include>*:*java-protobuf,*:*metrics*,*:*pentaho-hdfs-vfs,*:sqoop</include>
               <exclude>*:*tests*</exclude>
               <transitive>false</transitive>
             </resolverFilter>
@@ -277,8 +307,7 @@
             <Import-Package>
               org.pentaho.hadoop.shim;version=8.0.0,
               org.pentaho.hadoop.shim.api.*;version=8.0.0,
-              org.pentaho.hadoop.shim.spi.*;version=8.0.0,
-              org.springframework.beans.factory.annotation
+              org.pentaho.hadoop.shim.spi.*;version=8.0.0
             </Import-Package>
             <Export-Package>
               ${bundle.karaf.export.packages}

@@ -19,6 +19,38 @@
 
   <service ref="hadoopFileSystem" interface="org.pentaho.bigdata.api.hdfs.HadoopFileSystemFactory"/>
 
+  <bean id="cdh511SqoopShim" class="org.pentaho.hadoop.shim.common.sqoop.CommonSqoopShim">
+    <property name="bundleContext" ref="blueprintBundleContext" />
+  </bean>
+
+  <service ref="cdh511SqoopShim" auto-export="interfaces">
+    <service-properties>
+      <entry key="shim">
+        <value type="java.lang.String">cdh511</value>
+      </entry>
+      <entry key="service">
+        <value type="java.lang.String">sqoop</value>
+      </entry>
+    </service-properties>
+  </service>
+
+  <bean id="cdh11SqoopServiceFactory" class="org.pentaho.big.data.impl.shim.sqoop.SqoopServiceFactoryImpl">
+    <argument ref="cdh511Hadoop"/>
+    <argument ref="cdh511SqoopShim"/>
+  </bean>
+
+  <service ref="cdh11SqoopServiceFactory"
+           interface="org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFactory">
+    <service-properties>
+      <entry key="shim">
+        <value type="java.lang.String">cdh511</value>
+      </entry>
+      <entry key="service">
+        <value type="java.lang.String">sqoop</value>
+      </entry>
+    </service-properties>
+  </service>
+
   <!--<reference id="cdh511HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HadoopConfigurationInterface"/>-->
 
 </blueprint>
