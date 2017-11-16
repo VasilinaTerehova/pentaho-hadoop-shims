@@ -29,14 +29,7 @@
       <groupId>org.pentaho</groupId>
       <artifactId>pentaho-hadoop-shims-cdh511-common</artifactId>
       <version>${project.version}</version>
-      <type>bundle</type>
       <scope>provided</scope>
-      <!--<exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>-->
     </dependency>
     <dependency>
       <groupId>org.pentaho</groupId>
@@ -62,31 +55,7 @@
       <groupId>org.apache.hive</groupId>
       <artifactId>hive-exec</artifactId>
       <version>${org.apache.hive.version}</version>
-      <classifier>core</classifier>
     </dependency>
-    <!--<dependency>
-      <groupId>org.apache.hive</groupId>
-      <artifactId>hive-exec</artifactId>
-      <version>${org.apache.hive.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>logredactor</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>datanucleus-core</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>hbase-common</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>ST4</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>-->
     <dependency>
       <groupId>org.apache.hive</groupId>
       <artifactId>hive-service</artifactId>
@@ -124,6 +93,12 @@
       <version>${org.apache.hadoop.version}</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-mapreduce-client-core</artifactId>
+      <version>${org.apache.hadoop.version}</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -146,13 +121,6 @@
                   <overWrite>false</overWrite>
                   <outputDirectory>${project.build.directory}/src</outputDirectory>
                 </artifactItem>
-                <!--<artifactItem>
-                  <groupId>org.pentaho</groupId>
-                  <artifactId>pentaho-hadoop-shims-common-hbase</artifactId>
-                  <classifier>sources</classifier>
-                  <overWrite>false</overWrite>
-                  <outputDirectory>${project.build.directory}/src</outputDirectory>
-                </artifactItem>-->
                 <artifactItem>
                   <groupId>org.pentaho</groupId>
                   <artifactId>pentaho-big-data-impl-shim-hive</artifactId>
@@ -171,17 +139,12 @@
         <version>1.0</version>
         <configuration>
           <resolverFilters>
-            <!--<resolverFilter>
-              <include>*hive*</include>
-              <exclude>junit</exclude>
-              <transitive>false</transitive>
-            </resolverFilter>-->
             <resolverFilter>
               <include>
-                org.apache.hive:hive-serde,org.apache.hive:hive-common,org.apache.hive:hive-exec,org.apache.hive:hive-service,org.apache.hive:hive-metastore,org.apache.hive:hive-jdbc,org.apache.hive:hive-metastore,dk.brics.automaton:automaton
+                *:hive-*,*:automaton
               </include>
               <exclude>
-                com.fasterxml.jackson.core:jackson-databind,log4j:log4j,org.mockito:mockito-all,junit:*,com.google.guava:*,xml-apis:xml-apis,commons-collections:commons-collections,org.apache.zookeeper:zookeeper,org.apache.hadoop:hadoop-annotations,org.apache.hadoop:hadoop-yarn-api,org.apache.hadoop:hadoop-yarn-commo,org.apache.hadoop:hadoop-yarn-server-applicationhistoryservice,org.apache.hadoop:hadoop-yarn-server-common,org.apache.hadoop:hadoop-yarn-server-resourcemanager,org.apache.hadoop:hadoop-yarn-server-web-proxy,*:tests,org.apache.curator:apache-curator,*:logredactor,*:datanucleus-core,*:hbase-common,*:ST4
+                *:*-core
               </exclude>
               <transitive>false</transitive>
             </resolverFilter>
@@ -234,20 +197,11 @@
             <Import-Package>
               org.pentaho.hadoop.shim.api.*;version=8.0.0,
               org.pentaho.hadoop.shim.spi.*;version=8.0.0,
-              <!--org.apache.hadoop.ipc.*;version=8.0.0.cdh511,
-              org.apache.hadoop.security.*;version=8.0.0.cdh511,
-              org.apache.hadoop.conf.*;version=8.0.0.cdh511,
-              org.apache.hadoop.fs.*;version=8.0.0.cdh511,
-              org.apache.hadoop.hdfs.*;version=8.0.0.cdh511,
-              com.google.protobuf.*;version=8.0.0.cdh511-->
             </Import-Package>
             <Export-Package>
               org.apache.hadoop.hive;version=8.0.0.cdh511
             </Export-Package>
             <Embed-Dependency>*</Embed-Dependency>
-            <!--<Embed-Dependency>scope=compile|runtime;artifactId=!pentaho*|xerces*|xml-api*|guava|hadoop-common;inline=false</Embed-Dependency>-->
-            <!--<Embed-Transitive>true</Embed-Transitive>-->
-            <!--<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>-->
           </instructions>
         </configuration>
       </plugin>
