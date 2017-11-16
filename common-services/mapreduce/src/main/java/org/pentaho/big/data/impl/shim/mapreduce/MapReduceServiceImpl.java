@@ -61,26 +61,24 @@ public class MapReduceServiceImpl implements MapReduceService {
   public static final Class<?> PKG = MapReduceServiceImpl.class;
   private final NamedCluster namedCluster;
   private final HadoopShim hadoopShim;
-  private final HasConfiguration hadoopConfiguration;
   private final ExecutorService executorService;
   private final List<TransformationVisitorService> visitorServices;
   private final JarUtility jarUtility;
   private final PluginPropertiesUtil pluginPropertiesUtil;
   private final PluginRegistry pluginRegistry;
 
-  public MapReduceServiceImpl( NamedCluster namedCluster, HasConfiguration hadoopConfiguration,
+  public MapReduceServiceImpl( NamedCluster namedCluster, HadoopShim hadoopShim,
                                ExecutorService executorService, List<TransformationVisitorService> visitorServices ) {
-    this( namedCluster, hadoopConfiguration, executorService, new JarUtility(), new PluginPropertiesUtil(),
+    this( namedCluster, hadoopShim, executorService, new JarUtility(), new PluginPropertiesUtil(),
       PluginRegistry.getInstance(), visitorServices );
   }
 
-  public MapReduceServiceImpl( NamedCluster namedCluster, HasConfiguration hadoopConfiguration,
+  public MapReduceServiceImpl( NamedCluster namedCluster, HadoopShim hadoopShim,
                                ExecutorService executorService, JarUtility jarUtility,
                                PluginPropertiesUtil pluginPropertiesUtil, PluginRegistry pluginRegistry,
                                List<TransformationVisitorService> visitorServices ) {
     this.namedCluster = namedCluster;
-    this.hadoopConfiguration = hadoopConfiguration;
-    this.hadoopShim = hadoopConfiguration.getHadoopConfiguration().getHadoopShim();
+    this.hadoopShim = hadoopShim;
     this.executorService = executorService;
     this.jarUtility = jarUtility;
     this.pluginPropertiesUtil = pluginPropertiesUtil;
@@ -109,7 +107,7 @@ public class MapReduceServiceImpl implements MapReduceService {
     Properties pmrProperties;
     try {
       pmrProperties = pluginPropertiesUtil.loadPluginProperties( pluginInterface );
-      return new PentahoMapReduceJobBuilderImpl( namedCluster, hadoopConfiguration.getHadoopConfiguration(), log, variableSpace, pluginInterface,
+      return new PentahoMapReduceJobBuilderImpl( namedCluster, hadoopShim, log, variableSpace, pluginInterface,
         pmrProperties, visitorServices );
     } catch ( KettleFileException e ) {
       throw new IOException( e );

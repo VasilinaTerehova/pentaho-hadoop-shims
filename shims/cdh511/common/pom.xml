@@ -147,6 +147,11 @@
       <artifactId>pentaho-big-data-impl-shim-sqoop</artifactId>
       <version>8.1-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>pentaho-big-data-impl-shim-mapreduce</artifactId>
+      <version>8.1-SNAPSHOT</version>
+    </dependency>
 
     <dependency>
       <groupId>org.apache.sqoop</groupId>
@@ -216,6 +221,13 @@
                   <overWrite>false</overWrite>
                   <outputDirectory>${project.build.directory}/src</outputDirectory>
                 </artifactItem>
+                <artifactItem>
+                  <groupId>org.pentaho</groupId>
+                  <artifactId>pentaho-big-data-impl-shim-mapreduce</artifactId>
+                  <classifier>sources</classifier>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}/src</outputDirectory>
+                </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
@@ -249,7 +261,7 @@
         <configuration>
           <resolverFilters>
             <resolverFilter>
-              <include>*:*mapreduce*,*:hadoop-hdfs*,*hadoop-annotation*,*:hadoop-yarn*,*:hadoop-client,commons-lang3</include>
+              <include>*:hadoop-mapreduce*,*:hadoop-hdfs*,*hadoop-annotation*,*:hadoop-yarn*,*:hadoop-client,commons-lang3</include>
               <exclude>*:*tests*,*:*xerces*,*:*xml*,*:*commons-logging*</exclude>
               <transitive>true</transitive>
             </resolverFilter>

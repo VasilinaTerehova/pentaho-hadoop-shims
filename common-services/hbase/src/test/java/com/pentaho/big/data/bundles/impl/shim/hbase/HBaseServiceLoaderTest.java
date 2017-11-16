@@ -22,7 +22,6 @@
 
 package com.pentaho.big.data.bundles.impl.shim.hbase;
 
-import com.pentaho.big.data.bundles.impl.shim.common.ShimBridgingServiceTracker;
 import org.eclipse.core.runtime.AssertionFailedException;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,7 +47,6 @@ import static org.mockito.Mockito.*;
  */
 public class HBaseServiceLoaderTest {
   private BundleContext bundleContext;
-  private ShimBridgingServiceTracker shimBridgingServiceTracker;
   private HadoopConfigurationBootstrap hadoopConfigurationBootstrap;
   //private HBaseServiceLoader hBaseServiceLoader;
   private HadoopConfiguration hadoopConfiguration;
@@ -56,7 +54,6 @@ public class HBaseServiceLoaderTest {
   @Before
   public void setup() throws ConfigurationException {
     bundleContext = mock( BundleContext.class );
-    shimBridgingServiceTracker = mock( ShimBridgingServiceTracker.class );
     hadoopConfigurationBootstrap = mock( HadoopConfigurationBootstrap.class );
     hadoopConfiguration = mock( HadoopConfiguration.class );
 //    hBaseServiceLoader =
@@ -81,51 +78,6 @@ public class HBaseServiceLoaderTest {
 //    verify( shimBridgingServiceTracker ).unregister( hadoopConfiguration );
   }
 
-  @Test
-  public void testOnConfigurationOpen()
-    throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException,
-    IllegalAccessException {
-    when( hadoopConfiguration.getHadoopShim() ).thenReturn( mock( HadoopShim.class ) );
-    final AtomicBoolean validated = new AtomicBoolean( false );
-    final AtomicReference<AssertionFailedException> assertionFailedExceptionAtomicReference =
-      new AtomicReference<>( null );
-    doAnswer( new Answer() {
-      @Override public Object answer( InvocationOnMock invocation ) throws Throwable {
-        try {
-          Object[] arguments = invocation.getArguments();
-          assertEquals( hadoopConfiguration, arguments[ 0 ] );
-
-          assertEquals( NamedClusterServiceFactory.class, arguments[ 1 ] );
-
-          String implName = (String) arguments[ 2 ];
-          //assertEquals( HBaseServiceLoader.HBASE_SERVICE_FACTORY_CANONICAL_NAME, implName );
-
-          Class<?> implClass = Class.forName( implName );
-          assertNotNull( implClass );
-
-          assertEquals( bundleContext, arguments[ 3 ] );
-
-          Constructor<?> constructor = implClass.getConstructor( (Class<?>[]) arguments[ 5 ] );
-          assertNotNull( constructor );
-
-          assertArrayEquals( new Object[] { true, hadoopConfiguration }, (Object[]) arguments[ 6 ] );
-        } catch ( AssertionFailedException e ) {
-          assertionFailedExceptionAtomicReference.set( e );
-        }
-        validated.set( true );
-        return null;
-      }
-    } ).when( shimBridgingServiceTracker )
-      .registerWithClassloader( any(), any( Class.class ), anyString(), any( BundleContext.class ),
-        any( ClassLoader.class ), any( Class[].class ), any( Object[].class ) );
-
-//    hBaseServiceLoader.onConfigurationOpen( hadoopConfiguration, true );
-//    AssertionFailedException assertionFailedException = assertionFailedExceptionAtomicReference.get();
-//    if ( assertionFailedException != null ) {
-//      throw assertionFailedException;
-//    }
-//    assertTrue( validated.get() );
-  }
 
   @Test
   public void testOnConfigurationOpenFailure()

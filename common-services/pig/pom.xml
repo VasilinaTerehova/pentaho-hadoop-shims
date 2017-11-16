@@ -27,11 +27,11 @@
       <artifactId>pentaho-big-data-api-cluster-service-locator</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
+   <!-- <dependency>
       <groupId>pentaho</groupId>
       <artifactId>pentaho-big-data-impl-shim-common</artifactId>
       <version>${project.version}</version>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-core</artifactId>

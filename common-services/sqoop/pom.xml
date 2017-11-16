@@ -27,16 +27,16 @@
       <artifactId>pentaho-big-data-api-cluster-service-locator</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
+    <!--<dependency>
       <groupId>pentaho</groupId>
       <artifactId>pentaho-big-data-kettle-plugins-common-ui</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <dependency>
+    </dependency>-->
+    <!--<dependency>
       <groupId>pentaho</groupId>
       <artifactId>pentaho-big-data-kettle-plugins-common-job</artifactId>
       <version>${project.version}</version>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>pentaho-kettle</groupId>
       <artifactId>kettle-core</artifactId>
@@ -85,11 +85,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>pentaho</groupId>
-      <artifactId>pentaho-big-data-kettle-plugins-hdfs</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.pentaho</groupId>
       <artifactId>pentaho-hadoop-shims-api</artifactId>
       <version>${dependency.hadoop-shims-api.revision}</version>
@@ -104,11 +99,11 @@
       <artifactId>org.osgi.core</artifactId>
       <version>4.3.1</version>
     </dependency>
-    <dependency>
+    <!--<dependency>
       <groupId>pentaho</groupId>
       <artifactId>pentaho-big-data-impl-shim-common</artifactId>
       <version>${project.version}</version>
-    </dependency>
+    </dependency>-->
   </dependencies>
   <build>
     <plugins>

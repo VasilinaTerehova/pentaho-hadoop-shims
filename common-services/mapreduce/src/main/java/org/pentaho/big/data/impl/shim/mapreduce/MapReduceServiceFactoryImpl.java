@@ -27,6 +27,7 @@ import org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFacto
 import org.pentaho.bigdata.api.mapreduce.MapReduceService;
 import org.pentaho.bigdata.api.mapreduce.TransformationVisitorService;
 import org.pentaho.hadoop.shim.api.HasConfiguration;
+import org.pentaho.hadoop.shim.spi.HadoopShim;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -36,20 +37,20 @@ import java.util.concurrent.ExecutorService;
  */
 public class MapReduceServiceFactoryImpl implements NamedClusterServiceFactory<MapReduceService> {
   private final boolean isActiveConfiguration;
-  private final HasConfiguration hadoopConfiguration;
+  private final HadoopShim hadoopShim;
   private final ExecutorService executorService;
   private final List<TransformationVisitorService> visitorServices;
 
-  public MapReduceServiceFactoryImpl( HasConfiguration hadoopConfiguration, ExecutorService executorService,
+  public MapReduceServiceFactoryImpl( HadoopShim hadoopShim, ExecutorService executorService,
                                       List<TransformationVisitorService> visitorServices ) {
-    this(true, hadoopConfiguration, executorService, visitorServices);
+    this(true, hadoopShim, executorService, visitorServices);
   }
 
   public MapReduceServiceFactoryImpl( boolean isActiveConfiguration,
-                                      HasConfiguration hadoopConfiguration, ExecutorService executorService,
+                                      HadoopShim hadoopShim, ExecutorService executorService,
                                       List<TransformationVisitorService> visitorServices ) {
     this.isActiveConfiguration = isActiveConfiguration;
-    this.hadoopConfiguration = hadoopConfiguration;
+    this.hadoopShim = hadoopShim;
     this.executorService = executorService;
     this.visitorServices = visitorServices;
   }
@@ -67,6 +68,6 @@ public class MapReduceServiceFactoryImpl implements NamedClusterServiceFactory<M
 
   @Override
   public MapReduceService create( NamedCluster namedCluster ) {
-    return new MapReduceServiceImpl( namedCluster, hadoopConfiguration, executorService, visitorServices );
+    return new MapReduceServiceImpl( namedCluster, hadoopShim, executorService, visitorServices );
   }
 }

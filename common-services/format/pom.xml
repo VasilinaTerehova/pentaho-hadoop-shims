@@ -47,11 +47,11 @@
       <artifactId>org.osgi.core</artifactId>
       <version>4.3.1</version>
     </dependency>
-    <dependency>
+   <!-- <dependency>
       <groupId>pentaho</groupId>
       <artifactId>pentaho-big-data-impl-shim-common</artifactId>
       <version>${project.version}</version>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>

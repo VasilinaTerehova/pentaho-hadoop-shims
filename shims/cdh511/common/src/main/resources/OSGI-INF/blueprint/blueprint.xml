@@ -51,6 +51,26 @@
     </service-properties>
   </service>
 
+  <bean id="cdh11MapReduceServiceFactory" class="org.pentaho.big.data.impl.shim.mapreduce.MapReduceServiceFactoryImpl">
+    <argument ref="cdh511Hadoop"/>
+    <argument ref="executorService"/>
+    <argument ref="transformationVisitorList"/>
+  </bean>
+  <reference id="executorService" interface="java.util.concurrent.ExecutorService"/>
+
+  <service ref="cdh11MapReduceServiceFactory" interface="org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFactory">
+    <service-properties>
+      <entry key="shim">
+        <value type="java.lang.String">cdh511</value>
+      </entry>
+      <entry key="service">
+        <value type="java.lang.String">mapreduce</value>
+      </entry>
+    </service-properties>
+  </service>
+  <reference-list id="transformationVisitorList" interface="org.pentaho.bigdata.api.mapreduce.TransformationVisitorService"
+                  availability="optional"/>
+
   <!--<reference id="cdh511HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HadoopConfigurationInterface"/>-->
 
 </blueprint>
