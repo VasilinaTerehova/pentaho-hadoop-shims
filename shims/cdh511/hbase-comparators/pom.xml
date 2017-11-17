@@ -17,6 +17,7 @@
     <dependency>
       <groupId>org.pentaho</groupId>
       <artifactId>pentaho-hadoop-shims-cdh511-hbase</artifactId>
+      <type>bundle</type>
       <version>${project.version}</version>
       <exclusions>
         <exclusion>
