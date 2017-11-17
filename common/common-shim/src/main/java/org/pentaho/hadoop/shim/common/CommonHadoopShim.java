@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.net.NetUtils;
 import org.apache.hadoop.util.VersionInfo;
+import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.di.core.row.ValueMetaInterface;
 import org.pentaho.di.i18n.BaseMessages;
 import org.pentaho.hadoop.mapreduce.GenericTransCombiner;
@@ -223,7 +224,7 @@ public class CommonHadoopShim implements HadoopShim {
     ClassLoader cl = Thread.currentThread().getContextClassLoader();
     Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
     try {
-      return new org.pentaho.hadoop.shim.common.ConfigurationProxy();
+      return new org.pentaho.hadoop.shim.common.ConfigurationProxy( namedCluster );
     } finally {
       Thread.currentThread().setContextClassLoader( cl );
     }
@@ -251,8 +252,6 @@ public class CommonHadoopShim implements HadoopShim {
 
   @Override
   public FileSystem getFileSystem( URI uri, Configuration conf, String user ) throws IOException, InterruptedException {
-    // Set the context class loader when instantiating the configuration
-    // since org.apache.hadoop.conf.Configuration uses it to load resources
     ClassLoader cl = Thread.currentThread().getContextClassLoader();
     Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
     try {
@@ -263,6 +262,23 @@ public class CommonHadoopShim implements HadoopShim {
         org.apache.hadoop.fs.LocalFileSystem.class.getName()
       );
       return new FileSystemProxy( org.apache.hadoop.fs.FileSystem.get( uri, ShimUtils.asConfiguration( conf ), user ) );
+    } finally {
+      Thread.currentThread().setContextClassLoader( cl );
+    }
+  }
+
+  @Override public FileSystem getFileSystem( URI uri, Configuration conf, NamedCluster namedCluster )
+    throws IOException, InterruptedException {
+    ClassLoader cl = Thread.currentThread().getContextClassLoader();
+    Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
+    try {
+      conf.set("fs.hdfs.impl",
+        org.apache.hadoop.hdfs.DistributedFileSystem.class.getName()
+      );
+      conf.set("fs.file.impl",
+        org.apache.hadoop.fs.LocalFileSystem.class.getName()
+      );
+      return new FileSystemProxy( org.apache.hadoop.fs.FileSystem.get( uri, ShimUtils.asConfiguration( conf ) ) );
     } finally {
       Thread.currentThread().setContextClassLoader( cl );
     }

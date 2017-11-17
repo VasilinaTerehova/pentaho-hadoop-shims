@@ -59,6 +59,18 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
     </dependency>
+    <!--For karaf bundle import-->
+    <dependency>
+      <groupId>pentaho</groupId>
+      <artifactId>pentaho-big-data-api-cluster</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>pentaho</groupId>
+      <artifactId>pentaho-big-data-api-cluster</artifactId>
+      <version>8.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -80,6 +92,7 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
+            <Import-Package>org.pentaho.big.data.api.cluster.*</Import-Package>
             <Export-Package>org.pentaho.hadoop.*,org.pentaho.hadoop.shim.*,org.pentaho.hadoop.hbase.*,org.pentaho.hbase.shim.api.*,org.pentaho.hbase.shim.spi.*,org.pentaho.oozie.*</Export-Package>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Import-Package>org.pentaho.di.*</Import-Package>

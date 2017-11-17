@@ -46,15 +46,15 @@ public class SqoopServiceFactoryImplTest {
   public void setup() {
     isActiveConfiguration = true;
     hadoopConfiguration = mock( HadoopConfiguration.class );
-//    sqoopServiceFactory = new SqoopServiceFactoryImpl( isActiveConfiguration, hadoopConfiguration );
-//    namedCluster = mock( NamedCluster.class );
+    //    sqoopServiceFactory = new SqoopServiceFactoryImpl( isActiveConfiguration, hadoopConfiguration );
+    //    namedCluster = mock( NamedCluster.class );
   }
 
   @Test
   public void testCanHandle() {
     assertTrue( sqoopServiceFactory.canHandle( namedCluster ) );
-//    sqoopServiceFactory = new SqoopServiceFactoryImpl( false, hadoopConfiguration );
-//    assertFalse( sqoopServiceFactory.canHandle( namedCluster ) );
+    //    sqoopServiceFactory = new SqoopServiceFactoryImpl( false, hadoopConfiguration );
+    //    assertFalse( sqoopServiceFactory.canHandle( namedCluster ) );
   }
 
   @Test

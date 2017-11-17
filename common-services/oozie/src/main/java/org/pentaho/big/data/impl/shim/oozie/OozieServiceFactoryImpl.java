@@ -45,7 +45,7 @@ public class OozieServiceFactoryImpl implements NamedClusterServiceFactory<Oozie
     String oozieUrl = namedCluster.getOozieUrl();
     OozieClient client = new FallbackOozieClientImpl(
       new org.apache.oozie.client.OozieClient( oozieUrl ) );
-    return new OozieServiceImpl( client );
+    return new OozieServiceImpl( client, namedCluster );
   }
 
 }

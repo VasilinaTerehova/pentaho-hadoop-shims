@@ -23,7 +23,6 @@ import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.bigdata.api.hdfs.HadoopFileSystem;
 import org.pentaho.bigdata.api.hdfs.HadoopFileSystemFactory;
 import org.pentaho.hadoop.shim.api.Configuration;
-import org.pentaho.hadoop.shim.api.HadoopConfigurationInterface;
 import org.pentaho.hadoop.shim.spi.HadoopShim;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,21 +71,17 @@ public class HadoopFileSystemFactoryImpl implements HadoopFileSystemFactory {
     }
 
     final URI finalUri = fileSystem.getUri() != null ? fileSystem.getUri() : uri;
-
-    return new HadoopFileSystemImpl( new HadoopFileSystemCallable() {
-      @Override
-      public FileSystem getFileSystem() {
-        try {
-          return finalUri != null ? (FileSystem) hadoopShim.getFileSystem( finalUri, configuration, null ).getDelegate()
-                  : (FileSystem) hadoopShim.getFileSystem( configuration ).getDelegate();
-        } catch ( IOException e ) {
-          LOGGER.debug( "Error looking up/creating the file system ", e );
-          return null;
-        } catch ( InterruptedException e ) {
-          LOGGER.debug( "Error looking up/creating the file system ", e );
-          return null;
-        }
+    HadoopFileSystem hadoopFileSystem = new HadoopFileSystemImpl( () -> {
+      try {
+        return finalUri != null ? (FileSystem) hadoopShim.getFileSystem( finalUri, configuration, namedCluster ).getDelegate()
+          : (FileSystem) hadoopShim.getFileSystem( configuration ).getDelegate();
+      } catch ( IOException | InterruptedException e ) {
+        LOGGER.debug( "Error looking up/creating the file system ", e );
+        return null;
       }
     } );
+    ( (HadoopFileSystemImpl) hadoopFileSystem ).setNamedCluster( namedCluster );
+
+    return hadoopFileSystem;
   }
 }

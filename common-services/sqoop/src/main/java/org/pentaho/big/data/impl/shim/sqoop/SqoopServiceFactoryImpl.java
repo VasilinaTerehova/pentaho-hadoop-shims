@@ -25,9 +25,6 @@ package org.pentaho.big.data.impl.shim.sqoop;
 import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFactory;
 import org.pentaho.bigdata.api.sqoop.SqoopService;
-import org.pentaho.hadoop.shim.ConfigurationException;
-import org.pentaho.hadoop.shim.HadoopConfiguration;
-import org.pentaho.hadoop.shim.api.HasConfiguration;
 import org.pentaho.hadoop.shim.spi.HadoopShim;
 import org.pentaho.hadoop.shim.spi.SqoopShim;
 import org.slf4j.Logger;
@@ -38,7 +35,7 @@ public class SqoopServiceFactoryImpl implements NamedClusterServiceFactory<Sqoop
   private final HadoopShim hadoopShim;
   private final SqoopShim sqoopShim;
 
-  public SqoopServiceFactoryImpl(HadoopShim hadoopShim, SqoopShim sqoopShim) {
+  public SqoopServiceFactoryImpl( HadoopShim hadoopShim, SqoopShim sqoopShim ) {
     this.hadoopShim = hadoopShim;
     this.sqoopShim = sqoopShim;
   }
@@ -50,7 +47,7 @@ public class SqoopServiceFactoryImpl implements NamedClusterServiceFactory<Sqoop
 
   @Override
   public boolean canHandle( NamedCluster namedCluster ) {
-//    boolean ncState = namedCluster == null ? true : !namedCluster.isUseGateway();
+    //    boolean ncState = namedCluster == null ? true : !namedCluster.isUseGateway();
     return true;
   }
 

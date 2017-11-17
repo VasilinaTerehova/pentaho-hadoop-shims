@@ -22,6 +22,7 @@
 
 package org.pentaho.hadoop.shim.common;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapred.FileInputFormat;
 import org.apache.hadoop.mapred.FileOutputFormat;
@@ -38,7 +39,10 @@ import org.pentaho.hadoop.mapreduce.YarnQueueAclsVerifier;
 import org.pentaho.hadoop.shim.api.mapred.RunningJob;
 import org.pentaho.hadoop.shim.common.mapred.RunningJobProxy;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * A common configuration object representing org.apache.hadoop.conf.Configuration. <p> This has been un-deprecated in
@@ -52,6 +56,32 @@ public class ConfigurationProxy extends org.apache.hadoop.mapred.JobConf impleme
     super();
     addResource( "hdfs-site.xml" );
   }
+
+  public ConfigurationProxy( String namedCluster ) {
+    super();
+    addConfigsAsResources( namedCluster );
+  }
+
+  @VisibleForTesting
+  void addConfigsAsResources( String additionalPath ) {
+    try {
+      addResource( createSiteUrlFromUserFolder( "hdfs-site.xml", additionalPath ) );
+      addResource( createSiteUrlFromUserFolder( "core-site.xml", additionalPath ) );
+      addResource( createSiteUrlFromUserFolder( "mapred-site.xml", additionalPath ) );
+      addResource( createSiteUrlFromUserFolder( "hbase-site.xml", additionalPath ) );
+      addResource( createSiteUrlFromUserFolder( "hive-site.xml", additionalPath ) );
+      addResource( createSiteUrlFromUserFolder( "yarn-site.xml", additionalPath ) );
+    } catch ( MalformedURLException e ) {
+      e.printStackTrace();
+    }
+  }
+
+  private URL createSiteUrlFromUserFolder( String siteFileName, String additionalPath ) throws MalformedURLException {
+    return new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
+      + "metastore" + File.separator + "pentaho" + File.separator + "NamedCluster" + File.separator + "Configs" + File.separator
+      + additionalPath + File.separator + siteFileName ).toURI().toURL();
+  }
+
   /*
    * Wrap the call to {@link super#setMapperClass(Class)} to avoid generic type
    * mismatches. We do not expose {@link org.apache.hadoop.mapred.*} classes through

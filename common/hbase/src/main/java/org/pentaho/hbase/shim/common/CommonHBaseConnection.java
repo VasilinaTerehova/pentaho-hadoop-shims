@@ -40,10 +40,14 @@ import org.apache.hadoop.hbase.filter.SubstringComparator;
 import org.apache.hadoop.hbase.filter.TimestampsFilter;
 import org.apache.hadoop.hbase.filter.ValueFilter;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
+import org.pentaho.big.data.api.cluster.INamedClusterSpecific;
+import org.pentaho.big.data.api.cluster.NamedCluster;
+import org.pentaho.big.data.impl.cluster.NamedClusterManager;
 import org.pentaho.di.core.logging.KettleLogStore;
 import org.pentaho.di.core.logging.LogChannelInterface;
 import org.pentaho.di.core.variables.VariableSpace;
 import org.pentaho.di.i18n.BaseMessages;
+import org.pentaho.di.trans.steps.named.cluster.NamedClusterEmbedManager;
 import org.pentaho.hbase.factory.HBaseAdmin;
 import org.pentaho.hbase.factory.HBaseClientFactory;
 import org.pentaho.hbase.factory.HBaseClientFactoryLocator;
@@ -76,7 +80,7 @@ import java.util.Set;
  *
  * @author Mark Hall (mhall{[at]}pentaho{[dot]}com)
  */
-public class CommonHBaseConnection extends HBaseConnection {
+public class CommonHBaseConnection extends HBaseConnection implements IHBaseClientFactoryGetter {
   private static Class<?> PKG = CommonHBaseConnection.class;
 
   protected Configuration m_config = null;
@@ -119,14 +123,16 @@ public class CommonHBaseConnection extends HBaseConnection {
           m_config.addResource( stringToURL( defaultConfig ) );
         } else {
           m_config.addResource( new Path( Paths.get( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-            + "metastore" + File.separator + namedCluster + File.separator + "hbase-default.xml" ).toAbsolutePath().toString() ) );
+            + "metastore" + File.separator + "pentaho" + File.separator + "NamedCluster" + File.separator + "Configs" + File.separator
+            + namedCluster + File.separator + "hbase-default.xml" ).toAbsolutePath().toString() ) );
         }
 
         if ( !isEmpty( siteConfig ) ) {
           m_config.addResource( stringToURL( siteConfig ) );
         } else {
           m_config.addResource( new Path( Paths.get( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-            + "metastore" + File.separator + namedCluster + File.separator + "hbase-site.xml" ).toAbsolutePath().toString() ) );
+            + "metastore" + File.separator + "pentaho" + File.separator + "NamedClusterConfigs" + File.separator
+            + namedCluster + File.separator + "hbase-site.xml" ).toAbsolutePath().toString() ) );
         }
       } catch ( MalformedURLException e ) {
         throw new IllegalArgumentException(
@@ -164,11 +170,18 @@ public class CommonHBaseConnection extends HBaseConnection {
       }
 
       m_factory = getHBaseClientFactory( m_config );
+      setFakeNamedCluster( m_factory, connProps.getProperty( "named.cluster" ) );
 
       m_admin = m_factory.getHBaseAdmin();
     } finally {
       Thread.currentThread().setContextClassLoader( cl );
     }
+  }
+
+  private void setFakeNamedCluster( INamedClusterSpecific iNamedClusterSpecific, String name ) {
+    NamedCluster namedCluster = (new NamedClusterManager()).getClusterTemplate();
+    namedCluster.setName( name );
+    iNamedClusterSpecific.setNamedCluster( namedCluster );
   }
 
   private boolean doZookeeperQuorumInNamedClusterAndConfigMatch( String zookeeperQuorum ) {
@@ -215,7 +228,7 @@ public class CommonHBaseConnection extends HBaseConnection {
     return false;
   }
 
-  protected HBaseClientFactory getHBaseClientFactory( Configuration configuration ) {
+  public HBaseClientFactory getHBaseClientFactory( Configuration configuration ) {
     return HBaseClientFactoryLocator.getHBaseClientFactory( configuration );
   }
 

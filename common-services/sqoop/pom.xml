@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.pentaho</groupId>
@@ -115,7 +116,9 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Import-Package>org.pentaho.hadoop.shim.api.*,org.apache.hadoop.*,org.pentaho.hadoop.*,!org.pentaho.di.core.hadoop.*,!org.pentaho.yarn.*,!org.apache.log4j,!org.pentaho.hadoop.hbase.factory,!org.pentaho.hbase.*,*</Import-Package>
+            <Import-Package>
+              org.pentaho.hadoop.shim.api.*,org.apache.hadoop.*,org.pentaho.hadoop.*,!org.pentaho.di.core.hadoop.*,!org.pentaho.yarn.*,!org.apache.log4j,!org.pentaho.hadoop.hbase.factory,!org.pentaho.hbase.*,*
+            </Import-Package>
           </instructions>
         </configuration>
       </plugin>

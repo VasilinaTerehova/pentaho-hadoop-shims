@@ -59,15 +59,16 @@ public class CommonSqoopShim implements SqoopShim {
     Thread.currentThread().setContextClassLoader( getClass().getClassLoader() );
     String tmpPropertyHolder = System.getProperty( "hadoop.alt.classpath" );
     try {
-      //String[] newArgs = Arrays.copyOf( args, args.length + 2 );
       System.setProperty( "hadoop.alt.classpath", createHadoopAltClasspath() );
       c.set( "tmpjars", getSqoopJarLocation(c) );
-      //      newArgs[ newArgs.length -2 ] = "--hadoop-mapred-home";
-      //      newArgs[ newArgs.length -1 ] = bundleContext.getBundle().getDataFile( "/" ).getParent();
       return Sqoop.runTool( args, ShimUtils.asConfiguration( c ) );
     } finally {
       Thread.currentThread().setContextClassLoader( cl );
-      System.setProperty( "hadoop.alt.classpath", tmpPropertyHolder );
+      if ( tmpPropertyHolder == null ) {
+        System.clearProperty( "hadoop.alt.classpath" );
+      } else {
+        System.setProperty( "hadoop.alt.classpath", tmpPropertyHolder );
+      }
     }
   }
 

@@ -52,29 +52,19 @@ public class ConfigurationProxyV2 implements Configuration {
     addConfigsForJobConf();
   }
 
-  public ConfigurationProxyV2( String shimIdentifier ) throws IOException {
+  public ConfigurationProxyV2( String namedCluster ) throws IOException {
     job = Job.getInstance();
-    addConfigsForJobConf( shimIdentifier );
+    addConfigsForJobConf( namedCluster );
   }
 
   @VisibleForTesting
   void addConfigsForJobConf() {
-    try {
-      job.getConfiguration().addResource( new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-        + "metastore" + File.separator + "cdh511" + File.separator + "hdfs-site.xml" ).toURI().toURL() );
-      job.getConfiguration().addResource( new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-        + "metastore" + File.separator + "cdh511" + File.separator + "hive-site.xml" ).toURI().toURL() );
-      job.getConfiguration().addResource( new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-        + "metastore" + File.separator + "cdh511" + File.separator + "hbase-site.xml" ).toURI().toURL() );
-      job.getConfiguration().addResource( new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-        + "metastore" + File.separator + "cdh511" + File.separator + "core-site.xml" ).toURI().toURL() );
-      job.getConfiguration().addResource( new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-        + "metastore" + File.separator + "cdh511" + File.separator + "mapred-site.xml" ).toURI().toURL() );
-      job.getConfiguration().addResource( new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-        + "metastore" + File.separator + "cdh511" + File.separator + "yarn-site.xml" ).toURI().toURL() );
-    } catch ( MalformedURLException e ) {
-      e.printStackTrace();
-    }
+    job.getConfiguration().addResource( "hdfs-site.xml" );
+    job.getConfiguration().addResource( "hive-site.xml" );
+    job.getConfiguration().addResource( "hbase-site.xml" );
+    job.getConfiguration().addResource( "core-site.xml" );
+    job.getConfiguration().addResource( "mapred-site.xml" );
+    job.getConfiguration().addResource( "yarn-site.xml" );
   }
 
   @VisibleForTesting
@@ -93,7 +83,8 @@ public class ConfigurationProxyV2 implements Configuration {
 
   private URL createSiteUrlFromUserFolder( String siteFileName, String additionalPath ) throws MalformedURLException {
     return new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-      + "metastore" + File.separator + additionalPath + File.separator + siteFileName ).toURI().toURL();
+      + "metastore" + File.separator + "pentaho" + File.separator + "NamedCluster" + File.separator + "Configs" + File.separator
+      + additionalPath + File.separator + siteFileName ).toURI().toURL();
   }
 
   public JobConf getJobConf() {

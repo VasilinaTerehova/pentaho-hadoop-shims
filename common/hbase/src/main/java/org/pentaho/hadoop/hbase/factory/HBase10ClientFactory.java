@@ -30,6 +30,7 @@ import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.mapred.Table10InputFormatDiscloser;
+import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.hbase.factory.HBaseAdmin;
 import org.pentaho.hbase.factory.HBaseClientFactory;
 import org.pentaho.hbase.factory.HBaseClientFactoryLocator;
@@ -41,11 +42,12 @@ import org.pentaho.hbase.mapred.PentahoTableRecordReader;
 public class HBase10ClientFactory implements HBaseClientFactory {
   private Connection conn = null;
   private final Configuration conf;
+  private NamedCluster namedCluster;
 
   public HBase10ClientFactory( Configuration conf ) throws Exception {
     this.conf = conf;
     if ( conf != null ) {
-      conn = ConnectionFactory.createConnection( conf );
+      conn = getConnection();
     } else {
       conn = null;
     }
@@ -53,10 +55,14 @@ public class HBase10ClientFactory implements HBaseClientFactory {
 
   public synchronized Connection getConnection() throws IOException {
     if(conn == null) {
-      conn = ConnectionFactory.createConnection( conf );
+      conn = createConnection( conf );
     }
     
     return conn;
+  }
+
+  @Override public Connection createConnection( Configuration conf ) throws IOException {
+    return ConnectionFactory.createConnection( conf );
   }
 
   @Override
@@ -117,7 +123,7 @@ public class HBase10ClientFactory implements HBaseClientFactory {
 
       @Override
       protected void setHBaseTable( Configuration conf, String tableName ) throws IOException {
-        final Connection conn = ConnectionFactory.createConnection( conf );
+        final Connection conn = createConnection( conf );
         invoker.initializeTable( conn, TableName.valueOf( tableName ) );
       }
 
@@ -145,4 +151,11 @@ public class HBase10ClientFactory implements HBaseClientFactory {
     return new HBase10Put( key );
   }
 
+  @Override public NamedCluster getNamedCluster() {
+    return namedCluster;
+  }
+
+  @Override public void setNamedCluster( NamedCluster namedCluster ) {
+    this.namedCluster = namedCluster;
+  }
 }
