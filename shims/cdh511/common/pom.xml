@@ -161,9 +161,33 @@
         <exclusion>
           <groupId>*</groupId>
           <artifactId>*</artifactId>
-        </exclusion></exclusions>
+        </exclusion>
+      </exclusions>
     </dependency>
 
+    <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>common-pig-shim</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>pentaho-big-data-impl-shim-pig</artifactId>
+      <version>8.1-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.pig</groupId>
+      <artifactId>pig</artifactId>
+      <version>${pig.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -228,6 +252,20 @@
                   <overWrite>false</overWrite>
                   <outputDirectory>${project.build.directory}/src</outputDirectory>
                 </artifactItem>
+                <artifactItem>
+                  <groupId>org.pentaho</groupId>
+                  <artifactId>common-pig-shim</artifactId>
+                  <classifier>sources</classifier>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}/src</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.pentaho</groupId>
+                  <artifactId>pentaho-big-data-impl-shim-pig</artifactId>
+                  <classifier>sources</classifier>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}/src</outputDirectory>
+                </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
@@ -261,12 +299,16 @@
         <configuration>
           <resolverFilters>
             <resolverFilter>
-              <include>*:hadoop-mapreduce*,*:hadoop-hdfs*,*hadoop-annotation*,*:hadoop-yarn*,*:hadoop-client,commons-lang3</include>
-              <exclude>*:*tests*,*:*xerces*,*:*xml*,*:*commons-logging*</exclude>
+              <include>
+                *:hadoop-mapreduce*,*:hadoop-hdfs*,*hadoop-annotation*,*:hadoop-yarn*,*:hadoop-client,commons-lang3,pig
+              </include>
+              <exclude>*:*tests*,*:*xerces*,*:*xml*,*:*commons-logging*,*:log4j*</exclude>
               <transitive>true</transitive>
             </resolverFilter>
             <resolverFilter>
-              <include>*:*java-protobuf,*:*metrics*,*:*pentaho-hdfs-vfs,*:sqoop</include>
+              <include>
+                *:*java-protobuf,*:*metrics*,*:*pentaho-hdfs-vfs,*:sqoop
+              </include>
               <exclude>*:*tests*</exclude>
               <transitive>false</transitive>
             </resolverFilter>

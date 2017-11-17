@@ -51,6 +51,39 @@
     </service-properties>
   </service>
 
+
+  <bean id="cdh511PigShim" class="org.pentaho.hadoop.shim.common.pig.PigShimImpl">
+    <property name="bundleContext" ref="blueprintBundleContext"/>
+  </bean>
+
+  <service ref="cdh511PigShim" auto-export="interfaces">
+    <service-properties>
+      <entry key="shim">
+        <value type="java.lang.String">cdh511</value>
+      </entry>
+      <entry key="service">
+        <value type="java.lang.String">pig</value>
+      </entry>
+    </service-properties>
+  </service>
+
+  <bean id="cdh11PigServiceFactory" class="org.pentaho.big.data.impl.shim.pig.PigServiceFactoryImpl">
+    <argument ref="cdh511Hadoop"/>
+    <argument ref="cdh511PigShim"/>
+  </bean>
+
+  <service ref="cdh11PigServiceFactory"
+           interface="org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFactory">
+    <service-properties>
+      <entry key="shim">
+        <value type="java.lang.String">cdh511</value>
+      </entry>
+      <entry key="service">
+        <value type="java.lang.String">pig</value>
+      </entry>
+    </service-properties>
+  </service>
+
   <bean id="cdh11MapReduceServiceFactory" class="org.pentaho.big.data.impl.shim.mapreduce.MapReduceServiceFactoryImpl">
     <argument ref="cdh511Hadoop"/>
     <argument ref="executorService"/>
@@ -70,7 +103,6 @@
   </service>
   <reference-list id="transformationVisitorList" interface="org.pentaho.bigdata.api.mapreduce.TransformationVisitorService"
                   availability="optional"/>
-
   <!--<reference id="cdh511HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HadoopConfigurationInterface"/>-->
 
 </blueprint>

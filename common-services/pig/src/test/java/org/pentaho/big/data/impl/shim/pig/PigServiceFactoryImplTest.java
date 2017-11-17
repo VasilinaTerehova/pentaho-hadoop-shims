@@ -47,7 +47,7 @@ public class PigServiceFactoryImplTest {
   private NamedCluster namedCluster;
 
   private void initialize() {
-    pigServiceFactory = new PigServiceFactoryImpl( activeConfiguration, hadoopConfiguration );
+    //pigServiceFactory = new PigServiceFactoryImpl( activeConfiguration, hadoopConfiguration );
   }
 
   @Before
