@@ -241,6 +241,7 @@
             <Import-Package>
               org.pentaho.hadoop.shim.api.*;version=8.0.0,
               org.pentaho.hadoop.shim.spi.*;version=8.0.0,
+              io.netty.channel;version=${bundle.export.version},
               org.apache.hadoop.conf.*;version=${bundle.export.version}
             </Import-Package>
             <Export-Package>org.pentaho.hbase.shim.common</Export-Package>
