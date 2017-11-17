@@ -28,7 +28,6 @@
     <dependency>
       <groupId>org.pentaho</groupId>
       <artifactId>pentaho-hadoop-shims-cdh511-common</artifactId>
-      <type>bundle</type>
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>

@@ -16,14 +16,13 @@
     <dependency>
       <groupId>org.pentaho</groupId>
       <artifactId>pentaho-hadoop-shims-cdh511-common</artifactId>
-      <version>8.1-SNAPSHOT</version>
-      <type>bundle</type>
+      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.pentaho</groupId>
       <artifactId>pentaho-big-data-impl-shim-oozie</artifactId>
-      <version>8.1-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.oozie</groupId>
