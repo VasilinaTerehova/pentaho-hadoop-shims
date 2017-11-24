@@ -195,8 +195,8 @@
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <DynamicImport-Package>*</DynamicImport-Package>
             <Import-Package>
-              org.pentaho.hadoop.shim.api.*;version=8.0.0,
-              org.pentaho.hadoop.shim.spi.*;version=8.0.0,
+              org.pentaho.hadoop.shim.api.*,
+              org.pentaho.hadoop.shim.spi.*,
             </Import-Package>
             <Export-Package>
               org.apache.hadoop.hive;version=8.0.0.cdh511
