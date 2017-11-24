@@ -38,7 +38,7 @@
       <artifactId>hadoop-core</artifactId>
     </dependency>
     <!--jline only for runtime, only packages are needed-->
-    <dependency>
+<!--    <dependency>
       <groupId>jline</groupId>
       <artifactId>jline</artifactId>
       <version>${jline.version}</version>
@@ -104,7 +104,7 @@
           <artifactId>*</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>

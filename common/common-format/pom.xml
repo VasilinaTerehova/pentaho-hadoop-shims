@@ -10,7 +10,7 @@
     <version>8.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>common-parquet-shim</artifactId>
+  <artifactId>common-format-shim</artifactId>
   <version>8.1-SNAPSHOT</version>
 
   <properties>

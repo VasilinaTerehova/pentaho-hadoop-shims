@@ -61,6 +61,7 @@ public abstract class CommonPigShim implements PigShim {
     PIG( "pig" ),
     AUTOMATON( "automaton" ),
     ANTLR( "antlr-runtime" ),
+    GUAVA( "guava" ),
     JACKSON_CORE( "jackson-core-asl" ),
     JACKSON_MAPPER( "jackson-mapper-asl" ),
     JODATIME( "joda-time" );

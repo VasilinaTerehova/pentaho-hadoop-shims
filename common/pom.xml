@@ -17,7 +17,7 @@
     <module>hbase-comparators</module>
     <module>hadoop-shim</module>
     <module>common-pig</module>
-    <module>common-parquet</module>
+    <module>common-format</module>
     <module>common-sqoop</module>
     <module>modern</module>
     <module>mapred</module>

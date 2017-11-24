@@ -84,6 +84,35 @@
     </service-properties>
   </service>
 
+  <bean id="cdh511FormatShim" class="org.pentaho.hadoop.shim.common.CommonFormatShim"/>
+
+  <service ref="cdh511FormatShim" auto-export="interfaces">
+    <service-properties>
+      <entry key="shim">
+        <value type="java.lang.String">cdh511</value>
+      </entry>
+      <entry key="service">
+        <value type="java.lang.String">format</value>
+      </entry>
+    </service-properties>
+  </service>
+
+  <bean id="cdh511FormatServiceFactory" class="org.pentaho.big.data.impl.shim.format.FormatServiceFactory">
+    <argument ref="cdh511FormatShim"/>
+  </bean>
+
+  <service ref="cdh511FormatServiceFactory"
+           interface="org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFactory">
+    <service-properties>
+      <entry key="shim">
+        <value type="java.lang.String">cdh511</value>
+      </entry>
+      <entry key="service">
+        <value type="java.lang.String">format</value>
+      </entry>
+    </service-properties>
+  </service>
+
   <bean id="cdh11MapReduceServiceFactory" class="org.pentaho.big.data.impl.shim.mapreduce.MapReduceServiceFactoryImpl">
     <argument ref="cdh511Hadoop"/>
     <argument ref="executorService"/>
