@@ -51,7 +51,7 @@
       io.netty;version=${bundle.export.version},
       io.netty.channel;version=${bundle.export.version},
       com.yammer.metrics;version=${bundle.export.version},
-      org.pentaho.hdfs.vfs;version=8.0.0</bundle.karaf.export.packages>
+      org.pentaho.hdfs.vfs;version=${bundle.export.version}</bundle.karaf.export.packages>
   </properties>
   <dependencyManagement>
     <dependencies>

@@ -871,8 +871,8 @@
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <DynamicImport-Package>*</DynamicImport-Package>
             <Import-Package>
-              org.pentaho.hadoop.shim.*;version=8.0.0,
-              org.pentaho.hbase.shim.spi.*;version=8.0.0,
+              org.pentaho.hadoop.shim.*;version=${pentaho-osgi-bundles.osgi.version},
+              org.pentaho.hbase.shim.spi.*;version=${pentaho-osgi-bundles.osgi.version},
               org.apache.hadoop.ipc.*;resolution:=optional
             </Import-Package>
             <Export-Package>
