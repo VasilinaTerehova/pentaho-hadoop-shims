@@ -73,7 +73,7 @@ public class HadoopFileSystemFactoryImpl implements HadoopFileSystemFactory {
     final URI finalUri = fileSystem.getUri() != null ? fileSystem.getUri() : uri;
     HadoopFileSystem hadoopFileSystem = new HadoopFileSystemImpl( () -> {
       try {
-        return finalUri != null ? (FileSystem) hadoopShim.getFileSystem( finalUri, configuration, namedCluster ).getDelegate()
+        return finalUri != null ? (FileSystem) hadoopShim.getFileSystem( finalUri, configuration, (NamedCluster) namedCluster ).getDelegate()
           : (FileSystem) hadoopShim.getFileSystem( configuration ).getDelegate();
       } catch ( IOException | InterruptedException e ) {
         LOGGER.debug( "Error looking up/creating the file system ", e );
