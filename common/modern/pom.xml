@@ -22,7 +22,7 @@
     </dependency>
     <dependency>
       <groupId>org.pentaho</groupId>
-      <artifactId>common-parquet-shim</artifactId>
+      <artifactId>common-format-shim</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
