@@ -22,6 +22,7 @@
     <org.osgi.core.version>4.3.1</org.osgi.core.version>
     <maven-dependency-resolver-plugin.version>1.0-SNAPSHOT</maven-dependency-resolver-plugin.version>
     <bundle.karaf.export.packages>org.apache.htrace;version=${bundle.export.version},
+      org.pentaho.hadoop.mapreduce;version=${bundle.export.version},
       com.google.common.annotations;version=${bundle.export.version},
       org.codehaus.jackson;version=${bundle.export.version},
       org.apache.hadoop.security;version=${bundle.export.version},

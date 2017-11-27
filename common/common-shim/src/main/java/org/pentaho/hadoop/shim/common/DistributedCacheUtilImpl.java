@@ -157,20 +157,17 @@ public class DistributedCacheUtilImpl implements org.pentaho.hadoop.shim.api.Dis
    * @throws IOException Error investigating installation
    */
   public boolean isKettleEnvironmentInstalledAt( FileSystem fs, Path root ) throws IOException {
-    return true;
+    Path[] directories = new Path[] { new Path( root, PATH_LIB ) };
+    // This file must not exist
+    Path lock = getLockFileAt( root );
     // These directories must exist
-//    Path[] directories = new Path[] { new Path( root, PATH_LIB ), new Path( root, PATH_PLUGINS ),
-//      new Path( new Path( root, PATH_PLUGINS ), PENTAHO_BIG_DATA_PLUGIN_FOLDER_NAME ) };
-//    // This file must not exist
-//    Path lock = getLockFileAt( root );
-//    // These directories must exist
-//    for ( Path dir : directories ) {
-//      if ( !( fs.exists( dir ) && fs.getFileStatus( dir ).isDir() ) ) {
-//        return false;
-//      }
-//    }
-//    // There's no lock file
-//    return !fs.exists( lock );
+    for ( Path dir : directories ) {
+      if ( !( fs.exists( dir ) && fs.getFileStatus( dir ).isDir() ) ) {
+        return false;
+      }
+    }
+    // There's no lock file
+    return !fs.exists( lock );
   }
 
   public void installKettleEnvironment( FileObject pmrArchive, FileSystem fs, Path destination,
