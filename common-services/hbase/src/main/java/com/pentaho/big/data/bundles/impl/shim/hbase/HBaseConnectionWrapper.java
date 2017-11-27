@@ -40,7 +40,7 @@ import java.util.Properties;
 /**
  * Created by bryan on 1/25/16.
  */
-public class HBaseConnectionWrapper extends HBaseConnection {
+public class HBaseConnectionWrapper implements HBaseConnection {
   private final HBaseConnection delegate;
   private final HBaseConnection realImpl;
   private final Field resultSetRowField;
@@ -288,13 +288,28 @@ public class HBaseConnectionWrapper extends HBaseConnection {
 
   @VisibleForTesting
   static HBaseConnection unwrapProxy( Object proxy ) {
-    InvocationHandler invocationHandler = Proxy.getInvocationHandler( proxy );
-    Class<?> clazz = invocationHandler.getClass();
+    if (Proxy.isProxyClass( proxy.getClass() )) {
+      return unwrapObject( Proxy.getInvocationHandler( proxy ) );
+    }
+    else {
+      return unwrapObject( proxy );
+    }
+  }
+
+  @VisibleForTesting
+  static HBaseConnection unwrapObject( Object proxy ) {
+    //    InvocationHandler invocationHandler = Proxy.getInvocationHandler( proxy );
+    Class<?> clazz = proxy.getClass();
     while ( clazz != null ) {
       for ( Field field : clazz.getDeclaredFields() ) {
-        Object value = getFieldValue( field, invocationHandler );
-        if ( value instanceof HBaseConnection ) {
-          return findRealImpl( value );
+        if ( !field.getType().isPrimitive() ) {
+          Object value = getFieldValue( field, proxy );
+          if ( value instanceof HBaseConnection ) {
+            return findRealImpl( value );
+          }
+          else if ( !value.getClass().isPrimitive() ){
+            return unwrapProxy( value );
+          }
         }
       }
       clazz = clazz.getSuperclass();

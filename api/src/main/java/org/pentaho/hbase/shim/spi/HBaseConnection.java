@@ -33,7 +33,7 @@ import org.pentaho.hadoop.shim.api.Configuration;
 import org.pentaho.hbase.shim.api.ColumnFilter;
 import org.pentaho.hbase.shim.api.HBaseValueMeta;
 
-public abstract class HBaseConnection {
+public interface HBaseConnection {
 
   // version key
   public static final String HBASE_VERSION_KEY = "hbase.defaults.for.version";

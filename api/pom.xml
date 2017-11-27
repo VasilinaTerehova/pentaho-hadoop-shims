@@ -92,10 +92,10 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Import-Package>org.pentaho.big.data.api.cluster.*</Import-Package>
+            <DynamicImport-Package>*</DynamicImport-Package>
+            <Import-Package>org.pentaho.big.data.api.cluster.*,org.pentaho.di.*</Import-Package>
             <Export-Package>org.pentaho.hadoop.*,org.pentaho.hadoop.shim.*,org.pentaho.hadoop.hbase.*,org.pentaho.hbase.shim.api.*,org.pentaho.hbase.shim.spi.*,org.pentaho.oozie.*</Export-Package>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Import-Package>org.pentaho.di.*</Import-Package>
           </instructions>
         </configuration>
       </plugin>
