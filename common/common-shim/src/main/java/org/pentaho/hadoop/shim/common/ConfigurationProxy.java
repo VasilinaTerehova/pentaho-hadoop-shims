@@ -68,8 +68,6 @@ public class ConfigurationProxy extends org.apache.hadoop.mapred.JobConf impleme
       addResource( createSiteUrlFromUserFolder( "hdfs-site.xml", additionalPath ) );
       addResource( createSiteUrlFromUserFolder( "core-site.xml", additionalPath ) );
       addResource( createSiteUrlFromUserFolder( "mapred-site.xml", additionalPath ) );
-      addResource( createSiteUrlFromUserFolder( "hbase-site.xml", additionalPath ) );
-      addResource( createSiteUrlFromUserFolder( "hive-site.xml", additionalPath ) );
       addResource( createSiteUrlFromUserFolder( "yarn-site.xml", additionalPath ) );
     } catch ( MalformedURLException e ) {
       e.printStackTrace();

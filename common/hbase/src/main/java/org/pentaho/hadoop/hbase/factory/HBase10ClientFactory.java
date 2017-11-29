@@ -61,7 +61,7 @@ public class HBase10ClientFactory implements HBaseClientFactory {
     return conn;
   }
 
-  @Override public Connection createConnection( Configuration conf ) throws IOException {
+  private Connection createConnection( Configuration conf ) throws IOException {
     return ConnectionFactory.createConnection( conf );
   }
 

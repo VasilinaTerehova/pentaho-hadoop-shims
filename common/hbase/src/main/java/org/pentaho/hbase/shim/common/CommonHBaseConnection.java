@@ -129,7 +129,7 @@ public class CommonHBaseConnection implements HBaseConnection, IHBaseClientFacto
           m_config.addResource( HBaseConnection.stringToURL( siteConfig ) );
         } else {
           m_config.addResource( new Path( Paths.get( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-            + "metastore" + File.separator + "pentaho" + File.separator + "NamedClusterConfigs" + File.separator
+            + "metastore" + File.separator + "pentaho" + File.separator + "NamedCluster" + File.separator + "Configs" + File.separator
             + namedCluster + File.separator + "hbase-site.xml" ).toAbsolutePath().toString() ) );
         }
       } catch ( MalformedURLException e ) {
@@ -1039,5 +1039,6 @@ public class CommonHBaseConnection implements HBaseConnection, IHBaseClientFacto
 
   @Override
   public void obtainAuthTokenForJob( org.pentaho.hadoop.shim.api.Configuration conf ) throws Exception {
+
   }
 }

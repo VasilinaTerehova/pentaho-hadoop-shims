@@ -38,6 +38,5 @@ public interface HBaseClientFactory extends INamedClusterSpecific {
       PentahoTableInputFormat pentahoTableInputFormatBase,
       Configuration conf );
   HBasePut getHBasePut( byte[] key );
-  Connection createConnection( Configuration conf ) throws IOException;
   void close();
 }

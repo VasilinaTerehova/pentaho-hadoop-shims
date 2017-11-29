@@ -60,8 +60,6 @@ public class ConfigurationProxyV2 implements Configuration {
   @VisibleForTesting
   void addConfigsForJobConf() {
     job.getConfiguration().addResource( "hdfs-site.xml" );
-    job.getConfiguration().addResource( "hive-site.xml" );
-    job.getConfiguration().addResource( "hbase-site.xml" );
     job.getConfiguration().addResource( "core-site.xml" );
     job.getConfiguration().addResource( "mapred-site.xml" );
     job.getConfiguration().addResource( "yarn-site.xml" );
@@ -73,8 +71,6 @@ public class ConfigurationProxyV2 implements Configuration {
       job.getConfiguration().addResource( createSiteUrlFromUserFolder( "hdfs-site.xml", additionalPath ) );
       job.getConfiguration().addResource( createSiteUrlFromUserFolder( "core-site.xml", additionalPath ) );
       job.getConfiguration().addResource( createSiteUrlFromUserFolder( "mapred-site.xml", additionalPath ) );
-      job.getConfiguration().addResource( createSiteUrlFromUserFolder( "hbase-site.xml", additionalPath ) );
-      job.getConfiguration().addResource( createSiteUrlFromUserFolder( "hive-site.xml", additionalPath ) );
       job.getConfiguration().addResource( createSiteUrlFromUserFolder( "yarn-site.xml", additionalPath ) );
     } catch ( MalformedURLException e ) {
       e.printStackTrace();

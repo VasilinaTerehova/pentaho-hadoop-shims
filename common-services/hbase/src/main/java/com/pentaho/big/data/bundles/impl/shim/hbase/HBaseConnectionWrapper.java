@@ -288,28 +288,13 @@ public class HBaseConnectionWrapper implements HBaseConnection {
 
   @VisibleForTesting
   static HBaseConnection unwrapProxy( Object proxy ) {
-    if (Proxy.isProxyClass( proxy.getClass() )) {
-      return unwrapObject( Proxy.getInvocationHandler( proxy ) );
-    }
-    else {
-      return unwrapObject( proxy );
-    }
-  }
-
-  @VisibleForTesting
-  static HBaseConnection unwrapObject( Object proxy ) {
-    //    InvocationHandler invocationHandler = Proxy.getInvocationHandler( proxy );
-    Class<?> clazz = proxy.getClass();
+    InvocationHandler invocationHandler = Proxy.getInvocationHandler( proxy );
+    Class<?> clazz = invocationHandler.getClass();
     while ( clazz != null ) {
       for ( Field field : clazz.getDeclaredFields() ) {
-        if ( !field.getType().isPrimitive() ) {
-          Object value = getFieldValue( field, proxy );
-          if ( value instanceof HBaseConnection ) {
-            return findRealImpl( value );
-          }
-          else if ( !value.getClass().isPrimitive() ){
-            return unwrapProxy( value );
-          }
+        Object value = getFieldValue( field, invocationHandler );
+        if ( value instanceof HBaseConnection ) {
+          return findRealImpl( value );
         }
       }
       clazz = clazz.getSuperclass();
