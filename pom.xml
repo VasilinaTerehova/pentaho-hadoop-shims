@@ -261,7 +261,6 @@
         </property>
       </activation>
       <modules>
-        <module>common-services-api</module>
       </modules>
     </profile>
 
@@ -273,6 +272,7 @@
         </property>
       </activation>
       <modules>
+        <module>common-services-api</module>
         <module>common</module>
         <module>common-services</module>
         <module>shims</module>
