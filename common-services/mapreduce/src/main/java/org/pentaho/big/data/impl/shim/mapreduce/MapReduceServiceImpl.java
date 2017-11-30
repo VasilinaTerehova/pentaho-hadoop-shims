@@ -32,7 +32,6 @@ import org.pentaho.bigdata.api.mapreduce.MapReduceService;
 import org.pentaho.bigdata.api.mapreduce.PentahoMapReduceJobBuilder;
 import org.pentaho.bigdata.api.mapreduce.TransformationVisitorService;
 import org.pentaho.di.core.exception.KettleFileException;
-import org.pentaho.di.core.hadoop.HadoopSpoonPlugin;
 import org.pentaho.di.core.logging.LogChannelInterface;
 import org.pentaho.di.core.plugins.LifecyclePluginType;
 import org.pentaho.di.core.plugins.PluginInterface;
@@ -103,7 +102,7 @@ public class MapReduceServiceImpl implements MapReduceService {
                                                                       VariableSpace variableSpace )
     throws IOException {
     PluginInterface pluginInterface =
-      pluginRegistry.findPluginWithId( LifecyclePluginType.class, HadoopSpoonPlugin.PLUGIN_ID );
+      pluginRegistry.findPluginWithId( LifecyclePluginType.class, HadoopConfiguration.PLUGIN_ID_SPOON );
     Properties pmrProperties;
     try {
       pmrProperties = pluginPropertiesUtil.loadPluginProperties( pluginInterface );

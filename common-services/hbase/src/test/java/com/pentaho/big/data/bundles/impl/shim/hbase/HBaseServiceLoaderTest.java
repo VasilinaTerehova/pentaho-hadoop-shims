@@ -22,42 +22,31 @@
 
 package com.pentaho.big.data.bundles.impl.shim.hbase;
 
-import org.eclipse.core.runtime.AssertionFailedException;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.osgi.framework.BundleContext;
-import org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFactory;
-import org.pentaho.di.core.hadoop.HadoopConfigurationBootstrap;
 import org.pentaho.hadoop.shim.ConfigurationException;
 import org.pentaho.hadoop.shim.HadoopConfiguration;
-import org.pentaho.hadoop.shim.spi.HadoopShim;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by bryan on 2/2/16.
  */
 public class HBaseServiceLoaderTest {
   private BundleContext bundleContext;
-  private HadoopConfigurationBootstrap hadoopConfigurationBootstrap;
   //private HBaseServiceLoader hBaseServiceLoader;
   private HadoopConfiguration hadoopConfiguration;
 
   @Before
   public void setup() throws ConfigurationException {
     bundleContext = mock( BundleContext.class );
-    hadoopConfigurationBootstrap = mock( HadoopConfigurationBootstrap.class );
+    //hadoopConfigurationBootstrap = mock( HadoopConfigurationBootstrap.class );
     hadoopConfiguration = mock( HadoopConfiguration.class );
-//    hBaseServiceLoader =
-//      new HBaseServiceLoader( bundleContext, shimBridgingServiceTracker, hadoopConfigurationBootstrap );
+    //    hBaseServiceLoader =
+    //      new HBaseServiceLoader( bundleContext, shimBridgingServiceTracker, hadoopConfigurationBootstrap );
   }
 
   @Test
@@ -74,8 +63,8 @@ public class HBaseServiceLoaderTest {
 
   @Test
   public void testOnConfigurationClose() {
-//    hBaseServiceLoader.onConfigurationClose( hadoopConfiguration );
-//    verify( shimBridgingServiceTracker ).unregister( hadoopConfiguration );
+    //    hBaseServiceLoader.onConfigurationClose( hadoopConfiguration );
+    //    verify( shimBridgingServiceTracker ).unregister( hadoopConfiguration );
   }
 
 
@@ -83,9 +72,9 @@ public class HBaseServiceLoaderTest {
   public void testOnConfigurationOpenFailure()
     throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException,
     IllegalAccessException {
-//    hBaseServiceLoader.onConfigurationOpen( hadoopConfiguration, true );
-//    verify( shimBridgingServiceTracker, never() )
-//      .registerWithClassloader( any(), any( Class.class ), anyString(), any( BundleContext.class ),
-//        any( ClassLoader.class ), any( Class[].class ), any( Object[].class ) );
+    //    hBaseServiceLoader.onConfigurationOpen( hadoopConfiguration, true );
+    //    verify( shimBridgingServiceTracker, never() )
+    //      .registerWithClassloader( any(), any( Class.class ), anyString(), any( BundleContext.class ),
+    //        any( ClassLoader.class ), any( Class[].class ), any( Object[].class ) );
   }
 }

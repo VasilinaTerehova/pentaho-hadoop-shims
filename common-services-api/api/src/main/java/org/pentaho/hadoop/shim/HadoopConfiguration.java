@@ -56,6 +56,8 @@ import org.pentaho.hbase.shim.spi.HBaseShim;
  * A collection of Hadoop shim implementations for interactive with a Hadoop cluster.
  */
 public class HadoopConfiguration implements HadoopConfigurationInterface {
+  //todo: find appropriate place for this constant
+  public static final String PLUGIN_ID_SPOON = "HadoopSpoonPlugin";
   private static final Class<?> PKG = HadoopConfiguration.class;
 
   private String identifier;
