@@ -22,13 +22,10 @@
 
 package com.pentaho.big.data.bundles.impl.shim.hive;
 
-import com.google.common.base.Suppliers;
 import org.pentaho.big.data.api.cluster.NamedCluster;
 import org.pentaho.big.data.api.jdbc.JdbcUrl;
 import org.pentaho.big.data.api.jdbc.JdbcUrlParser;
-import org.pentaho.hadoop.shim.api.HasConfiguration;
 import org.pentaho.hadoop.shim.common.DriverProxyInvocationChain;
-import org.pentaho.hadoop.shim.spi.HadoopShim;
 
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -133,12 +130,17 @@ public class HiveDriver implements Driver {
       return false;
     }
     try {
-      return driver.acceptsURL( url );
+      return isRequiredShimUse( namedCluster ) && driver.acceptsURL( url );
     } catch ( Throwable e ) {
       // This should not have happened. If there was an error during processing, assume this driver can't
       // handle the URL and thus return false
       return false;
     }
+  }
+
+  private boolean isRequiredShimUse( NamedCluster namedCluster ) {
+    return hadoopConfigurationId != null
+      && namedCluster != null && hadoopConfigurationId.equals( namedCluster.getName());
   }
 
   protected Driver checkBeforeCallActiveDriver( String url ) throws SQLException {

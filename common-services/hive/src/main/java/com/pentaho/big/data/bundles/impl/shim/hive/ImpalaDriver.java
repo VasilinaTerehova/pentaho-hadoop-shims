@@ -23,8 +23,6 @@
 package com.pentaho.big.data.bundles.impl.shim.hive;
 
 import org.pentaho.big.data.api.jdbc.JdbcUrlParser;
-import org.pentaho.hadoop.shim.api.HasConfiguration;
-import org.pentaho.hadoop.shim.spi.HadoopShim;
 
 import java.sql.Driver;
 
