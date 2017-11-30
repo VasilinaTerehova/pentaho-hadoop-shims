@@ -19,7 +19,7 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>pentaho</groupId>
+      <groupId>org.pentaho</groupId>
       <artifactId>pentaho-big-data-api-hbase</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -69,7 +69,7 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>pentaho</groupId>
+      <groupId>org.pentaho</groupId>
       <artifactId>pentaho-big-data-api-cluster-service-locator</artifactId>
       <version>${project.version}</version>
     </dependency>

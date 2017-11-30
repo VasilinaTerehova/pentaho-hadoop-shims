@@ -37,7 +37,7 @@
       <artifactId>hamcrest-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>pentaho</groupId>
+      <groupId>org.pentaho</groupId>
       <artifactId>pentaho-big-data-api-cluster</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
