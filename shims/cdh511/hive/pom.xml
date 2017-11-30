@@ -198,9 +198,9 @@
               org.pentaho.hadoop.shim.api.*,
               org.pentaho.hadoop.shim.spi.*,
             </Import-Package>
-            <Export-Package>
+            <_exportcontents>
               org.apache.hadoop.hive;version=8.0.511.cdh
-            </Export-Package>
+            </_exportcontents>
             <Embed-Dependency>*</Embed-Dependency>
           </instructions>
         </configuration>

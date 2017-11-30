@@ -244,7 +244,7 @@
               io.netty.channel;version=${bundle.export.version},
               org.apache.hadoop.conf.*;version=${bundle.export.version}
             </Import-Package>
-            <Export-Package>org.pentaho.hbase.shim.common</Export-Package>
+            <_exportcontents>org.pentaho.hbase.shim.common</_exportcontents>
             <Embed-Dependency>*</Embed-Dependency>
             <!--<Embed-Transitive>true</Embed-Transitive>-->
           </instructions>

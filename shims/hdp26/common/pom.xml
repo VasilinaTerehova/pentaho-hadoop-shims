@@ -297,9 +297,9 @@
               org.pentaho.hadoop.shim.api.*;version=${pentaho-osgi-bundles.osgi.version},
               org.pentaho.hadoop.shim.spi.*;version=${pentaho-osgi-bundles.osgi.version}
             </Import-Package>
-            <Export-Package>
+            <_exportcontents>
               ${bundle.karaf.export.packages}
-            </Export-Package>
+            </_exportcontents>
             <!--org.apache.avro;version=8.0.0.cdh511,-->
             <Embed-Dependency>*</Embed-Dependency>
           </instructions>

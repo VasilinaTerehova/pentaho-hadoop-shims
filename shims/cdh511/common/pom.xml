@@ -362,7 +362,8 @@
                 *:hadoop-mapreduce*,*:hadoop-hdfs*,*hadoop-annotation*,*:hadoop-yarn*,*:hadoop-client,commons-lang3,*:pig
               </include>
               <exclude>
-                *:*tests*,*:*xerces*,*:*xml*,*:*commons-logging*,*:log4j*,*:hbase-client</exclude>
+                *:*tests*,*:*xerces*,*:*xml*,*:*commons-logging*,*:log4j*,*:hbase-client
+              </exclude>
               <transitive>true</transitive>
             </resolverFilter>
             <resolverFilter>
@@ -423,9 +424,9 @@
               org.pentaho.hadoop.shim.api.*;version=${pentaho-osgi-bundles.osgi.version},
               org.pentaho.hadoop.shim.spi.*;version=${pentaho-osgi-bundles.osgi.version}
             </Import-Package>
-            <Export-Package>
+            <_exportcontents>
               ${bundle.karaf.export.packages}
-            </Export-Package>
+            </_exportcontents>
             <!--org.apache.avro;version=8.0.0.cdh511,-->
             <Embed-Dependency>*</Embed-Dependency>
           </instructions>

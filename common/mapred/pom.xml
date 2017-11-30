@@ -16,7 +16,7 @@
   <dependencies>
     <dependency>
       <groupId>org.pentaho</groupId>
-      <artifactId>pentah-hadoop-shims-core</artifactId>
+      <artifactId>pentaho-hadoop-shims-core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
