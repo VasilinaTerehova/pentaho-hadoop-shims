@@ -116,6 +116,10 @@ public interface NamedClusterService {
 
   NamedCluster getNamedClusterByName( String namedCluster, IMetaStore metastore );
 
+  NamedCluster getNamedClusterByHost( String hostName, IMetaStore metastore );
+
+  void updateNamedClusterTemplate( String hostName, int port, boolean isMapr );
+
   /**
    * This method load the properties for named cluster from /etc/config folder
    *
