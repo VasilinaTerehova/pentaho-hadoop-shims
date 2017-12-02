@@ -45,6 +45,7 @@ public class OrcMetaDataWriter implements IOrcMetaData.Writer {
   public void write( SchemaDescription schemaDescription ) {
     schemaDescription.forEach( field -> {
       try {
+
         setMetaData( field );
       } catch ( UnsupportedEncodingException e ) {
         logger.error( "Field " + field.formatFieldName + ": cannot set Orc Metadata" );

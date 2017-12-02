@@ -17,7 +17,7 @@
 
 package org.pentaho.hadoop.shim.common;
 
-import org.apache.hive.jdbc.HiveDriver;
+//import org.apache.hive.jdbc.HiveDriver;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.hadoop.io.Writable;
@@ -107,7 +107,7 @@ public class CommonHadoopShim implements HadoopShim {
   protected static Map<String, Class<? extends Driver>> JDBC_DRIVER_MAP =
     new HashMap<String, Class<? extends Driver>>() {
       {
-        put( "hive", org.apache.hive.jdbc.HiveDriver.class );
+        //put( "hive", org.apache.hive.jdbc.HiveDriver.class );
       }
     };
 
@@ -163,11 +163,12 @@ public class CommonHadoopShim implements HadoopShim {
 
   @Override
   public Driver getHiveJdbcDriver() {
-    try {
-      return new HiveDriver();
-    } catch ( Exception ex ) {
-      throw new RuntimeException( "Unable to load Hive JDBC driver", ex );
-    }
+    return null;
+//    try {
+//      return new HiveDriver();
+//    } catch ( Exception ex ) {
+//      throw new RuntimeException( "Unable to load Hive JDBC driver", ex );
+//    }
   }
 
   protected void validateHadoopHomeWithWinutils() {

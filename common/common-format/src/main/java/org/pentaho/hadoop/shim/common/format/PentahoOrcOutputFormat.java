@@ -46,9 +46,6 @@ public class PentahoOrcOutputFormat extends HadoopFormatBase implements IPentaho
   private SchemaDescription schemaDescription;
   private Configuration conf;
   private COMPRESSION compression = COMPRESSION.NONE;
-  private int compressSize = 0;
-  private int stripeSize = DEFAULT_STRIPE_SIZE;
-  private int rowIndexStride = 0;
 
   private static final Logger logger = Logger.getLogger( PentahoOrcOutputFormat.class );
 
@@ -97,46 +94,8 @@ public class PentahoOrcOutputFormat extends HadoopFormatBase implements IPentaho
 
   @Override public void setCompression( COMPRESSION compression ) {
     this.compression = compression;
-    conf.set( COMPRESSION_KEY, compression.toString() );
-    if ( compression == COMPRESSION.NONE ) {
-      compressSize = 0;
-      conf.unset( COMPRESS_SIZE_KEY );
-    } else if ( compressSize == 0 ) {
-      compressSize = DEFAULT_COMPRESS_SIZE;
-      conf.set( COMPRESS_SIZE_KEY, Integer.toString( DEFAULT_COMPRESS_SIZE ) );
-    }
+    conf.set( "hive.exec.orc.default.compress", compression.toString() );
   }
 
-  @Override public void setStripeSize( int megabytes ) {
-    if ( stripeSize > 0 ) {
-      stripeSize = megabytes;
-      conf.set( STRIPE_SIZE_KEY, Integer.toString( 1024 * 1024 * stripeSize ) );
-    }
-  }
 
-  @Override
-  public void setRowIndexStride( int numRows ) {
-    if ( numRows > 0 ) {
-      rowIndexStride = numRows;
-      conf.set( CREATE_INDEX_KEY, "true" );
-      conf.set( ROW_INDEX_STRIDE_KEY, Integer.toString( 1024 * 1024 * rowIndexStride ) );
-    } else if ( numRows == 0 ) {
-      rowIndexStride = numRows;
-      conf.set( CREATE_INDEX_KEY, "false" );
-      conf.unset( ROW_INDEX_STRIDE_KEY );
-    }
-  }
-
-  @Override
-  public void setCompressSize( int kilobytes ) {
-    if ( kilobytes > 0 ) {
-      compressSize = kilobytes;
-      conf.set( COMPRESS_SIZE_KEY, Integer.toString( 1024 * compressSize ) );
-    } else if ( kilobytes == 0 ) {
-      compressSize = kilobytes;
-      compression = COMPRESSION.NONE;
-      conf.unset( COMPRESS_SIZE_KEY );
-      conf.set( COMPRESSION_KEY, compression.toString() );
-    }
-  }
 }
