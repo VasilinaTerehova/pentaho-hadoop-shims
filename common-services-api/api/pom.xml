@@ -79,7 +79,11 @@
           <instructions>
             <DynamicImport-Package>*</DynamicImport-Package>
             <Import-Package>org.pentaho.big.data.api.cluster.*,org.pentaho.di.*</Import-Package>
-            <Export-Package>org.pentaho.hadoop.*,org.pentaho.hadoop.shim.*,org.pentaho.hadoop.hbase.*,org.pentaho.hbase.shim.api.*,org.pentaho.hbase.shim.spi.*,org.pentaho.oozie.*</Export-Package>
+            <Export-Package>
+              org.pentaho.hadoop.*;version=${pentaho-osgi-bundles.version},
+              org.pentaho.hbase.*;version=${pentaho-osgi-bundles.version},
+              org.pentaho.oozie.*;version=${pentaho-osgi-bundles.version}
+            </Export-Package>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
           </instructions>
         </configuration>
