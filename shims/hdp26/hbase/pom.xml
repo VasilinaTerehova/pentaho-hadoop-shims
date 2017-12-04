@@ -240,8 +240,8 @@
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <DynamicImport-Package>*</DynamicImport-Package>
             <Import-Package>
-              org.pentaho.hadoop.shim.api.*;version=${pentaho-osgi-bundles.osgi.version},
-              org.pentaho.hadoop.shim.spi.*;version=${pentaho-osgi-bundles.osgi.version},
+              org.pentaho.hadoop.shim.api.*;version=${pentaho-osgi-bundles.version},
+              org.pentaho.hadoop.shim.spi.*;version=${pentaho-osgi-bundles.version},
               io.netty.channel;version=${bundle.export.version},
               org.apache.hadoop.conf.*;version=${bundle.export.version}
             </Import-Package>

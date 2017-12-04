@@ -37,7 +37,7 @@
     <dependency>
       <groupId>org.pentaho</groupId>
       <artifactId>pentaho-hadoop-shims-api</artifactId>
-      <version>${dependency.hadoop-shims-api.revision}</version>
+      <version>${pentaho-hadoop-shims-api.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -143,8 +143,8 @@
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <DynamicImport-Package>*</DynamicImport-Package>
             <Import-Package>
-              org.pentaho.hadoop.shim.api.*;version=${pentaho-osgi-bundles.osgi.version},
-              org.pentaho.hadoop.shim.spi.*;version=${pentaho-osgi-bundles.osgi.version},
+              org.pentaho.hadoop.shim.api.*;version=${pentaho-osgi-bundles.version},
+              org.pentaho.hadoop.shim.spi.*;version=${pentaho-osgi-bundles.version},
               org.apache.hadoop.conf.*;version=${bundle.export.version}
             </Import-Package>
             <_exportcontents>org.pentaho.big.data.impl.shim.oozie</_exportcontents>

@@ -293,8 +293,8 @@
             <Import-Package>
               !org.pentaho.hadoop.shim.common.invocationhandler.*,
               !org.pentaho.hadoop.shim.common.utils.*,
-              org.pentaho.hadoop.shim.*;version=${pentaho-osgi-bundles.osgi.version},
-              org.pentaho.hbase.shim.spi.*;version=${pentaho-osgi-bundles.osgi.version},
+              org.pentaho.hadoop.shim.*;version=${pentaho-osgi-bundles.version},
+              org.pentaho.hbase.shim.spi.*;version=${pentaho-osgi-bundles.version},
               org.apache.hadoop.ipc.*;version=8.0.511.cdh,
               org.apache.hadoop.security.*;version=8.0.511.cdh,
               org.apache.hadoop.conf.*;version=8.0.511.cdh,
