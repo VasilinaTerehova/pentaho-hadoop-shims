@@ -73,10 +73,9 @@ public class CommonSqoopShim implements SqoopShim {
   }
 
   private String createHadoopAltClasspath() {
-    Iterator<File> filesIterator =
-      FileUtils.iterateFiles( new File( new File( bundleContext.getBundle().getDataFile( "/" ).getParent() ).getParent()
-          + File.separator ),
-        new String[] { "jar" }, true );
+    File filesInsideBundle = new File( bundleContext.getBundle().getDataFile( "" ).getParent() );
+    Iterator<File> filesIterator = FileUtils.iterateFiles( filesInsideBundle, new String[] { "jar" }, true );
+
     StringBuilder sb = new StringBuilder();
 
     while ( filesIterator.hasNext() ) {
@@ -95,10 +94,9 @@ public class CommonSqoopShim implements SqoopShim {
   }
 
   private String getSqoopJarLocation( Configuration c ) {
-    Iterator<File> filesIterator =
-      FileUtils.iterateFiles( new File( new File( bundleContext.getBundle().getDataFile( "/" ).getParent() ).getParent()
-          + File.separator ),
-        new String[] { "jar" }, true );
+    File filesInsideBundle = new File( bundleContext.getBundle().getDataFile( "" ).getParent() );
+    Iterator<File> filesIterator = FileUtils.iterateFiles( filesInsideBundle, new String[] { "jar" }, true );
+
     StringBuilder sb = new StringBuilder();
 
     while ( filesIterator.hasNext() ) {

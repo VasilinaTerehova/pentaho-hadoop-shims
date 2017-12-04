@@ -79,30 +79,23 @@ public abstract class CommonPigShim implements PigShim {
   }
 
   public void addExternalJarsToPigContext( PigContext pigContext ) throws MalformedURLException {
-    for ( ExternalPigJars externalPigJars : ExternalPigJars.values() ) {
-      String externaljarPath = "";
-      externaljarPath = getExternalJarAbsolutePath( externalPigJars.getJarName() );
-      pigContext.addJar( externaljarPath );
+    File filesInsideBundle = new File( bundleContext.getBundle().getDataFile( "" ).getParent() );
+    Iterator<File> filesIterator = FileUtils.iterateFiles( filesInsideBundle, new String[] { "jar" }, true );
+    while ( filesIterator.hasNext() ) {
+      File file = filesIterator.next();
+      addMatchedJarToPigContext( pigContext, file );
     }
   }
 
-  private String getExternalJarAbsolutePath( String jarName ) {
-    Iterator<File> filesIterator =
-      FileUtils.iterateFiles( new File( new File( bundleContext.getBundle().getDataFile( "/" ).getParent() ).getParent()
-          + File.separator ),
-        new String[] { "jar" }, true );
-    String jarPath = "";
-
-    while ( filesIterator.hasNext() ) {
-      File file = filesIterator.next();
-      String name = file.getName();
-      if ( name.startsWith( jarName ) ) {
-        jarPath = file.getAbsolutePath();
-        return jarPath;
+  private void addMatchedJarToPigContext( PigContext pigContext, File jarFile ) throws MalformedURLException {
+    String jarName = jarFile.getName();
+    for ( ExternalPigJars externalPigJars : ExternalPigJars.values() ) {
+      if ( jarName.startsWith( externalPigJars.getJarName() ) ) {
+        String jarPath = jarFile.getAbsolutePath();
+        pigContext.addJar( jarPath );
+        break;
       }
     }
-
-    return jarPath;
   }
 
   @Override
