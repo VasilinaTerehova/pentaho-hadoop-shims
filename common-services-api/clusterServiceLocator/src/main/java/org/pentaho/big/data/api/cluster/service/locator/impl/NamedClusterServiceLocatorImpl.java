@@ -107,7 +107,7 @@ public class NamedClusterServiceLocatorImpl implements NamedClusterServiceLocato
     Lock readLock = readWriteLock.readLock();
     try {
       readLock.lock();
-      String shim = namedCluster.getName();
+      String shim = namedCluster.getShimIdentifier();
       Collection<ServiceFactoryAndRanking<?>> serviceFactoryAndRankings = serviceVendorTypeMapping.computeIfPresent( shim, (key, value) -> value ).computeIfPresent( serviceClass, (key2, value2) -> value2 );
       if ( serviceFactoryAndRankings != null ) {
         for ( ServiceFactoryAndRanking<?> serviceFactoryAndRanking : serviceFactoryAndRankings ) {
