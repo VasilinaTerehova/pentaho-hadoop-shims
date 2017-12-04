@@ -13,11 +13,6 @@
   <properties>
     <httpclient.version>4.5.3</httpclient.version>
     <httpcore.version>4.4.6</httpcore.version>
-    <org.apache.parquet.version>1.8.1</org.apache.parquet.version>
-    <org.apache.avro.version>1.8.1</org.apache.avro.version>
-    <org.apache.orc.version>1.2.3</org.apache.orc.version>
-    <jackson.version>2.6.5</jackson.version>
-    <integration-test.src>src/it/java</integration-test.src>
   </properties>
   <dependencies>
     <dependency>
@@ -155,26 +150,4 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>add-integration-test-sources</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-              <goal>add-test-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${integration-test.src}</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 </project>
