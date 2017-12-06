@@ -18,12 +18,12 @@
   </bean>-->
 
   <bean id="cdh11MapReduceServiceFactory" class="org.pentaho.big.data.impl.shim.mapreduce.MapReduceServiceFactoryImpl">
-    <argument ref="hasCdh511HadoopConfiguration"/>
+    <argument ref="hascdh513HadoopConfiguration"/>
     <argument ref="executorService"/>
     <argument ref="transformationVisitorList"/>
   </bean>
   <reference id="executorService" interface="java.util.concurrent.ExecutorService"/>
-  <reference id="hasCdh511HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HasConfiguration"/>
+  <reference id="hascdh513HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HasConfiguration"/>
   <service ref="cdh11MapReduceServiceFactory" interface="org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFactory"/>
   <reference-list id="transformationVisitorList" interface="org.pentaho.bigdata.api.mapreduce.TransformationVisitorService"
                   availability="optional"/>

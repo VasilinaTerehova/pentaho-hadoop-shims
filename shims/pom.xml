@@ -18,7 +18,7 @@
     <commons-lang.version>2.6</commons-lang.version>
     <com.igormaznitsa.jcp.version>6.1.2</com.igormaznitsa.jcp.version>
     <dependency.maven-bundle-plugin.version>3.2.0</dependency.maven-bundle-plugin.version>
-    <bundle.export.version>8.0.511.cdh</bundle.export.version>
+    <bundle.export.version>8.0.513.cdh</bundle.export.version>
     <org.osgi.core.version>4.3.1</org.osgi.core.version>
     <maven-dependency-resolver-plugin.version>1.0-SNAPSHOT</maven-dependency-resolver-plugin.version>
     <bundle.karaf.export.packages>org.apache.htrace;version=${bundle.export.version},
@@ -420,7 +420,7 @@
       <modules>
         <!--<module>hdp25</module>-->
         <module>hdp26</module>
-        <module>cdh511</module>
+        <module>cdh513</module>
         <!--<module>cdh512</module>-->
        <!-- <module>mapr510</module>
         <module>mapr520</module>
@@ -455,14 +455,14 @@
     </profile>
 
     <profile>
-      <id>cdh511</id>
+      <id>cdh513</id>
       <activation>
         <property>
           <name>!skipDefault</name>
         </property>
       </activation>
       <modules>
-        <module>cdh511</module>
+        <module>cdh513</module>
       </modules>
     </profile>
 

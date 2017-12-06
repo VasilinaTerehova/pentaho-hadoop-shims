@@ -14,11 +14,11 @@
     <!--</argument>-->
   <!--</bean>-->
 
-  <bean id="cdh511OozieServiceFactory" class="org.pentaho.big.data.impl.shim.oozie.OozieServiceFactoryImpl">
-    <argument ref="hasCdh511HadoopConfiguration"/>
+  <bean id="cdh513OozieServiceFactory" class="org.pentaho.big.data.impl.shim.oozie.OozieServiceFactoryImpl">
+    <argument ref="hascdh513HadoopConfiguration"/>
   </bean>
 
-  <service ref="cdh511OozieServiceFactory" interface="org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFactory"/>
+  <service ref="cdh513OozieServiceFactory" interface="org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFactory"/>
 
-  <reference id="hasCdh511HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HasConfiguration"/>
+  <reference id="hascdh513HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HasConfiguration"/>
 </blueprint>

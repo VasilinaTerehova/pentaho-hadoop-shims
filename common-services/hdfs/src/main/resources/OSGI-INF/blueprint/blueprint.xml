@@ -15,11 +15,11 @@
   </bean>-->
 
   <bean id="hadoopFileSystem" class="com.pentaho.big.data.bundles.impl.shim.hdfs.HadoopFileSystemFactoryImpl">
-    <argument ref="cdh511HadoopConfiguration"/>
+    <argument ref="cdh513HadoopConfiguration"/>
   </bean>
 
   <service ref="hadoopFileSystem" interface="org.pentaho.bigdata.api.hdfs.HadoopFileSystemFactory"/>
 
-  <reference id="cdh511HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HadoopConfigurationInterface"/>
+  <reference id="cdh513HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HadoopConfigurationInterface"/>
 
 </blueprint>

@@ -15,50 +15,50 @@
       <!--</list>-->
     <!--</argument>-->
   <!--</bean>-->
-  <bean id="cdh511HiveDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.HiveDriver">
+  <bean id="cdh513HiveDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.HiveDriver">
     <argument ref="jdbcUrlParser"/>
-    <argument ref="hasCdh511HadoopConfiguration"/>
+    <argument ref="hascdh513HadoopConfiguration"/>
   </bean>
 
-  <bean id="cdh511ImpalaDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.ImpalaDriver">
+  <bean id="cdh513ImpalaDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.ImpalaDriver">
     <argument ref="jdbcUrlParser"/>
-    <argument ref="hasCdh511HadoopConfiguration"/>
+    <argument ref="hascdh513HadoopConfiguration"/>
   </bean>
 
-  <bean id="cdh511ImpalaSimbaDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.ImpalaSimbaDriver">
+  <bean id="cdh513ImpalaSimbaDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.ImpalaSimbaDriver">
     <argument ref="jdbcUrlParser"/>
-    <argument ref="hasCdh511HadoopConfiguration"/>
+    <argument ref="hascdh513HadoopConfiguration"/>
   </bean>
 
-  <bean id="cdh511SparkSimbaDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.SparkSimbaDriver">
+  <bean id="cdh513SparkSimbaDriver" class="com.pentaho.big.data.bundles.impl.shim.hive.SparkSimbaDriver">
     <argument ref="jdbcUrlParser"/>
-    <argument ref="hasCdh511HadoopConfiguration"/>
+    <argument ref="hascdh513HadoopConfiguration"/>
   </bean>
 
-  <service ref="cdh511HiveDriver" interface="java.sql.Driver">
+  <service ref="cdh513HiveDriver" interface="java.sql.Driver">
     <service-properties>
       <entry key="dataSourceType" value="bigdata"/>
     </service-properties>
   </service>
 
-  <service ref="cdh511ImpalaDriver" interface="java.sql.Driver">
+  <service ref="cdh513ImpalaDriver" interface="java.sql.Driver">
     <service-properties>
       <entry key="dataSourceType" value="bigdata"/>
     </service-properties>
   </service>
 
-  <service ref="cdh511ImpalaSimbaDriver" interface="java.sql.Driver">
+  <service ref="cdh513ImpalaSimbaDriver" interface="java.sql.Driver">
     <service-properties>
       <entry key="dataSourceType" value="bigdata"/>
     </service-properties>
   </service>
 
-  <service ref="cdh511SparkSimbaDriver" interface="java.sql.Driver">
+  <service ref="cdh513SparkSimbaDriver" interface="java.sql.Driver">
     <service-properties>
       <entry key="dataSourceType" value="bigdata"/>
     </service-properties>
   </service>
 
-  <!--<reference id="hasCdh511HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HasConfiguration"/>-->
+  <!--<reference id="hascdh513HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HasConfiguration"/>-->
   <reference id="jdbcUrlParser" interface="org.pentaho.big.data.api.jdbc.JdbcUrlParser"/>
 </blueprint>

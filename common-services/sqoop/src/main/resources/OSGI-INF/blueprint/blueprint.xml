@@ -14,12 +14,12 @@
   <!--</argument>-->
   <!--</bean>-->
 
-  <bean id="cdh511SqoopServiceFactory" class="org.pentaho.big.data.impl.shim.sqoop.SqoopServiceFactoryImpl">
-    <argument ref="hasCdh511HadoopConfiguration"/>
+  <bean id="cdh513SqoopServiceFactory" class="org.pentaho.big.data.impl.shim.sqoop.SqoopServiceFactoryImpl">
+    <argument ref="hascdh513HadoopConfiguration"/>
   </bean>
 
-  <service ref="cdh511SqoopServiceFactory"
+  <service ref="cdh513SqoopServiceFactory"
            interface="org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFactory"/>
 
-  <reference id="hasCdh511HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HasConfiguration"/>
+  <reference id="hascdh513HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HasConfiguration"/>
 </blueprint>

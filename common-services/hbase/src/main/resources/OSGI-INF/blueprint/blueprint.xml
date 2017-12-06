@@ -26,9 +26,9 @@
 
   <!--<service ref="hdp25HBaseServiceFactory" interface="org.pentaho.big.data.api.cluster.service.locator.NamedClusterServiceFactory"/>-->
 
-  <!--<reference id="hasCdh511HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HasConfiguration" filter="(shim=cdh511)"/>-->
+  <!--<reference id="hascdh513HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HasConfiguration" filter="(shim=cdh513)"/>-->
 
-  <reference id="hbaseShim" interface="org.pentaho.hbase.shim.spi.HBaseShim" filter="(shim=cdh511)(service=hbase)"/>
+  <reference id="hbaseShim" interface="org.pentaho.hbase.shim.spi.HBaseShim" filter="(shim=cdh513)(service=hbase)"/>
 
   <!--<reference id="hasHdp25HadoopConfiguration" interface="org.pentaho.hadoop.shim.api.HasConfiguration" filter="(shim=hdp25)"/>-->
 </blueprint>
