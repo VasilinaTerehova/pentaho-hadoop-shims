@@ -18,7 +18,6 @@
 package org.pentaho.hbase.shim.common;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.client.Delete;
@@ -45,6 +44,7 @@ import org.pentaho.di.core.logging.KettleLogStore;
 import org.pentaho.di.core.logging.LogChannelInterface;
 import org.pentaho.di.core.variables.VariableSpace;
 import org.pentaho.di.i18n.BaseMessages;
+import org.pentaho.hadoop.shim.ShimConfigsLoader;
 import org.pentaho.hbase.factory.HBaseAdmin;
 import org.pentaho.hbase.factory.HBaseClientFactory;
 import org.pentaho.hbase.factory.HBaseClientFactoryLocator;
@@ -57,11 +57,9 @@ import org.pentaho.hbase.shim.fake.FakeNamedCluster;
 import org.pentaho.hbase.shim.spi.HBaseBytesUtilShim;
 import org.pentaho.hbase.shim.spi.HBaseConnection;
 
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -120,17 +118,13 @@ public class CommonHBaseConnection implements HBaseConnection, IHBaseClientFacto
         if ( !HBaseConnection.isEmpty( defaultConfig ) ) {
           m_config.addResource( HBaseConnection.stringToURL( defaultConfig ) );
         } else {
-          m_config.addResource( new Path( Paths.get( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-            + "metastore" + File.separator + "pentaho" + File.separator + "NamedCluster" + File.separator + "Configs" + File.separator
-            + namedCluster + File.separator + "hbase-default.xml" ).toAbsolutePath().toString() ) );
+          ShimConfigsLoader.addConfigsAsResources( namedCluster, m_config::addResource, ShimConfigsLoader.ClusterConfigNames.HBASE_DEFAULT.toString() );
         }
 
         if ( !HBaseConnection.isEmpty( siteConfig ) ) {
           m_config.addResource( HBaseConnection.stringToURL( siteConfig ) );
         } else {
-          m_config.addResource( new Path( Paths.get( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-            + "metastore" + File.separator + "pentaho" + File.separator + "NamedCluster" + File.separator + "Configs" + File.separator
-            + namedCluster + File.separator + "hbase-site.xml" ).toAbsolutePath().toString() ) );
+          ShimConfigsLoader.addConfigsAsResources( namedCluster, m_config::addResource, ShimConfigsLoader.ClusterConfigNames.HBASE_SITE.toString() );
         }
       } catch ( MalformedURLException e ) {
         throw new IllegalArgumentException(

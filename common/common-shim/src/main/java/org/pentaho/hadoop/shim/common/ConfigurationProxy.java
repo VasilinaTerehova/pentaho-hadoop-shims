@@ -38,11 +38,9 @@ import org.pentaho.hadoop.mapreduce.YarnQueueAclsException;
 import org.pentaho.hadoop.mapreduce.YarnQueueAclsVerifier;
 import org.pentaho.hadoop.shim.api.mapred.RunningJob;
 import org.pentaho.hadoop.shim.common.mapred.RunningJobProxy;
+import org.pentaho.hadoop.shim.ShimConfigsLoader;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * A common configuration object representing org.apache.hadoop.conf.Configuration. <p> This has been un-deprecated in
@@ -64,20 +62,11 @@ public class ConfigurationProxy extends org.apache.hadoop.mapred.JobConf impleme
 
   @VisibleForTesting
   void addConfigsAsResources( String additionalPath ) {
-    try {
-      addResource( createSiteUrlFromUserFolder( "hdfs-site.xml", additionalPath ) );
-      addResource( createSiteUrlFromUserFolder( "core-site.xml", additionalPath ) );
-      addResource( createSiteUrlFromUserFolder( "mapred-site.xml", additionalPath ) );
-      addResource( createSiteUrlFromUserFolder( "yarn-site.xml", additionalPath ) );
-    } catch ( MalformedURLException e ) {
-      e.printStackTrace();
-    }
-  }
-
-  private URL createSiteUrlFromUserFolder( String siteFileName, String additionalPath ) throws MalformedURLException {
-    return new File( System.getProperty( "user.home" ) + File.separator + ".pentaho" + File.separator
-      + "metastore" + File.separator + "pentaho" + File.separator + "NamedCluster" + File.separator + "Configs" + File.separator
-      + additionalPath + File.separator + siteFileName ).toURI().toURL();
+    ShimConfigsLoader.addConfigsAsResources( additionalPath, this::addResource,
+      ShimConfigsLoader.ClusterConfigNames.CORE_SITE,
+      ShimConfigsLoader.ClusterConfigNames.MAPRED_SITE,
+      ShimConfigsLoader.ClusterConfigNames.HDFS_SITE,
+      ShimConfigsLoader.ClusterConfigNames.YARN_SITE );
   }
 
   /*

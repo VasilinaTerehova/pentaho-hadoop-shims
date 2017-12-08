@@ -140,7 +140,7 @@ public class HiveDriver implements Driver {
 
   private boolean isRequiredShimUse( NamedCluster namedCluster ) {
     return hadoopConfigurationId != null
-      && namedCluster != null && hadoopConfigurationId.equals( namedCluster.getName());
+      && namedCluster != null && hadoopConfigurationId.equals( namedCluster.getShimIdentifier() );
   }
 
   protected Driver checkBeforeCallActiveDriver( String url ) throws SQLException {
